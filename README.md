@@ -2,6 +2,15 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
 
+## Notes on deployment
+
+In order to build the application, run `ng build --configuration production`
+The page is available at `https://teoilie.github.io`
+Attempting to build with this command:
+`ng build --configuration production --base-href https://github.com/TeoIlie/TeoIlie.github.io`
+Attempting to deploy with this command:
+`npx angular-cli-ghpages --dir=dist/teo-ilie`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
