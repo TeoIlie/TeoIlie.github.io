@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'Teo Ilie';
+  title = 'personal-website';
+  currentYear!: number;
+
+  ngOnInit() {
+    this.currentYear = new Date().getFullYear();
+  }
 }
