@@ -2,8 +2,6 @@
 
 ## Building and deploying
 
-In order to build the application, run `ng build --configuration production`
-
 **Build**
 
 This command will build the application to the `docs` folder:
