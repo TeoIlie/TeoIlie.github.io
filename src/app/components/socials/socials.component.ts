@@ -15,32 +15,32 @@ export class SocialsComponent {
   socialLinks: SocialLink[] = [
     {
       name: 'LinkedIn',
-      url: 'https://www.linkedin.com/in/yourusername/',
+      url: 'https://www.linkedin.com/in/teodorilie/',
       icon: 'fab fa-linkedin',
     },
     {
       name: 'GitHub',
-      url: 'https://github.com/yourusername',
+      url: 'https://github.com/TeoIlie',
       icon: 'fab fa-github',
     },
     {
       name: 'YouTube',
-      url: 'https://www.youtube.com/channel/yourchannelid',
+      url: 'https://www.youtube.com/@TeoTechnicTaken',
       icon: 'fab fa-youtube',
     },
     {
-      name: 'Twitter',
-      url: 'https://twitter.com/yourusername',
-      icon: 'fab fa-twitter',
+      name: 'Scholar',
+      url: 'https://scholar.google.ca/citations?user=YaQWjp8AAAAJ&hl=en',
+      icon: 'fab fa-google',
     },
     {
-      name: 'Instagram',
-      url: 'https://www.instagram.com/yourusername/',
-      icon: 'fab fa-instagram',
+      name: 'Strava',
+      url: 'https://www.strava.com/athletes/9039374',
+      icon: 'fab fa-strava',
     },
     {
       name: 'Email',
-      url: 'mailto:your.email@example.com',
+      url: 'mailto:teo.altum.quinque@gmail.com',
       icon: 'fas fa-envelope',
     },
   ];
