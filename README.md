@@ -6,7 +6,9 @@
 
 This command will build the application to the `docs` folder:
 
-`ng build --configuration production`
+```
+ng build --configuration production
+```
 
 **Deploy**
 
