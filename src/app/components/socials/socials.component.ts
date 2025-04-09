@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 interface SocialLink {
   name: string;
@@ -12,6 +13,55 @@ interface SocialLink {
   styleUrls: ['./socials.component.scss'],
 })
 export class SocialsComponent {
+  formData = {
+    name: '',
+    email: '',
+    message: '',
+  };
+
+  messageSent = false;
+  messageError = false;
+
+  constructor(private http: HttpClient) {}
+
+  onSubmit() {
+    const endpoint = 'https://formspree.io/f/moveyaaw';
+
+    const headers = new HttpHeaders({ Accept: 'application/json' });
+
+    this.isSending = true; // <-- Start spinner
+
+    this.http.post(endpoint, this.formData, { headers: headers }).subscribe({
+      next: (response) => {
+        console.log('Form submitted successfully!', response);
+        this.messageSent = true;
+        this.messageError = false;
+        this.isSending = false; // <-- Stop spinner
+        this.resetForm();
+      },
+      error: (error) => {
+        console.error('Form submission error:', error);
+        this.messageError = true;
+        this.isSending = false; // <-- Stop spinner
+      },
+    });
+  }
+
+  resetForm() {
+    this.formData = {
+      name: '',
+      email: '',
+      message: '',
+    };
+
+    // Hide the success message after a few seconds
+    setTimeout(() => {
+      this.messageSent = false;
+    }, 5000);
+  }
+
+  isSending = false;
+
   socialLinks: SocialLink[] = [
     {
       name: 'LinkedIn',

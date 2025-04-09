@@ -13,17 +13,46 @@
   </div>
   <div class="contact-form">
     <h3>Send me a message</h3>
-    <form>
+
+    <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
       <div class="form-group">
-        <input type="text" placeholder="Your Name" required />
+        <input
+          type="text"
+          name="name"
+          [(ngModel)]="formData.name"
+          placeholder="Your Name"
+          required
+        />
       </div>
       <div class="form-group">
-        <input type="email" placeholder="Your Email" required />
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="formData.email"
+          placeholder="Your Email"
+          required
+        />
       </div>
       <div class="form-group">
-        <textarea placeholder="Your Message" rows="5" required></textarea>
+        <textarea
+          name="message"
+          [(ngModel)]="formData.message"
+          placeholder="Your Message"
+          rows="5"
+          required
+        ></textarea>
       </div>
-      <button type="submit">Send Message</button>
+      <button type="submit" [disabled]="contactForm.invalid || isSending">
+        {{ isSending ? "Sending..." : "Send Message" }}
+      </button>
     </form>
+
+    <div *ngIf="messageSent" class="success-message">
+      🎉 Message sent successfully! I'll get back to you soon.
+    </div>
+
+    <div *ngIf="messageError" class="error-message">
+      ❌ Oops! Something went wrong. Please try again later.
+    </div>
   </div>
 </div>

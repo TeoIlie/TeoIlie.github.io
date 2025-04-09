@@ -108,3 +108,23 @@ button {
     background-color: #0056b3;
   }
 }
+
+.success-message {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #d4edda;
+  color: #155724;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.error-message {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #da3232af;
+  color: #155724;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+}
