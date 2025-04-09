@@ -1,47 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+@use '@angular/material' as mat;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@include mat.core();
+
+// Light theme palettes
+$primary-light: mat.m2-define-palette(mat.$m2-cyan-palette);
+$accent-light: mat.m2-define-palette(mat.$m2-orange-palette);
+$warn-light: mat.m2-define-palette(mat.$m2-red-palette);
+
+// Dark theme palettes
+$primary-dark: mat.m2-define-palette(mat.$m2-cyan-palette);
+$accent-dark: mat.m2-define-palette(mat.$m2-orange-palette);
+$warn-dark: mat.m2-define-palette(mat.$m2-red-palette);
+
+// Light theme
+$light-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $primary-light,
+    accent: $accent-light,
+    warn: $warn-light,
+  )
+));
+
+// Dark theme
+$dark-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: $primary-dark,
+    accent: $accent-dark,
+    warn: $warn-dark,
+  )
+));
+
+// Apply Light Theme by default
+@include mat.all-component-themes($light-theme);
+
+// Create a .dark-theme class for dark mode
+.dark-theme {
+  @include mat.all-component-themes($dark-theme);
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f9f9f9;
-  padding-top: 70px; /* Account for fixed header */
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 600;
-}
-
-html,
-body {
-  height: 100%;
-}
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #fafafa;
 }
-
-a {
-  color: #3498db;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
