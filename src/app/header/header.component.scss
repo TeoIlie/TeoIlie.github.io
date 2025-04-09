@@ -11,15 +11,15 @@
   justify-content: space-between;
   padding: 0 50px;
   z-index: 1000;
-  background-color: $header-background-color;
-  color: $header-text-color;
+  background-color: $dark-cyan;
+  color: $light-cyan;
 }
 
 .logo a {
   font-size: 24px;
   font-weight: 700;
   text-decoration: none;
-  color: $header-text-color;
+  color: $light-cyan;
 }
 
 nav ul {
@@ -36,7 +36,7 @@ nav li {
 }
 
 nav button {
-  color: $header-text-color;
+  color: $light-cyan;
   font-weight: 500;
   background: none;
   border: none;
@@ -44,6 +44,6 @@ nav button {
   transition: color 0.3s ease;
 
   &:hover {
-    color: $hover-text-color;
+    color: $white;
   }
 }

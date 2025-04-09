@@ -3,44 +3,29 @@
 
 @include mat.core();
 
-// Light theme palettes
-$primary-light: mat.m2-define-palette(mat.$m2-cyan-palette);
-$accent-light: mat.m2-define-palette(mat.$m2-orange-palette);
-$warn-light: mat.m2-define-palette(mat.$m2-red-palette);
 
-// Dark theme palettes
-$primary-dark: mat.m2-define-palette(mat.$m2-cyan-palette);
-$accent-dark: mat.m2-define-palette(mat.$m2-orange-palette);
-$warn-dark: mat.m2-define-palette(mat.$m2-red-palette);
+h2 {
+  font-size: 36px;
+  margin-bottom: 40px;
+  text-align: center;
+  position: relative;
+  color: $off-white;
 
-// Light theme
-$light-theme: mat.m2-define-light-theme((
-  color: (
-    primary: $primary-light,
-    accent: $accent-light,
-    warn: $warn-light,
-  )
-));
-
-// Dark theme
-$dark-theme: mat.m2-define-dark-theme((
-  color: (
-    primary: $primary-dark,
-    accent: $accent-dark,
-    warn: $warn-dark,
-  )
-));
-
-// Apply Light Theme by default
-@include mat.all-component-themes($light-theme);
-
-// Create a .dark-theme class for dark mode
-.dark-theme {
-  @include mat.all-component-themes($dark-theme);
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: $light-cyan; // Light cyan underline
+  }
 }
 
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #fafafa;
+  background-color: $white; // Dark cyan background
+  color: $light-cyan; // Light cyan text everywhere by default
 }
