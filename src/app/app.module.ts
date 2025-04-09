@@ -6,18 +6,14 @@ import { AboutComponent } from './components/about/about.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { SocialsComponent } from './components/socials/socials.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    AboutComponent,
-    ProjectsComponent,
-    SocialsComponent,
-  ],
-  imports: [BrowserModule, FormsModule, HttpClientModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HeaderComponent,
+        AboutComponent,
+        ProjectsComponent,
+        SocialsComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule, FormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {}
