@@ -7,6 +7,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { SocialsComponent } from './socials/socials.component';
 import { FormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { MaterialModule } from './shared/material.module';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -15,5 +16,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
         ProjectsComponent,
         SocialsComponent,
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule, FormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+    bootstrap: [AppComponent], 
+    imports: [BrowserModule, FormsModule, MaterialModule], 
+    providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {}
