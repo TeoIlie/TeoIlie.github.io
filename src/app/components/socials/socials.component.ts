@@ -29,20 +29,20 @@ export class SocialsComponent {
 
     const headers = new HttpHeaders({ Accept: 'application/json' });
 
-    this.isSending = true; // <-- Start spinner
+    this.isSending = true;
 
     this.http.post(endpoint, this.formData, { headers: headers }).subscribe({
       next: (response) => {
         console.log('Form submitted successfully!', response);
         this.messageSent = true;
         this.messageError = false;
-        this.isSending = false; // <-- Stop spinner
+        this.isSending = false;
         this.resetForm();
       },
       error: (error) => {
         console.error('Form submission error:', error);
         this.messageError = true;
-        this.isSending = false; // <-- Stop spinner
+        this.isSending = false;
       },
     });
   }
@@ -54,7 +54,6 @@ export class SocialsComponent {
       message: '',
     };
 
-    // Hide the success message after a few seconds
     setTimeout(() => {
       this.messageSent = false;
     }, 5000);
@@ -84,14 +83,14 @@ export class SocialsComponent {
       icon: 'fab fa-google',
     },
     {
+      name: 'Facebook',
+      url: 'https://www.facebook.com/profile.php?id=100004509104826',
+      icon: 'fab fa-facebook',
+    },
+    {
       name: 'Strava',
       url: 'https://www.strava.com/athletes/9039374',
       icon: 'fab fa-strava',
-    },
-    {
-      name: 'Email',
-      url: 'mailto:teo.altum.quinque@gmail.com',
-      icon: 'fas fa-envelope',
     },
   ];
 }

@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  // Smooth scroll to section
   scrollToSection(id: string): void {
     const element = document.getElementById(id);
     if (element) {

@@ -63,7 +63,7 @@ export class ProjectsComponent {
       link: 'https://github.com/TeoIlie/Computer_Vision_MVO_Toy_Problem',
     },
     {
-      title: 'Monocular Visual Odometry in OpenCV',
+      title: 'OpenGL Scene Generation',
       description:
         'Designed a 3D scene with ray tracing, reflection, refraction, and surface rendering in OpenGL using C++',
       image: 'assets/boats.gif',
