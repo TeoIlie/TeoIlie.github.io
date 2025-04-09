@@ -1,22 +1,33 @@
+@use '../../theme/variables' as *;
+
 .projects-container {
   max-width: 1000px;
   margin: 0 auto;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  
+  ::ng-deep .mat-mdc-card-header {
+    justify-content: center;
+    padding-bottom: 20px;
+  }
 
-  h2 {
+  ::ng-deep .mat-mdc-card-title {
     font-size: 36px;
-    margin-bottom: 40px;
     text-align: center;
     position: relative;
+    color: $off-white;
+    margin-bottom: 20px;
 
     &:after {
       content: "";
       position: absolute;
-      bottom: -10px;
+      bottom: -20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 60px;
+      width: 100px;
       height: 3px;
-      background-color: #007bff;
+      background-color: $light-cyan;
     }
   }
 }
@@ -25,20 +36,26 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 30px;
+  margin-top: 30px;
 }
 
 .project-card {
-  background-color: white;
+  display: flex;
+}
+
+.project-inner-card {
+  width: 100%;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.05);
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -60,14 +77,17 @@
 
 .project-info {
   padding: 20px;
+  color: $off-white;
 
   h3 {
     font-size: 22px;
     margin-bottom: 10px;
+    color: $off-white;
   }
 
   p {
-    color: #666;
+    color: $off-white;
+    opacity: 0.8;
     margin-bottom: 15px;
     font-size: 14px;
     line-height: 1.6;
@@ -77,29 +97,69 @@
 .tech-stack {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 10px;
   margin-bottom: 15px;
 
-  span {
-    font-size: 12px;
-    padding: 4px 10px;
-    background-color: #f5f5f5;
-    color: #333;
-    border-radius: 20px;
+  ::ng-deep .mat-mdc-chip {
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: $off-white;
+    
+    // Remove double borders
+    border: none;
+    outline: none;
+    
+    // Remove default Material styles that cause visual issues
+    &.mat-mdc-standard-chip {
+      --mdc-chip-container-height: auto;
+      --mdc-chip-outline-width: 0;
+      --mdc-chip-outline-color: transparent;
+      
+      .mdc-evolution-chip__action--primary {
+        padding: 0;
+      }
+      
+      .mdc-evolution-chip__cell--primary {
+        margin: 0;
+      }
+    }
+  }
+  
+  ::ng-deep .mat-mdc-chip-set {
+    margin: 0;
   }
 }
 
 .project-link {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
+  background-color: $dark-cyan !important;
+  color: $light-cyan !important;
   text-decoration: none;
   border-radius: 4px;
   font-size: 14px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+  text-align: center;
+  width: fit-content;
+
+  ::ng-deep .mat-mdc-button-touch-target {
+    width: 100%;
+    height: 100%;
+  }
+
+  ::ng-deep .mdc-button__label {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
 
   &:hover {
-    background-color: #0056b3;
+    background-color: darken($dark-cyan, 5%) !important;
+    transform: translateY(-2px);
   }
 }
