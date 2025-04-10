@@ -1,19 +1,53 @@
 @use 'src/styles.scss' as *;
 
-header {
+.custom-toolbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 70px;
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 50px;
   z-index: 1000;
+  background-color: $white;
+  color: $section-underline;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
   font-family: $header-font;
+  
+  &.scrolled {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+  }
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  display: flex;
+  align-items: center;
+}
+
+nav button {
+  font-family: $header-font;
+  color: $body-color;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.1s ease;
+
+  &:hover {
+    color: $hover-color;
+    font-weight: 600;
+  }
 }
 
 .logo a {
@@ -23,20 +57,4 @@ header {
   color: $body-color;
 }
 
-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 30px;
-}
 
-nav a {
-  text-decoration: none;
-  color: $body-color;
-  font-weight: 600;
-  cursor: pointer;
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: $section-underline;
-  }
-}

@@ -10,7 +10,7 @@
         <p>{{ project.description }}</p>
         <div class="tech-stack skill-tags">
           <mat-chip-set>
-            <mat-chip class="project-tech-chip" *ngFor="let tech of project.technologies">{{ tech }}</mat-chip>
+            <mat-chip disableRipple class="project-tech-chip" *ngFor="let tech of project.technologies">{{ tech }}</mat-chip>
           </mat-chip-set>
         </div>
         <a [href]="project.link" target="_blank" class="project-link"

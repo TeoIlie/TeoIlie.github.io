@@ -1,12 +1,12 @@
-<header>
+<mat-toolbar color="primary" class="custom-toolbar">
   <div class="logo">
     <a href="#">Teodor Ilie</a>
   </div>
   <nav>
     <ul>
-      <li><a (click)="scrollToSection('about')">About Me</a></li>
-      <li><a (click)="scrollToSection('projects')">Projects</a></li>
-      <li><a (click)="scrollToSection('socials')">Socials</a></li>
+      <li><button mat-button (click)="scrollToSection('about')">About Me</button></li>
+      <li><button mat-button (click)="scrollToSection('projects')">Projects</button></li>
+      <li><button mat-button (click)="scrollToSection('socials')">Socials</button></li>
     </ul>
   </nav>
-</header>
+</mat-toolbar>
