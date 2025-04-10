@@ -81,7 +81,7 @@ export class SocialsComponent {
     {
       name: 'Scholar',
       url: 'https://scholar.google.ca/citations?user=YaQWjp8AAAAJ&hl=en',
-      icon: 'fab fa-google',
+      icon: 'fas fa-graduation-cap',
     },
     {
       name: 'Facebook',

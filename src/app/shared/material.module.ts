@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms'; // Add this import
 
 const MaterialComponents = [
   MatToolbarModule,
@@ -14,7 +16,9 @@ const MaterialComponents = [
   MatIconModule,
   MatDividerModule,
   MatGridListModule,
-  MatChipsModule
+  MatChipsModule,
+  MatFormFieldModule, 
+  ReactiveFormsModule
 ];
 
 @NgModule({
