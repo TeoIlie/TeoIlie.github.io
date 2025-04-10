@@ -10,6 +10,7 @@
 
 body {
   font-family: "Poppins", sans-serif;
+  font-weight: 300;
   line-height: 1.6;
   color: #333;
   background-color: #f9f9f9;
@@ -17,21 +18,20 @@ body {
 }
 
 h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h2 {
+  font-family: "Montserrat", sans-serif;
   font-weight: 600;
 }
-
-html,
-body {
-  height: 100%;
+h3 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
 }
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+h4 {
+  font-weight: 300;
+}
+h5,
+h6 {
+  font-weight: 400;
 }
 
 a {
@@ -41,4 +41,27 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+.section-heading {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    text-align: center;
+    position: relative;
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background-color: #007bff;
+    }
+  }
 }
