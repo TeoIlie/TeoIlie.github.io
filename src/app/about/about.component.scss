@@ -88,11 +88,34 @@
   flex-wrap: wrap;
   gap: 10px;
 
-  span {
+  ::ng-deep .mat-mdc-chip {
     padding: 8px 16px;
-    background-color: #f5f5f5;
     border-radius: 30px;
     font-size: 14px;
+    background-color: #f5f5f5;
     color: #333;
+    
+    // Remove double borders
+    border: none;
+    outline: none;
+    
+    // Remove default Material styles that cause visual issues
+    &.mat-mdc-standard-chip {
+      --mdc-chip-container-height: auto;
+      --mdc-chip-outline-width: 0;
+      --mdc-chip-outline-color: transparent;
+      
+      .mdc-evolution-chip__action--primary {
+        padding: 0;
+      }
+      
+      .mdc-evolution-chip__cell--primary {
+        margin: 0;
+      }
+    }
+  }
+  
+  ::ng-deep .mat-mdc-chip-set {
+    margin: 0;
   }
 }
