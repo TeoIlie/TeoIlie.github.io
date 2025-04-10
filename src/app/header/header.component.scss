@@ -1,3 +1,5 @@
+@use 'src/styles.scss' as *;
+
 header {
   position: fixed;
   top: 0;
@@ -11,13 +13,14 @@ header {
   justify-content: space-between;
   padding: 0 50px;
   z-index: 1000;
+  font-family: $header-font;
 }
 
 .logo a {
   font-size: 24px;
   font-weight: 600;
   text-decoration: none;
-  color: #333;
+  color: $body-color;
 }
 
 nav ul {
@@ -28,12 +31,12 @@ nav ul {
 
 nav a {
   text-decoration: none;
-  color: #333;
+  color: $body-color;
   font-weight: 600;
   cursor: pointer;
   transition: color 0.3s ease;
 
   &:hover {
-    color: #007bff;
+    color: $section-underline;
   }
 }

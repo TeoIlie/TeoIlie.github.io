@@ -22,6 +22,13 @@ $chips-background: #f5f5f5;
 $white: white;
 $form-border: #ddd;
 
+//Footer colours
+$footer-top: #eee;
+$footer-colour: #666;
+
+//Fonts
+$header-font: Montserrat;
+$body-font: Poppins;
 
 // Other global formatting
 
@@ -78,7 +85,7 @@ html {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: $body-font, sans-serif;
   font-weight: 300;
   line-height: 1.6;
   color: $body-color;
@@ -87,11 +94,11 @@ body {
 
 h1,
 h2 {
-  font-family: "Montserrat", sans-serif;
+  font-family: $header-font, sans-serif;
   font-weight: 600;
 }
 h3 {
-  font-family: "Montserrat", sans-serif;
+  font-family: $header-font, sans-serif;
   font-weight: 500;
 }
 h4 {
