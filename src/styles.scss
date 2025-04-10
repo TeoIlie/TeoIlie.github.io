@@ -26,41 +26,36 @@ $form-border: #ddd;
 // Other global formatting
 
 // chips
-.skill-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-
-  ::ng-deep .mat-mdc-chip {
-    padding: 8px 16px;
-    border-radius: 30px;
-    font-size: 14px;
-    background-color: $chips-background;
-    color: $chips-color;
+// Global mat-chip styling
+::ng-deep .mat-mdc-chip {
+  padding: 8px 16px !important;
+  border-radius: 30px !important;
+  font-size: 14px !important;
+  background-color: $chips-background !important;
+  color: $chips-color !important;
+  
+  // Remove double borders
+  border: none !important;
+  outline: none !important;
+  
+  // Remove default Material styles that cause visual issues
+  &.mat-mdc-standard-chip {
+    --mdc-chip-container-height: auto !important;
+    --mdc-chip-outline-width: 0 !important;
+    --mdc-chip-outline-color: transparent !important;
     
-    // Remove double borders
-    border: none;
-    outline: none;
+    .mdc-evolution-chip__action--primary {
+      padding: 0 !important;
+    }
     
-    // Remove default Material styles that cause visual issues
-    &.mat-mdc-standard-chip {
-      --mdc-chip-container-height: auto;
-      --mdc-chip-outline-width: 0;
-      --mdc-chip-outline-color: transparent;
-      
-      .mdc-evolution-chip__action--primary {
-        padding: 0;
-      }
-      
-      .mdc-evolution-chip__cell--primary {
-        margin: 0;
-      }
+    .mdc-evolution-chip__cell--primary {
+      margin: 0 !important;
     }
   }
-  
-  ::ng-deep .mat-mdc-chip-set {
-    margin: 0;
-  }
+}
+
+::ng-deep .mat-mdc-chip-set {
+  margin: 0 !important;
 }
 
 

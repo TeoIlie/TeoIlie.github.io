@@ -7,7 +7,7 @@
 }
 
 .project-card {
-  background-color: white;
+  background-color: $white;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -54,18 +54,44 @@
 }
 
 .tech-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 10px; // Reduced margin
+  // We're using the .skill-tags class styling from styles.scss
+}
 
-  span {
-    font-size: 12px;
-    padding: 4px 10px;
-    background-color: #f5f5f5;
-    color: #333;
-    border-radius: 20px;
-  }
+/* More specific selector to override Angular Material styles */
+::ng-deep .project-tech-chip.mat-mdc-chip {
+  padding: 5px 8px !important; // Even smaller padding
+  margin: 0 4px 4px 0 !important; // Tighter spacing between chips
+  height: auto !important; // Allow height to adjust to content
+  min-height: 20px !important; // Set a smaller minimum height
+  
+  // Keep other styling the same as global chips
+  background-color: $chips-background !important;
+  color: $chips-color !important;
+  border-radius: 30px !important;
+  border: none !important;
+  outline: none !important;
+}
+
+/* Override Angular Material's internal text styling */
+::ng-deep .project-tech-chip .mat-mdc-chip-action-label {
+  font-size: 13px !important;
+  line-height: 1 !important;
+  font-weight: normal !important;
+}
+
+::ng-deep .project-tech-chip.mat-mdc-standard-chip {
+  --mdc-chip-container-height: auto !important;
+  --mdc-chip-outline-width: 0 !important;
+  --mdc-chip-outline-color: transparent !important;
+}
+
+::ng-deep .project-tech-chip .mdc-evolution-chip__action--primary {
+  padding: 0 !important;
+}
+
+::ng-deep .project-tech-chip .mdc-evolution-chip__cell--primary {
+  margin: 0 !important;
 }
 
 .project-link {
