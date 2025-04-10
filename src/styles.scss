@@ -1,8 +1,6 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
 
 // Global colour palette
@@ -29,6 +27,7 @@ $footer-colour: #666;
 //Fonts
 $header-font: Montserrat;
 $body-font: Poppins;
+$button-font: Roboto;
 
 // Other global formatting
 
@@ -107,6 +106,10 @@ h4 {
 h5,
 h6 {
   font-weight: 400;
+}
+
+p {
+  font-size: 15px;
 }
 
 a {

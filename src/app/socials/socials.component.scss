@@ -82,6 +82,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  font-family: $button-font;
   transition: background-color 0.3s ease;
 
   &:hover {
@@ -103,7 +104,7 @@ button {
   margin-top: 20px;
   padding: 15px;
   background-color: #da3232af;
-  color: #155724;
+  color: $body-color;
   border-radius: 8px;
   text-align: center;
   font-weight: bold;
