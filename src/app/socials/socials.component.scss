@@ -1,25 +1,4 @@
-.socials-container {
-  max-width: 1000px;
-  margin: 0 auto;
-
-  h2 {
-    font-size: 36px;
-    margin-bottom: 40px;
-    text-align: center;
-    position: relative;
-
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
-      background-color: #007bff;
-    }
-  }
-}
+@use 'src/styles.scss' as *;
 
 .socials-grid {
   display: grid;
@@ -34,11 +13,11 @@
   align-items: center;
   justify-content: center;
   padding: 30px;
-  background-color: white;
+  background-color: $white;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   text-decoration: none;
-  color: #333;
+  color: $chips-color;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
@@ -46,7 +25,8 @@
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    color: #007bff;
+    color: $section-underline;
+    text-decoration: none;
   }
 
   i {
@@ -81,13 +61,13 @@
   textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid ;
     border-radius: 4px;
     font-size: 16px;
 
     &:focus {
       outline: none;
-      border-color: #007bff;
+      border-color: $section-underline;
     }
   }
 }
@@ -96,16 +76,17 @@ button {
   display: block;
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: $section-underline;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  font-family: $button-font;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: $hover-color;
   }
 }
 
@@ -123,7 +104,7 @@ button {
   margin-top: 20px;
   padding: 15px;
   background-color: #da3232af;
-  color: #155724;
+  color: $body-color;
   border-radius: 8px;
   text-align: center;
   font-weight: bold;

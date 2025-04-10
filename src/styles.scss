@@ -1,6 +1,81 @@
-/* You can add global styles to this file, and also import other style files */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+
+// Global colour palette
+
+//Highlights
+$link: #6a5acd;          // Slate blue - professional with a touch of distinction
+$section-underline: #5d4db3; // Slightly darker for proper hierarchy
+$hover-color: #483d8b;    // Dark slate blue for hover states
+
+// Other colours
+$body-color: #333;
+$body-background: #f9f9f9;
+$subtitle: #666;
+$paragraph: #444;
+$chips-color: #333;
+$chips-background: #eeeeee;
+$white: white;
+$form-border: #ddd;
+
+//Footer colours
+$footer-top: #eee;
+$footer-colour: #666;
+
+//Fonts
+$header-font: Montserrat;
+$body-font: Poppins;
+$button-font: Roboto;
+
+// Other global formatting
+
+// chips
+// Global mat-chip styling
+::ng-deep .mat-mdc-chip {
+  padding: 8px 16px !important;
+  border-radius: 30px !important;
+  font-size: 14px !important;
+  background-color: $chips-background !important;
+  color: $chips-color !important;
+  
+  // Remove double borders
+  border: none !important;
+  outline: none !important;
+  
+  // Remove default Material styles that cause visual issues
+  &.mat-mdc-standard-chip {
+    --mdc-chip-container-height: auto !important;
+    --mdc-chip-outline-width: 0 !important;
+    --mdc-chip-outline-color: transparent !important;
+    
+    .mdc-evolution-chip__action--primary {
+      padding: 0 !important;
+    }
+    
+    .mdc-evolution-chip__cell--primary {
+      margin: 0 !important;
+    }
+  }
+}
+
+::ng-deep .mat-mdc-chip-set {
+  margin: 0 !important;
+}
+
+
+html {
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}/* You can add global styles to this file, and also import other style files */
 
 * {
   margin: 0;
@@ -9,36 +84,72 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: $body-font, sans-serif;
+  font-weight: 300;
   line-height: 1.6;
-  color: #333;
-  background-color: #f9f9f9;
-  padding-top: 70px; /* Account for fixed header */
+  color: $body-color;
+  background-color: $body-background;
 }
 
 h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h2 {
+  font-family: $header-font, sans-serif;
   font-weight: 600;
 }
-
-html,
-body {
-  height: 100%;
+h3 {
+  font-family: $header-font, sans-serif;
+  font-weight: 500;
 }
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+h4 {
+  font-weight: 300;
+}
+h5,
+h6 {
+  font-weight: 400;
+}
+
+p {
+  font-size: 15px;
 }
 
 a {
-  color: #3498db;
+  color: $link;
   text-decoration: none;
 }
 
 a:hover {
   text-decoration: underline;
 }
+
+.section-heading {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    text-align: center;
+    position: relative;
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background-color: $section-underline;
+    }
+  }
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
