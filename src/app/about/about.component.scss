@@ -61,3 +61,46 @@
     margin-bottom: 15px;
   }
 }
+
+.socials-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 25px; /* spacing between profile, social icons */
+}
+
+.social-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  text-decoration: none;
+  color: $chips-color;
+  transition: color 0.3s ease; /* link color transition */
+
+  &:hover {
+    color: $section-underline;
+    text-decoration: none;
+  }
+
+  /* Icon styling with scaling effect */
+  i {
+    font-size: 28px; /* Adjust as needed */
+    margin-right: 6px;
+    transition: transform 0.1s ease, box-shadow 0.3s ease;
+  }
+
+  &:hover i {
+    transform: scale(1.1);
+  }
+
+  /* If I add the name back in to socials */
+  span {
+    font-weight: 500;
+    margin: 0;
+  }
+}

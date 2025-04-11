@@ -5,7 +5,19 @@
       <div class="profile-image">
         <img src="assets/profile-image.jpg" alt="Teodor Ilie" />
       </div>
+      <div class="socials-grid">
+        <a
+          *ngFor="let social of socialLinks"
+          [href]="social.url"
+          target="_blank"
+          class="social-card"
+        >
+          <i [class]="social.icon"></i>
+          <!-- <span>{{ social.name }}</span> -->
+        </a>
+      </div>
     </div>
+
     <div class="bio">
       <h3>Hello, I'm <span class="highlight">Teodor Ilie</span></h3>
       <p class="subtitle">
