@@ -1,13 +1,46 @@
 <mat-toolbar color="primary" class="custom-toolbar">
   <div class="logo">
-    <img src="assets/images/logo.png" alt="Logo" class="logo-image">
+    <img src="assets/images/logo.png" alt="Logo" class="logo-image" />
     <a href="#">Teodor Ilie</a>
   </div>
-  <nav>
+
+  <!-- Hamburger Icon -->
+  <button
+    mat-icon-button
+    class="menu-toggle"
+    (click)="toggleMenu()"
+    aria-label="Open Menu"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <!-- Navigation Links -->
+  <nav [class.open]="isMenuOpen">
     <ul>
-      <li><button mat-button (click)="scrollToSection('about')">About Me</button></li>
-      <li><button mat-button (click)="scrollToSection('projects')">Projects</button></li>
-      <li><button mat-button (click)="scrollToSection('socials')">Socials</button></li>
+      <li>
+        <button
+          mat-button
+          (click)="scrollToSection('about'); toggleMenu()"
+        >
+          About Me
+        </button>
+      </li>
+      <li>
+        <button
+          mat-button
+          (click)="scrollToSection('projects'); toggleMenu()"
+        >
+          Projects
+        </button>
+      </li>
+      <li>
+        <button
+          mat-button
+          (click)="scrollToSection('socials'); toggleMenu()"
+        >
+          Socials
+        </button>
+      </li>
     </ul>
   </nav>
 </mat-toolbar>
