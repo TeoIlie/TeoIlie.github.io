@@ -19,9 +19,7 @@ Then `git push` and `github-pages` will deploy correctly. More info here: https:
 This command will build the application to the `docs` folder:
 
 ```
-
 ng build --configuration production
-
 ```
 
 **Deploy**
