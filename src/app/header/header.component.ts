@@ -7,10 +7,16 @@ import { Component } from '@angular/core';
     standalone: false
 })
 export class HeaderComponent {
+  isMenuOpen = false;
+
   scrollToSection(id: string): void {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 }
