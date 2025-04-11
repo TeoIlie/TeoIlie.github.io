@@ -29,6 +29,7 @@
     &:focus {
       outline: none;
       border-color: $section-underline;
+      box-shadow: 0 0 3px $section-underline;
     }
   }
 }
@@ -69,4 +70,10 @@ button {
   border-radius: 8px;
   text-align: center;
   font-weight: bold;
+}
+
+.validation-error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
 }

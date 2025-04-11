@@ -3,34 +3,51 @@
   <div class="contact-form">
     <h3>Send me a message</h3>
 
-    <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <!-- Name Field -->
       <div class="form-group">
         <input
           type="text"
-          name="name"
-          [(ngModel)]="formData.name"
+          formControlName="name"
           placeholder="Your Name"
           required
         />
+        <div *ngIf="contactForm.get('name')?.invalid && (contactForm.get('name')?.touched || contactForm.get('name')?.dirty)" class="validation-error">
+          Name is required.
+        </div>
       </div>
+
+      <!-- Email Field -->
       <div class="form-group">
         <input
           type="email"
-          name="email"
-          [(ngModel)]="formData.email"
+          formControlName="email"
           placeholder="Your Email"
           required
         />
+        <div *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)" class="validation-error">
+          <span *ngIf="contactForm.get('email')?.errors?.['required']">
+            Email is required.
+          </span>
+          <span *ngIf="contactForm.get('email')?.errors?.['email']">
+            Please enter a valid email address.
+          </span>
+        </div>
       </div>
+
+      <!-- Message Field -->
       <div class="form-group">
         <textarea
-          name="message"
-          [(ngModel)]="formData.message"
+          formControlName="message"
           placeholder="Your Message"
           rows="5"
           required
         ></textarea>
+        <div *ngIf="contactForm.get('message')?.invalid && (contactForm.get('message')?.touched || contactForm.get('message')?.dirty)" class="validation-error">
+          Message is required.
+        </div>
       </div>
+
       <button type="submit" [disabled]="contactForm.invalid || isSending">
         {{ isSending ? "Sending..." : "Send Message" }}
       </button>

@@ -1,32 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
-    selector: 'app-socials',
-    templateUrl: './socials.component.html',
-    styleUrls: ['./socials.component.scss'],
-    standalone: false
+  selector: 'app-socials',
+  templateUrl: './socials.component.html',
+  styleUrls: ['./socials.component.scss'],
+  standalone: false
 })
-export class SocialsComponent {
-  formData = {
-    name: '',
-    email: '',
-    message: '',
-  };
-
+export class SocialsComponent implements OnInit {
+  contactForm!: FormGroup;
   messageSent = false;
   messageError = false;
+  isSending = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) {}
 
-  onSubmit() {
+  ngOnInit(): void {
+    this.contactForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      message: ['', Validators.required]
+    });
+  }
+
+  onSubmit(): void {
+    if (this.contactForm.invalid) {
+      // Mark all controls as touched to trigger the display of error messages.
+      this.contactForm.markAllAsTouched();
+      return;
+    }
+
     const endpoint = 'https://formspree.io/f/moveyaaw';
-
-    const headers = new HttpHeaders({ Accept: 'application/json' });
+    const headers = new HttpHeaders({ 'Accept': 'application/json' });
 
     this.isSending = true;
 
-    this.http.post(endpoint, this.formData, { headers: headers }).subscribe({
+    this.http.post(endpoint, this.contactForm.value, { headers }).subscribe({
       next: (response) => {
         console.log('Form submitted successfully!', response);
         this.messageSent = true;
@@ -42,17 +52,10 @@ export class SocialsComponent {
     });
   }
 
-  resetForm() {
-    this.formData = {
-      name: '',
-      email: '',
-      message: '',
-    };
-
+  resetForm(): void {
+    this.contactForm.reset();
     setTimeout(() => {
       this.messageSent = false;
     }, 5000);
   }
-
-  isSending = false;
 }

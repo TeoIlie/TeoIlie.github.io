@@ -80,7 +80,7 @@
   padding: 0;
   text-decoration: none;
   color: $chips-color;
-  transition: color 0.3s ease; /* link color transition */
+  transition: color 0.05s ease; /* link color transition */
 
   &:hover {
     color: $section-underline;
@@ -91,11 +91,11 @@
   i {
     font-size: 28px; /* Adjust as needed */
     margin-right: 6px;
-    transition: transform 0.1s ease, box-shadow 0.3s ease;
+    transition: transform 0.05s ease, box-shadow 0.3s ease;
   }
 
   &:hover i {
-    transform: scale(1.1);
+    transform: scale(1.15);
   }
 
   /* If I add the name back in to socials */
