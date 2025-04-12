@@ -1,113 +1,157 @@
 @use 'src/styles.scss' as *;
 
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
+.section-heading {
+  margin-top: -50px;
+  margin-bottom: -50px;
 }
 
-.project-card {
+.projects-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+// Project list styles
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.project-item {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  padding: 30px;
   background-color: $white;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }
-}
 
-.project-image {
-  height: 200px;
-  overflow: hidden;
+  &.even {
+    flex-direction: row-reverse;
+  }
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+  @media (max-width: 768px) {
+    flex-direction: column;
 
-    &:hover {
-      transform: scale(1.05);
+    &.even {
+      flex-direction: column;
     }
   }
 }
 
+.project-media {
+  flex: 0 0 45%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.03);
+    }
+
+    &.gif {
+      height: 300px;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
 .project-info {
-  padding: 20px;
+  flex: 1;
 
   h3 {
-    font-size: 22px;
-    margin-bottom: 10px;
+    font-size: 28px;
+    color: $body-color;
+    margin-bottom: 15px;
+    font-family: $header-font, sans-serif;
+    position: relative;
+    padding-bottom: 12px;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background-color: $section-underline;
+    }
   }
 
   p {
-    color: $subtitle;
-    margin-bottom: 15px;
-    font-size: 14px;
+    color: $paragraph;
     line-height: 1.6;
+    margin-bottom: 25px;
   }
 }
 
-.tech-stack {
-  margin-bottom: 10px; // Reduced margin
-  // We're using the .skill-tags class styling from styles.scss
+.project-technologies {
+  margin-top: 20px;
+  margin-bottom: 25px;
+
+  h4 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: $body-color;
+  }
 }
 
-/* More specific selector to override Angular Material styles */
-::ng-deep .project-tech-chip.mat-mdc-chip {
-  padding: 5px 8px !important; // Even smaller padding
-  margin: 0 4px 4px 0 !important; // Tighter spacing between chips
-  height: auto !important; // Allow height to adjust to content
-  min-height: 20px !important; // Set a smaller minimum height
-  
-  // Keep other styling the same as global chips
-  background-color: $chips-background !important;
-  color: $chips-color !important;
-  border-radius: 30px !important;
-  border: none !important;
-  outline: none !important;
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-/* Override Angular Material's internal text styling */
-::ng-deep .project-tech-chip .mat-mdc-chip-action-label {
-  font-size: 13px !important;
-  line-height: 1 !important;
-  font-weight: normal !important;
-}
+.project-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
 
-::ng-deep .project-tech-chip.mat-mdc-standard-chip {
-  --mdc-chip-container-height: auto !important;
-  --mdc-chip-outline-width: 0 !important;
-  --mdc-chip-outline-color: transparent !important;
-}
-
-::ng-deep .project-tech-chip .mdc-evolution-chip__action--primary {
-  padding: 0 !important;
-}
-
-::ng-deep .project-tech-chip .mdc-evolution-chip__cell--primary {
-  margin: 0 !important;
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .project-link {
-  font-family: $button-font;
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: $section-underline;
-  color: $white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background-color: $chips-background;
+  color: $chips-color;
+  border-radius: 6px;
+  transition: all 0.2s ease;
   text-decoration: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 400;
-  transition: background-color 0.3s ease;
+  font-weight: 500;
 
   &:hover {
-    background-color: $hover-color;
+    background-color: $section-underline;
+    color: $white;
     text-decoration: none;
+  }
+
+  i {
+    font-size: 18px;
   }
 }

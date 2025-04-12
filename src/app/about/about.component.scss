@@ -1,4 +1,4 @@
-@use 'src/styles.scss' as *; 
+@use 'src/styles.scss' as *;
 
 .content {
   display: flex;
@@ -91,7 +91,9 @@
   i {
     font-size: 28px; /* Adjust as needed */
     margin-right: 6px;
-    transition: transform 0.05s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.05s ease,
+      box-shadow 0.3s ease;
   }
 
   &:hover i {

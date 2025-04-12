@@ -5,12 +5,7 @@
   </div>
 
   <!-- Hamburger Icon -->
-  <button
-    mat-icon-button
-    class="menu-toggle"
-    (click)="toggleMenu()"
-    aria-label="Open Menu"
-  >
+  <button mat-icon-button class="menu-toggle" (click)="toggleMenu()" aria-label="Open Menu">
     <mat-icon>menu</mat-icon>
   </button>
 
@@ -18,28 +13,13 @@
   <nav [class.open]="isMenuOpen">
     <ul>
       <li>
-        <button
-          mat-button
-          (click)="scrollToSection('about'); toggleMenu()"
-        >
-          About Me
-        </button>
+        <button mat-button (click)="scrollToSection('about'); toggleMenu()">About Me</button>
       </li>
       <li>
-        <button
-          mat-button
-          (click)="scrollToSection('projects'); toggleMenu()"
-        >
-          Projects
-        </button>
+        <button mat-button (click)="scrollToSection('projects'); toggleMenu()">Projects</button>
       </li>
       <li>
-        <button
-          mat-button
-          (click)="scrollToSection('socials'); toggleMenu()"
-        >
-          Socials
-        </button>
+        <button mat-button (click)="scrollToSection('socials'); toggleMenu()">Socials</button>
       </li>
     </ul>
   </nav>

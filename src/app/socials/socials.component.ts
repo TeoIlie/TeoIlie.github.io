@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   selector: 'app-socials',
   templateUrl: './socials.component.html',
   styleUrls: ['./socials.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class SocialsComponent implements OnInit {
   contactForm!: FormGroup;
@@ -14,13 +14,16 @@ export class SocialsComponent implements OnInit {
   messageError = false;
   isSending = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      message: ['', Validators.required]
+      message: ['', Validators.required],
     });
   }
 
@@ -32,7 +35,7 @@ export class SocialsComponent implements OnInit {
     }
 
     const endpoint = 'https://formspree.io/f/moveyaaw';
-    const headers = new HttpHeaders({ 'Accept': 'application/json' });
+    const headers = new HttpHeaders({ Accept: 'application/json' });
 
     this.isSending = true;
 
