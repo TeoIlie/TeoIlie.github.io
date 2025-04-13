@@ -77,3 +77,53 @@ button {
   font-size: 14px;
   margin-top: 5px;
 }
+
+// contact info section
+.contact-info {
+  max-width: 600px;
+  margin: 0 auto 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 4px;
+  transition: transform 0.2s ease;
+
+  .copy-text {
+    cursor: pointer;
+    position: relative;
+  }
+
+  &:hover {
+    transform: translateX(5px);
+    color: $section-underline;
+  }
+
+  i {
+    // Adjust icon size
+    font-size: 22px;
+    color: $section-underline;
+    width: 30px;
+    text-align: center;
+  }
+
+  a,
+  span {
+    color: $body-color;
+    text-decoration: none;
+    font-size: 16px; // Change icon text size
+  }
+
+  .copied-message {
+    font-size: 14px; // Change "copied" message size
+    color: $section-underline;
+    margin-left: 8px;
+    opacity: 1;
+    transition: opacity 1s ease;
+  }
+}

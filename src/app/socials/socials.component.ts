@@ -13,6 +13,7 @@ export class SocialsComponent implements OnInit {
   messageSent = false;
   messageError = false;
   isSending = false;
+  discordCopied = false; 
 
   constructor(
     private fb: FormBuilder,
@@ -24,6 +25,16 @@ export class SocialsComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       message: ['', Validators.required],
+    });
+  }
+
+  // copy discord username to clipboard
+  copyToClipboard(text: string): void {
+    navigator.clipboard.writeText(text).then(() => {
+      this.discordCopied = true;
+      setTimeout(() => {
+        this.discordCopied = false;
+      }, 2000);
     });
   }
 

@@ -1,5 +1,22 @@
 <div class="section-heading">
   <h2>Connect With Me</h2>
+
+  <div class="contact-info">
+    <div class="contact-item">
+      <i class="fas fa-envelope"></i>
+      <a href="mailto:teo.altum.quinque@gmail.com" target="_blank">teo.altum.quinque&#64;gmail.com</a>
+    </div>
+    <div class="contact-item">
+      <i class="fas fa-phone"></i>
+      <a href="tel:+14166686650">+1 (416) 668-6650</a>
+    </div>
+    <div class="contact-item">
+      <i class="fab fa-discord"></i>
+      <span class="copy-text" (click)="copyToClipboard('teoilie')">teoilie</span>
+      <span *ngIf="discordCopied" class="copied-message">Copied!</span>
+    </div>
+  </div>
+
   <div class="contact-form">
     <h3>Send me a message</h3>
 
