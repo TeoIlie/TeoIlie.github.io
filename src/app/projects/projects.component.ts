@@ -3,16 +3,19 @@ import { Component } from '@angular/core';
 interface Project {
   title: string;
   description: string;
-  image: string;
+  imageUrl: string;
+  isGif: boolean;
   technologies: string[];
-  link: string;
+  githubUrl?: string;
+  liveUrl?: string;
+  paperUrl?: string;
 }
 
 @Component({
-    selector: 'app-projects',
-    templateUrl: './projects.component.html',
-    styleUrls: ['./projects.component.scss'],
-    standalone: false
+  selector: 'app-projects',
+  templateUrl: './projects.component.html',
+  styleUrls: ['./projects.component.scss'],
+  standalone: false,
 })
 export class ProjectsComponent {
   projects: Project[] = [
@@ -20,7 +23,7 @@ export class ProjectsComponent {
       title: 'Deep RL for Active SLAM',
       description:
         'Built an Active SLAM system for autonomous navigation using ROS2, Gazebo, SLAM Toolbox, and PIC4RL on a Clearpath Jackal robot.',
-      image: 'assets/demo.gif',
+      imageUrl: 'assets/slam.gif',
       technologies: [
         'ROS2',
         'Gazebo',
@@ -29,47 +32,55 @@ export class ProjectsComponent {
         'Occupancy grid',
         'Pose graph optimization',
       ],
-      link: 'https://github.com/TeoIlie/Active_SLAM_with_DRL',
+      githubUrl: 'https://github.com/TeoIlie/Active_SLAM_with_DRL',
+      liveUrl: 'https://youtu.be/a0PUhAlBM3Q',
+      isGif: true,
     },
     {
       title: 'CNN Handwriting Classifier',
       description:
         'Designed and implemented a Convolutional Neural Network model in Python from scratch to classify handwritten digits, using the MNIST dataset.',
-      image: 'assets/cnn.gif',
+      imageUrl: 'assets/cnn2.gif',
       technologies: ['Python', 'Convolutional Neural Network'],
-      link: 'https://github.com/TeoIlie/Intro_to_Neural_Networks',
-    },
-    {
-      title: 'Theory alignment via regular bisimulation',
-      description:
-        'Designed a program using tarski, a PDDL Python library, to automatically detect isomorphism, which was used to automate checking correctness of candidate solutions.',
-      image: 'assets/pddl.gif',
-      technologies: ['PDDL', 'Python', 'tarski'],
-      link: 'https://icaps22.icaps-conference.org/workshops/KEPS/KEPS-22_paper_7781.pdf',
+      githubUrl: 'https://github.com/TeoIlie/Intro_to_Neural_Networks',
+      isGif: true,
     },
     {
       title: 'AI Pacman Game',
       description:
         'Implemented probabilistic inference algorithms to enable Pacman to hunt invisible ghosts based on noisy distance readings.',
-      image: 'assets/pacman.gif',
+      imageUrl: 'assets/pacman.gif',
       technologies: ['Inference', 'Python', 'AI'],
-      link: 'https://github.com/TeoIlie/AI_Pacman_Agent_Game/tree/main',
+      githubUrl: 'https://github.com/TeoIlie/AI_Pacman_Agent_Game/tree/main',
+      isGif: true,
     },
     {
       title: 'Monocular Visual Odometry in OpenCV',
       description:
         'Implemented SIFT feature detection and brute-force matching to accomplish Monocular Visual Odometry (MVO)',
-      image: 'assets/mvo.gif',
+      imageUrl: 'assets/mvo2.gif',
       technologies: ['OpenCV', 'MVO', 'Carla', 'AdverCity'],
-      link: 'https://github.com/TeoIlie/Computer_Vision_MVO_Toy_Problem',
+      githubUrl: 'https://github.com/TeoIlie/Computer_Vision_MVO_Toy_Problem',
+      isGif: true,
+    },
+    {
+      title: 'Theory alignment via regular bisimulation',
+      description:
+        'Designed a program using tarski, a PDDL Python library, to automatically detect isomorphism, which was used to automate checking correctness of candidate solutions.',
+      imageUrl: 'assets/pddl.gif',
+      technologies: ['PDDL', 'Python', 'tarski'],
+      paperUrl: 'https://icaps22.icaps-conference.org/workshops/KEPS/KEPS-22_paper_7781.pdf',
+      liveUrl: 'http://mulab.ai/demo/p4pp',
+      isGif: true,
     },
     {
       title: 'OpenGL Scene Generation',
       description:
         'Designed a 3D scene with ray tracing, reflection, refraction, and surface rendering in OpenGL using C++',
-      image: 'assets/boats.gif',
+      imageUrl: 'assets/boats2.gif',
       technologies: ['Computer Graphics', 'Ray Tracing', 'OpenGL'],
-      link: 'https://github.com/TeoIlie/COMP390-Computer-Graphics',
+      githubUrl: 'https://github.com/TeoIlie/COMP390-Computer-Graphics',
+      isGif: true,
     },
   ];
 }

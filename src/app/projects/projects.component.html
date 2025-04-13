@@ -1,21 +1,62 @@
 <div class="section-heading">
   <h2>Projects</h2>
-  <div class="projects-grid">
-    <div class="project-card" *ngFor="let project of projects">
-      <div class="project-image">
-        <img [src]="project.image" [alt]="project.title" />
-      </div>
-      <div class="project-info">
-        <h3>{{ project.title }}</h3>
-        <p>{{ project.description }}</p>
-        <div class="tech-stack skill-tags">
-          <mat-chip-set>
-            <mat-chip disableRipple class="project-tech-chip" *ngFor="let tech of project.technologies">{{ tech }}</mat-chip>
-          </mat-chip-set>
+  <div class="projects-container">
+    <!-- List of all projects -->
+    <div class="project-list">
+      <div
+        class="project-item"
+        *ngFor="let project of projects; let i = index"
+        [class.even]="i % 2 !== 0"
+      >
+        <div class="project-media">
+          <img [src]="project.imageUrl" [alt]="project.title" [class.gif]="project.isGif" />
         </div>
-        <a [href]="project.link" target="_blank" class="project-link"
-          >View Project</a
-        >
+
+        <div class="project-info">
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.description }}</p>
+
+          <div class="project-technologies">
+            <h4>Technologies Used</h4>
+            <div class="tech-tags">
+              <mat-chip-set>
+                <mat-chip disableRipple *ngFor="let tech of project.technologies">
+                  {{ tech }}
+                </mat-chip>
+              </mat-chip-set>
+            </div>
+          </div>
+
+          <div class="project-links" *ngIf="project.githubUrl || project.liveUrl">
+            <a
+              *ngIf="project.githubUrl"
+              [href]="project.githubUrl"
+              target="_blank"
+              class="project-link"
+            >
+              <i class="fab fa-github"></i>
+              <span>View Code</span>
+            </a>
+            <a
+              *ngIf="project.paperUrl"
+              [href]="project.paperUrl"
+              target="_blank"
+              class="project-link"
+            >
+              <i class="fas fa-paperclip"></i>
+              <span>Paper</span>
+            </a>
+            <a
+              *ngIf="project.liveUrl"
+              [href]="project.liveUrl"
+              target="_blank"
+              class="project-link"
+            >
+              <i class="fas fa-external-link-alt"></i>
+              <span>Demo</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

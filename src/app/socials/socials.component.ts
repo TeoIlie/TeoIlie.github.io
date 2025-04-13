@@ -6,21 +6,35 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   selector: 'app-socials',
   templateUrl: './socials.component.html',
   styleUrls: ['./socials.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class SocialsComponent implements OnInit {
   contactForm!: FormGroup;
   messageSent = false;
   messageError = false;
   isSending = false;
+  discordCopied = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      message: ['', Validators.required]
+      message: ['', Validators.required],
+    });
+  }
+
+  // copy discord username to clipboard
+  copyToClipboard(text: string): void {
+    navigator.clipboard.writeText(text).then(() => {
+      this.discordCopied = true;
+      setTimeout(() => {
+        this.discordCopied = false;
+      }, 2000);
     });
   }
 
@@ -32,7 +46,7 @@ export class SocialsComponent implements OnInit {
     }
 
     const endpoint = 'https://formspree.io/f/moveyaaw';
-    const headers = new HttpHeaders({ 'Accept': 'application/json' });
+    const headers = new HttpHeaders({ Accept: 'application/json' });
 
     this.isSending = true;
 

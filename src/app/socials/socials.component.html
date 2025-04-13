@@ -1,34 +1,53 @@
 <div class="section-heading">
   <h2>Connect With Me</h2>
+
+  <div class="contact-info">
+    <div class="contact-item">
+      <i class="fas fa-envelope"></i>
+      <a href="mailto:teo.altum.quinque@gmail.com" target="_blank"
+        >teo.altum.quinque&#64;gmail.com</a
+      >
+    </div>
+    <div class="contact-item">
+      <i class="fas fa-phone"></i>
+      <a href="tel:+14166686650">+1 (416) 668-6650</a>
+    </div>
+    <div class="contact-item">
+      <i class="fab fa-discord"></i>
+      <span class="copy-text" (click)="copyToClipboard('teoilie')">teoilie</span>
+      <span *ngIf="discordCopied" class="copied-message">Copied!</span>
+    </div>
+  </div>
+
   <div class="contact-form">
     <h3>Send me a message</h3>
 
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
       <!-- Name Field -->
       <div class="form-group">
-        <input
-          type="text"
-          formControlName="name"
-          placeholder="Your Name"
-          required
-        />
-        <div *ngIf="contactForm.get('name')?.invalid && (contactForm.get('name')?.touched || contactForm.get('name')?.dirty)" class="validation-error">
+        <input type="text" formControlName="name" placeholder="Your Name" required />
+        <div
+          *ngIf="
+            contactForm.get('name')?.invalid &&
+            (contactForm.get('name')?.touched || contactForm.get('name')?.dirty)
+          "
+          class="validation-error"
+        >
           Name is required.
         </div>
       </div>
 
       <!-- Email Field -->
       <div class="form-group">
-        <input
-          type="email"
-          formControlName="email"
-          placeholder="Your Email"
-          required
-        />
-        <div *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)" class="validation-error">
-          <span *ngIf="contactForm.get('email')?.errors?.['required']">
-            Email is required.
-          </span>
+        <input type="email" formControlName="email" placeholder="Your Email" required />
+        <div
+          *ngIf="
+            contactForm.get('email')?.invalid &&
+            (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)
+          "
+          class="validation-error"
+        >
+          <span *ngIf="contactForm.get('email')?.errors?.['required']"> Email is required. </span>
           <span *ngIf="contactForm.get('email')?.errors?.['email']">
             Please enter a valid email address.
           </span>
@@ -37,19 +56,20 @@
 
       <!-- Message Field -->
       <div class="form-group">
-        <textarea
-          formControlName="message"
-          placeholder="Your Message"
-          rows="5"
-          required
-        ></textarea>
-        <div *ngIf="contactForm.get('message')?.invalid && (contactForm.get('message')?.touched || contactForm.get('message')?.dirty)" class="validation-error">
+        <textarea formControlName="message" placeholder="Your Message" rows="5" required></textarea>
+        <div
+          *ngIf="
+            contactForm.get('message')?.invalid &&
+            (contactForm.get('message')?.touched || contactForm.get('message')?.dirty)
+          "
+          class="validation-error"
+        >
           Message is required.
         </div>
       </div>
 
       <button type="submit" [disabled]="contactForm.invalid || isSending">
-        {{ isSending ? "Sending..." : "Send Message" }}
+        {{ isSending ? 'Sending...' : 'Send Message' }}
       </button>
     </form>
 
