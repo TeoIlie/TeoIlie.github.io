@@ -13,7 +13,7 @@ export class SocialsComponent implements OnInit {
   messageSent = false;
   messageError = false;
   isSending = false;
-  discordCopied = false; 
+  discordCopied = false;
 
   constructor(
     private fb: FormBuilder,
