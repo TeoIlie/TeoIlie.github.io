@@ -26,8 +26,11 @@ $footer-colour: #666;
 
 //Fonts
 $header-font: Montserrat;
-$body-font: Poppins;
+//optionally change this to Poppins
+$body-font: Roboto;
 $button-font: Roboto;
+
+$body-font-size: 15px;
 
 // Other global formatting
 
@@ -110,7 +113,11 @@ h6 {
 }
 
 p {
-  font-size: 15px;
+  font-family: $body-font, sans-serif;
+  font-size: $body-font-size;
+  color: $paragraph;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
 a {

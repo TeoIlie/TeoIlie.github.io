@@ -1,0 +1,107 @@
+<div class="section-heading">
+  <h2>LEGO Technic Creations</h2>
+
+  <div class="section-description">
+    <p>Welcome to my collection of custom LEGO Technic builds. Each creation features advanced mechanical functions, detailed engineering, and innovative building techniques. Explore the models below to see videos, photos, and technical details.</p>
+  </div>
+
+  <div class="lego-container">
+    <!-- Grid view of LEGO creations -->
+    <div class="lego-grid" *ngIf="!selectedCreation">
+      <mat-card class="lego-card" *ngFor="let creation of legoCreations" (click)="selectCreation(creation)">
+        <img mat-card-image [src]="creation.imageUrl" [alt]="creation.title">
+        <mat-card-content>
+          <h3>{{ creation.title }}</h3>
+          <p class="parts-count" *ngIf="creation.partsCount">{{ creation.partsCount }} parts</p>
+          <div class="tech-tags">
+            <mat-chip-set>
+              <mat-chip disableRipple *ngFor="let tech of creation.techniques.slice(0, 2)">
+                {{ tech }}
+              </mat-chip>
+              <mat-chip disableRipple *ngIf="creation.techniques.length > 2">
+                +{{ creation.techniques.length - 2 }}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Detailed view when a creation is selected -->
+    <div class="lego-detail" *ngIf="selectedCreation">
+      <button mat-icon-button class="back-button" (click)="clearSelection()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div class="detail-header">
+        <h2>{{ selectedCreation.title }}</h2>
+        <p *ngIf="selectedCreation.partsCount" class="parts-count">{{ selectedCreation.partsCount }} parts</p>
+      </div>
+
+      <div class="detail-content">
+        <div class="detail-main">
+          <div class="video-container">
+            <iframe
+              width="560"
+              height="315"
+              [src]="selectedCreation.videoUrl | safe"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <div class="detail-info">
+            <p>{{ selectedCreation.description }}</p>
+
+            <div class="techniques-section">
+              <h4>Techniques & Features</h4>
+              <div class="tech-tags">
+                <mat-chip-set>
+                  <mat-chip disableRipple *ngFor="let tech of selectedCreation.techniques">
+                    {{ tech }}
+                  </mat-chip>
+                </mat-chip-set>
+              </div>
+            </div>
+
+            <div class="creation-links" *ngIf="selectedCreation.forumUrl">
+              <a [href]="selectedCreation.forumUrl" target="_blank" class="creation-link">
+                <i class="fas fa-comments"></i>
+                <span>Work-in-Progress Thread</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="additional-images" *ngIf="selectedCreation.additionalImages && selectedCreation.additionalImages.length > 0">
+          <h4>More Photos</h4>
+          <div class="images-grid">
+            <div class="image-item" *ngFor="let imgUrl of selectedCreation.additionalImages; let i = index"
+                (click)="openImageModal(imgUrl, i)">
+              <img [src]="imgUrl" [alt]="selectedCreation.title + ' detail'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="image-modal-overlay" [class.active]="showImageModal" (click)="onOverlayClick($event)" (keydown)="onKeydown($event)" tabindex="0">
+      <div class="modal-content">
+        <button class="close-button" (click)="closeImageModal()">×</button>
+        <img [src]="currentImageUrl" [alt]="selectedCreation?.title + ' detail image'" *ngIf="currentImageUrl">
+
+        <div class="navigation-buttons" *ngIf="selectedCreation && selectedCreation.additionalImages && selectedCreation.additionalImages.length > 1">
+          <button (click)="navigateImage(-1)">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button (click)="navigateImage(1)">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
