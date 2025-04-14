@@ -87,6 +87,23 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
       techniques: ['BuWizz', 'Baja truck', 'Live-axle Suspension', 'Caster-angled steering'],
       buildYear: 2021,
     },
+    {
+      title: 'MAN TGS Dakar Truck',
+      description:
+        'Working model of the MAN TGS Dakar rally truck, with working live axle suspension, 4x4 transmission, servo steering, working doors, and a lot of detail!',
+      imageUrl: 'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/Final1.jpg/800x449.jpg',
+      videoUrl: 'https://www.youtube.com/embed/tCBB-U5y0eE',
+      forumUrl: 'https://www.eurobricks.com/forum/forums/topic/137216-moc-man-tgs-dakar-truck',
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC02848.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC03526.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC03471.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC03522.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/Final2.jpg/1280x719.jpg',
+      ],
+      techniques: ['Dakar', 'MAN', 'Remote Control', 'Custom parts'],
+      buildYear: 2021,
+    },
   ];
 
   selectedCreation: LegoCreation | null = null;
