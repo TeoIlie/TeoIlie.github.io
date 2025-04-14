@@ -150,9 +150,7 @@
       class="image-modal-overlay"
       [class.active]="showImageModal"
       (click)="onOverlayClick($event)"
-      (keydown)="onKeydown($event)"
       tabindex="0"
-      #imageModalOverlay
     >
       <div class="modal-content">
         <button class="close-button" (click)="closeImageModal()">×</button>

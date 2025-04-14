@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, Renderer2, OnInit, OnDestroy } from '@angular/core';
 
 interface Demo {
   demoUrl?: string;
@@ -23,9 +23,7 @@ interface LegoCreation {
   styleUrls: ['./lego-technic.component.scss'],
   standalone: false,
 })
-export class LegoTechnicComponent {
-  @ViewChild('imageModalOverlay') imageModalOverlay: ElementRef | undefined;
-
+export class LegoTechnicComponent implements OnInit, OnDestroy {
   legoCreations: LegoCreation[] = [
     {
       title: 'Praga Trial Truck',
@@ -96,6 +94,15 @@ export class LegoTechnicComponent {
   showImageModal = false;
   currentImageIndex = 0;
   currentImageUrl = '';
+  private keydownListener: Function | null = null;
+
+  constructor(private renderer: Renderer2) {}
+
+  ngOnInit() {}
+
+  ngOnDestroy() {
+    this.removeKeydownListener();
+  }
 
   selectCreation(creation: LegoCreation): void {
     this.selectedCreation = creation;
@@ -111,20 +118,17 @@ export class LegoTechnicComponent {
       this.currentImageIndex = index;
       this.showImageModal = true;
 
-      // Prevent scrolling when modal is open
       document.body.style.overflow = 'hidden';
 
-      // Use setTimeout to ensure the modal is rendered before focusing
-      setTimeout(() => {
-        this.imageModalOverlay?.nativeElement.focus();
-      });
+      this.setupKeydownListener();
     }
   }
 
   closeImageModal(): void {
     this.showImageModal = false;
 
-    // Re-enable scrolling
+    this.removeKeydownListener();
+
     document.body.style.overflow = 'auto';
   }
 
@@ -144,19 +148,33 @@ export class LegoTechnicComponent {
     }
   }
 
-  onKeydown(event: KeyboardEvent): void {
-    if (!this.showImageModal) return;
+  private setupKeydownListener(): void {
+    this.removeKeydownListener();
 
-    switch (event.key) {
-      case 'Escape':
-        this.closeImageModal();
-        break;
-      case 'ArrowLeft':
-        this.navigateImage(-1);
-        break;
-      case 'ArrowRight':
-        this.navigateImage(1);
-        break;
+    this.keydownListener = this.renderer.listen('document', 'keydown', (event: KeyboardEvent) => {
+      if (!this.showImageModal) return;
+
+      switch (event.key) {
+        case 'Escape':
+          event.preventDefault();
+          this.closeImageModal();
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          this.navigateImage(-1);
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          this.navigateImage(1);
+          break;
+      }
+    });
+  }
+
+  private removeKeydownListener(): void {
+    if (this.keydownListener) {
+      this.keydownListener();
+      this.keydownListener = null;
     }
   }
 }
