@@ -72,6 +72,23 @@ export class LegoTechnicComponent {
       ],
       buildYear: 2023,
     },
+    {
+      title: 'Baja Truck',
+      description:
+        'A model of a Baja racing truck, featuring long travel lixe axle rear suspension, independent front suspension, positive caster on the front, and servo steering. The goal was a minimalist lightweight design to keep it fast and nimble 🛻',
+      imageUrl: 'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/Final1.jpg/800x450.jpg',
+      videoUrl: 'https://www.youtube.com/embed/ECJ1eubnlMo',
+      forumUrl: 'https://www.eurobricks.com/forum/forums/topic/188560-moc-buwizz-baja-truck/',
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06336.jpg/1280x720.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06329.jpg/1280x720.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06325.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06337.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06310.jpg/1280x720.jpg',
+      ],
+      techniques: ['BuWizz', 'Baja truck', 'Live-axle Suspension', 'Caster-angled steering'],
+      buildYear: 2021,
+    },
   ];
 
   selectedCreation: LegoCreation | null = null;
