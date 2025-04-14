@@ -20,19 +20,21 @@ interface LegoCreation {
 export class LegoTechnicComponent {
   legoCreations: LegoCreation[] = [
     {
-      title: 'Off-Road Buggy',
+      title: 'Praga Trial Truck',
       description:
-        'A fully functional remote-controlled off-road buggy with independent suspension, 4-wheel drive, and detailed engine bay.',
+        'A scale model of the 6x6 Praga Trial Truck with working 2-speed gearbox, all wheel drive with 2 XL motors, servo steering, and long-travel suspension. Competed in the 2024 Toronto Truck Trial Competition, winning first place.',
       imageUrl:
-        'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC05763.jpg/800x533.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/praga-6x6-trial-truck/Final1.jpg/800x450.jpg',
       videoUrl: 'https://www.youtube.com/embed/Gx4-P59XuH4',
-      forumUrl: 'https://thelegocarblog.com/2016/07/10/man-with-a-mission/',
+      forumUrl: 'https://www.eurobricks.com/forum/forums/topic/194556-wip-praga-trial-truck-6x6/',
       additionalImages: [
-        'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC05763.jpg/800x533.jpg',
-        'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC05763.jpg/800x533.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/praga-6x6-trial-truck/DSC08768.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/praga-6x6-trial-truck/DSC07998.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/praga-6x6-trial-truck/DSC07873.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/praga-6x6-trial-truck/DSC08755.JPG/1280x719.JPG',
       ],
-      techniques: ['Suspension', 'Remote Control', 'Gearbox', 'Differential', 'Custom Bodywork'],
-      buildYear: 1240,
+      techniques: ['Heavy-duty gearbox', '6x6', 'BuWizz', 'Trial Truck'],
+      buildYear: 2024,
     },
     {
       title: 'Compact Excavator',
