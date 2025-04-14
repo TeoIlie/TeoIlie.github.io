@@ -12,7 +12,7 @@
     </p>
 
     <div class="feature-highlights" scrollAnimation animationClass="animate-fadeIn" [delay]="200">
-      <div class="feature" scrollAnimation animationClass="animate-slideUp" [delay]="500">
+      <div class="feature" scrollAnimation animationClass="animate-slideUp" [delay]="200">
         <a href="https://www.youtube.com/@TeoTechnicTaken" target="_blank" class="feature-link">
           <i class="fab fa-youtube"></i>
           <span>Youtube Channel</span>
@@ -152,6 +152,7 @@
       (click)="onOverlayClick($event)"
       (keydown)="onKeydown($event)"
       tabindex="0"
+      #imageModalOverlay
     >
       <div class="modal-content">
         <button class="close-button" (click)="closeImageModal()">×</button>

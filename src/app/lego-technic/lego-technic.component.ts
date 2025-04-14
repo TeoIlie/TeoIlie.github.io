@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 interface Demo {
   demoUrl?: string;
@@ -24,6 +24,8 @@ interface LegoCreation {
   standalone: false,
 })
 export class LegoTechnicComponent {
+  @ViewChild('imageModalOverlay') imageModalOverlay: ElementRef | undefined;
+
   legoCreations: LegoCreation[] = [
     {
       title: 'Praga Trial Truck',
@@ -68,7 +70,7 @@ export class LegoTechnicComponent {
         '2-Speed Gearbox',
         'Live-axle Suspension',
       ],
-      buildYear: 865,
+      buildYear: 2023,
     },
   ];
 
@@ -94,6 +96,11 @@ export class LegoTechnicComponent {
 
       // Prevent scrolling when modal is open
       document.body.style.overflow = 'hidden';
+
+      // Use setTimeout to ensure the modal is rendered before focusing
+      setTimeout(() => {
+        this.imageModalOverlay?.nativeElement.focus();
+      });
     }
   }
 
