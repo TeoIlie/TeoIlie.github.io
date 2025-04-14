@@ -1,0 +1,254 @@
+<div class="section-heading">
+  <h2 scrollAnimation animationClass="animate-fadeIn">LEGO Technic Creations</h2>
+
+  <div class="section-description" scrollAnimation animationClass="animate-slideUp" [delay]="100">
+    <p class="intro-text">
+      My passion for LEGO Technic began over a decade ago, and continues to this day. Check out an
+      assortment of custom-built gearboxes, transmissions, suspensions, and axle designs - all all
+      engineered from scratch. Every project is designed from meticulously from original blueprints,
+      teaching me the joy of building something my own. That same drive fuels my real-world
+      engineering and coding accomplishments. Also, kudos to my wife for not only putting up with
+      me, but helping shoot much of the footage <span class="large-emoji">🫶</span>
+    </p>
+
+    <div class="feature-highlights" scrollAnimation animationClass="animate-fadeIn" [delay]="200">
+      <div class="feature" scrollAnimation animationClass="animate-slideUp" [delay]="500">
+        <a href="https://www.youtube.com/@TeoTechnicTaken" target="_blank" class="feature-link">
+          <i class="fab fa-youtube"></i>
+          <span>Youtube Channel</span>
+        </a>
+      </div>
+      <div class="feature" scrollAnimation animationClass="animate-slideUp" [delay]="300">
+        <a
+          href="https://www.eurobricks.com/forum/profile/120672-teo-lego-technic/"
+          target="_blank"
+          class="feature-link"
+        >
+          <i class="fas fa-handshake"></i>
+          <span>Eurobricks Forum</span>
+        </a>
+      </div>
+      <div class="feature" scrollAnimation animationClass="animate-slideUp" [delay]="400">
+        <a href="https://bricksafe.com/pages/Teo_LEGO_Technic" target="_blank" class="feature-link">
+          <i class="fas fa-folder-open"></i>
+          <span>BrickSafe Portfolio</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="lego-container"
+    scrollAnimation
+    animationClass="animate-fadeIn"
+    [delay]="300"
+    [threshold]="0.02"
+  >
+    <!-- Grid view of LEGO creations -->
+    <div class="lego-grid" *ngIf="!selectedCreation">
+      <mat-card
+        class="lego-card"
+        *ngFor="let creation of legoCreations"
+        (click)="selectCreation(creation)"
+      >
+        <img mat-card-image [src]="creation.imageUrl" [alt]="creation.title" />
+        <mat-card-content>
+          <h3>{{ creation.title }}</h3>
+          <p class="build-year" *ngIf="creation.buildYear">{{ creation.buildYear }}</p>
+          <div class="tech-tags">
+            <mat-chip-set>
+              <mat-chip disableRipple *ngFor="let tech of creation.techniques.slice(0, 2)">
+                {{ tech }}
+              </mat-chip>
+              <mat-chip disableRipple *ngIf="creation.techniques.length > 2">
+                +{{ creation.techniques.length - 2 }}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Detailed view when a creation is selected -->
+    <div class="lego-detail" *ngIf="selectedCreation">
+      <button mat-icon-button class="back-button" (click)="clearSelection()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div class="detail-header">
+        <h2>{{ selectedCreation.title }}</h2>
+        <p *ngIf="selectedCreation.buildYear" class="build-year">
+          {{ selectedCreation.buildYear }}
+        </p>
+      </div>
+
+      <div class="detail-content">
+        <div class="detail-main">
+          <div class="video-container">
+            <iframe
+              width="560"
+              height="315"
+              [src]="selectedCreation.videoUrl | safe"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            >
+            </iframe>
+          </div>
+
+          <div class="detail-info">
+            <p>{{ selectedCreation.description }}</p>
+
+            <div class="techniques-section">
+              <h4>Techniques & Features</h4>
+              <div class="tech-tags">
+                <mat-chip-set>
+                  <mat-chip disableRipple *ngFor="let tech of selectedCreation.techniques">
+                    {{ tech }}
+                  </mat-chip>
+                </mat-chip-set>
+              </div>
+            </div>
+
+            <div class="creation-links" *ngIf="selectedCreation.forumUrl">
+              <a [href]="selectedCreation.forumUrl" target="_blank" class="creation-link">
+                <i class="fas fa-comments"></i>
+                <span>Work-in-Progress Thread</span>
+              </a>
+            </div>
+
+            <div class="creation-links" *ngIf="selectedCreation.demo">
+              <a [href]="selectedCreation.demo.demoUrl" target="_blank" class="creation-link">
+                <i class="fab fa-youtube"></i>
+                <span>{{ selectedCreation.demo.demoName }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="additional-images"
+          *ngIf="selectedCreation.additionalImages && selectedCreation.additionalImages.length > 0"
+        >
+          <h4>More Photos</h4>
+          <div class="images-grid">
+            <div
+              class="image-item"
+              *ngFor="let imgUrl of selectedCreation.additionalImages; let i = index"
+              (click)="openImageModal(imgUrl, i)"
+            >
+              <img [src]="imgUrl" [alt]="selectedCreation.title + ' detail'" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div
+      class="image-modal-overlay"
+      [class.active]="showImageModal"
+      (click)="onOverlayClick($event)"
+      (keydown)="onKeydown($event)"
+      tabindex="0"
+    >
+      <div class="modal-content">
+        <button class="close-button" (click)="closeImageModal()">×</button>
+        <img
+          [src]="currentImageUrl"
+          [alt]="selectedCreation?.title + ' detail image'"
+          *ngIf="currentImageUrl"
+        />
+
+        <div
+          class="navigation-buttons"
+          *ngIf="
+            selectedCreation &&
+            selectedCreation.additionalImages &&
+            selectedCreation.additionalImages.length > 1
+          "
+        >
+          <button (click)="navigateImage(-1)">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button (click)="navigateImage(1)">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="inspiration-section"
+      scrollAnimation
+      animationClass="animate-fadeIn"
+      [delay]="200"
+      [threshold]="0.04"
+    >
+      <h4>Builders Who Inspire Me</h4>
+
+      <p class="inspiration-description">
+        For setting the bar high, and showing all us builders what LEGO Technic can do, here are
+        some notable inspirations. Thanks for the motivation, and sometimes even collaboration
+        <span class="large-emoji">🤟</span>
+      </p>
+
+      <div class="inspiration-grid">
+        <a href="https://www.nico71.fr/" target="_blank" class="inspiration-card">
+          <div class="inspiration-image">
+            <img src="assets/inspiration/nico71.jpg" alt="Builder Name" />
+          </div>
+          <div class="inspiration-info">
+            <h5>Nico71</h5>
+          </div>
+        </a>
+
+        <a href="https://www.youtube.com/c/zerobricks" target="_blank" class="inspiration-card">
+          <div class="inspiration-image">
+            <img src="assets/inspiration/zerobricks.jpg" alt="Builder Name" />
+          </div>
+          <div class="inspiration-info">
+            <h5>ZeroBricks</h5>
+          </div>
+        </a>
+
+        <a href="https://www.youtube.com/@madoca1977" target="_blank" class="inspiration-card">
+          <div class="inspiration-image">
+            <img src="assets/inspiration/madoca.png" alt="Builder Name" />
+          </div>
+          <div class="inspiration-info">
+            <h5>Madoca</h5>
+          </div>
+        </a>
+
+        <a href="https://www.sheepo.es" target="_blank" class="inspiration-card">
+          <div class="inspiration-image">
+            <img src="assets/inspiration/sheepo.jpg" alt="Builder Name" />
+          </div>
+          <div class="inspiration-info">
+            <h5>Sheepo</h5>
+          </div>
+        </a>
+
+        <a href="https://www.youtube.com/user/3fferman" target="_blank" class="inspiration-card">
+          <div class="inspiration-image">
+            <img src="assets/inspiration/efferman.jpg" alt="Builder Name" />
+          </div>
+          <div class="inspiration-info">
+            <h5>Efferman</h5>
+          </div>
+        </a>
+
+        <a href="https://sariel.pl" target="_blank" class="inspiration-card">
+          <div class="inspiration-image">
+            <img src="assets/inspiration/sariel.png" alt="Builder Name" />
+          </div>
+          <div class="inspiration-info">
+            <h5>Sariel</h5>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

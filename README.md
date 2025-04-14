@@ -16,6 +16,12 @@ Then `git push` and `github-pages` will deploy correctly. More info here: https:
 
 **Build**
 
+First run this command for full lint/formatting
+
+```
+npm run format
+```
+
 This command will build the application to the `docs` folder:
 
 ```
