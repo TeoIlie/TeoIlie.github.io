@@ -1,16 +1,8 @@
 @use 'src/styles.scss' as *;
 
 .section-heading {
-  margin-top: -50px;
+  margin-top: 120px;
   margin-bottom: -50px;
-}
-
-.section-description {
-  max-width: 800px;
-  margin: 30px auto;
-  text-align: center;
-  color: $paragraph;
-  line-height: 1.6;
 }
 
 .lego-container {
@@ -34,7 +26,9 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   cursor: pointer;
 
   &:hover {
@@ -69,7 +63,7 @@
       margin-bottom: 15px;
     }
 
-    .parts-count {
+    .build-year {
       font-size: 14px;
       color: $subtitle;
       margin-bottom: 15px;
@@ -118,7 +112,7 @@
       }
     }
 
-    .parts-count {
+    .build-year {
       font-size: 16px;
       color: $subtitle;
     }
@@ -276,7 +270,9 @@
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 
   &.active {
     opacity: 1;

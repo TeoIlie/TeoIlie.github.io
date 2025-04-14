@@ -1,5 +1,7 @@
 @use 'src/styles.scss' as *;
 
+$icon-transition: 0.1s;
+
 .content {
   display: flex;
   gap: 50px;
@@ -74,7 +76,7 @@
   padding: 0;
   text-decoration: none;
   color: $chips-color;
-  transition: color 0.05s ease; /* link color transition */
+  transition: color $icon-transition ease; /* link color transition */
 
   &:hover {
     color: $section-underline;
@@ -86,8 +88,8 @@
     font-size: 28px; /* Adjust as needed */
     margin-right: 6px;
     transition:
-      transform 0.05s ease,
-      box-shadow 0.3s ease;
+      transform $icon-transition ease,
+      box-shadow $icon-transition ease;
   }
 
   &:hover i {

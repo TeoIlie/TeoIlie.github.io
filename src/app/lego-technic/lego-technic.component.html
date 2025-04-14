@@ -1,18 +1,46 @@
 <div class="section-heading">
-  <h2>LEGO Technic Creations</h2>
+  <h2 scrollAnimation animationClass="animate-fadeIn">LEGO Technic Creations</h2>
 
-  <div class="section-description">
-    <p>Welcome to my collection of custom LEGO Technic builds. Each creation features advanced mechanical functions, detailed engineering, and innovative building techniques. Explore the models below to see videos, photos, and technical details.</p>
+  <div class="section-description" scrollAnimation animationClass="animate-slideUp" [delay]="100">
+    <p class="intro-text">
+      Welcome to my collection of custom LEGO Technic builds. Each creation represents hours of
+      engineering challenges, mechanical innovation, and creative problem-solving.
+    </p>
+
+    <div class="feature-highlights" scrollAnimation animationClass="animate-fadeIn" [delay]="200">
+      <div class="feature" scrollAnimation animationClass="animate-slideUp" [delay]="300">
+        <i class="fas fa-cogs"></i>
+        <span>Advanced Mechanical Functions</span>
+      </div>
+      <div class="feature" scrollAnimation animationClass="animate-slideUp" [delay]="400">
+        <i class="fas fa-drafting-compass"></i>
+        <span>Detailed Engineering</span>
+      </div>
+      <div class="feature" scrollAnimation animationClass="animate-slideUp" [delay]="500">
+        <i class="fas fa-lightbulb"></i>
+        <span>Innovative Building Techniques</span>
+      </div>
+    </div>
   </div>
 
-  <div class="lego-container">
+  <div
+    class="lego-container"
+    scrollAnimation
+    animationClass="animate-fadeIn"
+    [delay]="300"
+    [threshold]="0.02"
+  >
     <!-- Grid view of LEGO creations -->
     <div class="lego-grid" *ngIf="!selectedCreation">
-      <mat-card class="lego-card" *ngFor="let creation of legoCreations" (click)="selectCreation(creation)">
-        <img mat-card-image [src]="creation.imageUrl" [alt]="creation.title">
+      <mat-card
+        class="lego-card"
+        *ngFor="let creation of legoCreations"
+        (click)="selectCreation(creation)"
+      >
+        <img mat-card-image [src]="creation.imageUrl" [alt]="creation.title" />
         <mat-card-content>
           <h3>{{ creation.title }}</h3>
-          <p class="parts-count" *ngIf="creation.partsCount">{{ creation.partsCount }} parts</p>
+          <p class="build-year" *ngIf="creation.buildYear">{{ creation.buildYear }}</p>
           <div class="tech-tags">
             <mat-chip-set>
               <mat-chip disableRipple *ngFor="let tech of creation.techniques.slice(0, 2)">
@@ -35,7 +63,9 @@
 
       <div class="detail-header">
         <h2>{{ selectedCreation.title }}</h2>
-        <p *ngIf="selectedCreation.partsCount" class="parts-count">{{ selectedCreation.partsCount }} parts</p>
+        <p *ngIf="selectedCreation.buildYear" class="build-year">
+          {{ selectedCreation.buildYear }}
+        </p>
       </div>
 
       <div class="detail-content">
@@ -48,7 +78,8 @@
               title="YouTube video player"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
+              allowfullscreen
+            >
             </iframe>
           </div>
 
@@ -75,12 +106,18 @@
           </div>
         </div>
 
-        <div class="additional-images" *ngIf="selectedCreation.additionalImages && selectedCreation.additionalImages.length > 0">
+        <div
+          class="additional-images"
+          *ngIf="selectedCreation.additionalImages && selectedCreation.additionalImages.length > 0"
+        >
           <h4>More Photos</h4>
           <div class="images-grid">
-            <div class="image-item" *ngFor="let imgUrl of selectedCreation.additionalImages; let i = index"
-                (click)="openImageModal(imgUrl, i)">
-              <img [src]="imgUrl" [alt]="selectedCreation.title + ' detail'">
+            <div
+              class="image-item"
+              *ngFor="let imgUrl of selectedCreation.additionalImages; let i = index"
+              (click)="openImageModal(imgUrl, i)"
+            >
+              <img [src]="imgUrl" [alt]="selectedCreation.title + ' detail'" />
             </div>
           </div>
         </div>
@@ -88,12 +125,29 @@
     </div>
 
     <!-- Image Modal -->
-    <div class="image-modal-overlay" [class.active]="showImageModal" (click)="onOverlayClick($event)" (keydown)="onKeydown($event)" tabindex="0">
+    <div
+      class="image-modal-overlay"
+      [class.active]="showImageModal"
+      (click)="onOverlayClick($event)"
+      (keydown)="onKeydown($event)"
+      tabindex="0"
+    >
       <div class="modal-content">
         <button class="close-button" (click)="closeImageModal()">×</button>
-        <img [src]="currentImageUrl" [alt]="selectedCreation?.title + ' detail image'" *ngIf="currentImageUrl">
+        <img
+          [src]="currentImageUrl"
+          [alt]="selectedCreation?.title + ' detail image'"
+          *ngIf="currentImageUrl"
+        />
 
-        <div class="navigation-buttons" *ngIf="selectedCreation && selectedCreation.additionalImages && selectedCreation.additionalImages.length > 1">
+        <div
+          class="navigation-buttons"
+          *ngIf="
+            selectedCreation &&
+            selectedCreation.additionalImages &&
+            selectedCreation.additionalImages.length > 1
+          "
+        >
           <button (click)="navigateImage(-1)">
             <mat-icon>chevron_left</mat-icon>
           </button>

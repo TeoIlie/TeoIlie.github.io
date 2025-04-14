@@ -8,7 +8,7 @@ interface LegoCreation {
   forumUrl?: string;
   additionalImages?: string[];
   techniques: string[];
-  partsCount?: number;
+  buildYear?: number;
 }
 
 @Component({
@@ -21,26 +21,23 @@ export class LegoTechnicComponent {
   legoCreations: LegoCreation[] = [
     {
       title: 'Off-Road Buggy',
-      description: 'A fully functional remote-controlled off-road buggy with independent suspension, 4-wheel drive, and detailed engine bay.',
-      imageUrl: 'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC05763.jpg/800x533.jpg',
+      description:
+        'A fully functional remote-controlled off-road buggy with independent suspension, 4-wheel drive, and detailed engine bay.',
+      imageUrl:
+        'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC05763.jpg/800x533.jpg',
       videoUrl: 'https://www.youtube.com/embed/Gx4-P59XuH4',
       forumUrl: 'https://thelegocarblog.com/2016/07/10/man-with-a-mission/',
       additionalImages: [
         'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC05763.jpg/800x533.jpg',
         'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC05763.jpg/800x533.jpg',
       ],
-      techniques: [
-        'Suspension',
-        'Remote Control',
-        'Gearbox',
-        'Differential',
-        'Custom Bodywork'
-      ],
-      partsCount: 1240
+      techniques: ['Suspension', 'Remote Control', 'Gearbox', 'Differential', 'Custom Bodywork'],
+      buildYear: 1240,
     },
     {
       title: 'Compact Excavator',
-      description: 'A detailed working model of a compact excavator with functional hydraulics, 360° cabin rotation, and realistic digging mechanism.',
+      description:
+        'A detailed working model of a compact excavator with functional hydraulics, 360° cabin rotation, and realistic digging mechanism.',
       imageUrl: 'https://bricksafe.com/files/Teo_LEGO_Technic/excavator/main-image.jpg',
       videoUrl: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_2',
       forumUrl: 'https://www.eurobricks.com/forum/index.php?/forums/topic/YOUR_TOPIC_ID_2/',
@@ -53,13 +50,14 @@ export class LegoTechnicComponent {
         'Linkage',
         'Linear Actuators',
         'Rotation Mechanism',
-        'Cabin Detail'
+        'Cabin Detail',
       ],
-      partsCount: 865
+      buildYear: 865,
     },
     {
       title: 'Formula 1 Race Car',
-      description: 'A sleek Formula 1 car with working suspension, steering, and detailed aerodynamics based on 2023 regulations.',
+      description:
+        'A sleek Formula 1 car with working suspension, steering, and detailed aerodynamics based on 2023 regulations.',
       imageUrl: 'https://bricksafe.com/files/Teo_LEGO_Technic/f1/main-image.jpg',
       videoUrl: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_3',
       forumUrl: 'https://www.eurobricks.com/forum/index.php?/forums/topic/YOUR_TOPIC_ID_3/',
@@ -72,13 +70,14 @@ export class LegoTechnicComponent {
         'Aerodynamics',
         'Steering',
         'Engine Detail',
-        'Custom Decals'
+        'Custom Decals',
       ],
-      partsCount: 1580
+      buildYear: 1580,
     },
     {
       title: 'Modular Crane',
-      description: 'A fully motorized tower crane with remote control functions, extending boom, and realistic cable management system.',
+      description:
+        'A fully motorized tower crane with remote control functions, extending boom, and realistic cable management system.',
       imageUrl: 'https://bricksafe.com/files/Teo_LEGO_Technic/crane/main-image.jpg',
       videoUrl: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_4',
       forumUrl: 'https://www.eurobricks.com/forum/index.php?/forums/topic/YOUR_TOPIC_ID_4/',
@@ -91,10 +90,10 @@ export class LegoTechnicComponent {
         'Gearing',
         'Structural Integrity',
         'Cable Management',
-        'Remote Control'
+        'Remote Control',
       ],
-      partsCount: 2340
-    }
+      buildYear: 2340,
+    },
   ];
 
   selectedCreation: LegoCreation | null = null;
@@ -148,7 +147,7 @@ export class LegoTechnicComponent {
   onKeydown(event: KeyboardEvent): void {
     if (!this.showImageModal) return;
 
-    switch(event.key) {
+    switch (event.key) {
       case 'Escape':
         this.closeImageModal();
         break;

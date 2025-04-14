@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MaterialModule } from 'shared/materials.module';
 import { SafePipe } from './pipes/safe.pipe';
+import { ScrollAnimationDirective } from './shared/directives/scroll-animation.directive';
 
 @NgModule({
   declarations: [
@@ -19,10 +20,10 @@ import { SafePipe } from './pipes/safe.pipe';
     AboutComponent,
     ProjectsComponent,
     SocialsComponent,
-    LegoTechnicComponent
+    LegoTechnicComponent,
   ],
   bootstrap: [AppComponent],
-  imports: [BrowserModule, FormsModule, MaterialModule, SafePipe],
+  imports: [BrowserModule, FormsModule, MaterialModule, SafePipe, ScrollAnimationDirective],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class AppModule {}

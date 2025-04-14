@@ -1,24 +1,26 @@
 <div class="section-heading">
-  <h2>About Me</h2>
+  <h2 scrollAnimation animationClass="animate-fadeIn">About Me</h2>
   <div class="content">
-    <div class="profile">
+    <div class="profile" scrollAnimation animationClass="animate-fadeIn" [delay]="200">
       <div class="profile-image">
         <img src="assets/profile-image.jpg" alt="Teodor Ilie" />
       </div>
       <div class="socials-grid">
         <a
-          *ngFor="let social of socialLinks"
+          *ngFor="let social of socialLinks; let i = index"
           [href]="social.url"
           target="_blank"
           class="social-card"
+          scrollAnimation
+          animationClass="animate-fadeIn"
+          [delay]="0"
         >
           <i [class]="social.icon"></i>
-          <!-- <span>{{ social.name }}</span> -->
         </a>
       </div>
     </div>
 
-    <div class="bio">
+    <div class="bio" scrollAnimation animationClass="animate-slideUp" [delay]="400">
       <h3>Hello, I'm <span class="highlight">Teodor Ilie</span></h3>
       <p class="subtitle">MSc Student at Queen's University | Full-Stack Developer at BMO</p>
       <p>
@@ -30,20 +32,34 @@
       <p>
         In my free time I enjoy kickboxing, playing guitar, and designing LEGO Technic vehicles.
       </p>
-      <div class="skills">
+      <div class="skills" scrollAnimation animationClass="animate-slideUp" [delay]="600">
         <h4>Skills and Interests</h4>
         <div class="skill-tags">
           <mat-chip-set>
-            <mat-chip disableRipple>Python</mat-chip>
-            <mat-chip disableRipple>Java</mat-chip>
-            <mat-chip disableRipple>C++</mat-chip>
-            <mat-chip disableRipple>SQL</mat-chip>
-            <mat-chip disableRipple>Spring</mat-chip>
-            <mat-chip disableRipple>Angular</mat-chip>
-            <mat-chip disableRipple>REST API</mat-chip>
-            <mat-chip disableRipple>FinTech</mat-chip>
-            <mat-chip disableRipple>Computer Vision</mat-chip>
-            <mat-chip disableRipple>Machine Learning</mat-chip>
+            <!-- Add animation to each chip with sequential delays -->
+            <mat-chip
+              *ngFor="
+                let skill of [
+                  'Python',
+                  'Java',
+                  'C++',
+                  'SQL',
+                  'Spring',
+                  'Angular',
+                  'REST API',
+                  'FinTech',
+                  'Computer Vision',
+                  'Machine Learning',
+                ];
+                let i = index
+              "
+              scrollAnimation
+              animationClass="animate-fadeIn"
+              [delay]="0"
+              disableRipple
+            >
+              {{ skill }}
+            </mat-chip>
           </mat-chip-set>
         </div>
       </div>
