@@ -13,16 +13,24 @@
   <nav [class.open]="isMenuOpen">
     <ul>
       <li>
-        <button mat-button (click)="scrollToSection('about'); toggleMenu()">About Me</button>
+        <button mat-button (click)="scrollToSection('about'); toggleMenu()">
+          <i class="fas fa-user-circle"></i> About Me
+        </button>
       </li>
       <li>
-        <button mat-button (click)="scrollToSection('projects'); toggleMenu()">Projects</button>
+        <button mat-button (click)="scrollToSection('projects'); toggleMenu()">
+          <i class="fas fa-tools"></i> Projects
+        </button>
       </li>
       <li>
-        <button mat-button (click)="scrollToSection('lego'); toggleMenu()">LEGO Technic</button>
+        <button mat-button (click)="scrollToSection('lego'); toggleMenu()">
+          <i class="fas fa-cube"></i> LEGO Technic
+        </button>
       </li>
       <li>
-        <button mat-button (click)="scrollToSection('socials'); toggleMenu()">Socials</button>
+        <button mat-button (click)="scrollToSection('socials'); toggleMenu()">
+          <i class="fas fa-globe"></i> Socials
+        </button>
       </li>
     </ul>
   </nav>

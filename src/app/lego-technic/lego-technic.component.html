@@ -116,6 +116,13 @@
                 <span>Work-in-Progress Thread</span>
               </a>
             </div>
+
+            <div class="creation-links" *ngIf="selectedCreation.demo">
+              <a [href]="selectedCreation.demo.demoUrl" target="_blank" class="creation-link">
+                <i class="fab fa-youtube"></i>
+                <span>{{ selectedCreation.demo.demoName }}</span>
+              </a>
+            </div>
           </div>
         </div>
 

@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 
+interface Demo {
+  demoUrl?: string;
+  demoName?: string;
+}
+
 interface LegoCreation {
   title: string;
   description: string;
   imageUrl: string;
   videoUrl: string;
   forumUrl?: string;
+  demo?: Demo;
   additionalImages?: string[];
   techniques: string[];
   buildYear?: number;
@@ -27,6 +33,7 @@ export class LegoTechnicComponent {
         'https://bricksafe.com/files/Teo_LEGO_Technic/praga-6x6-trial-truck/Final1.jpg/800x450.jpg',
       videoUrl: 'https://www.youtube.com/embed/Gx4-P59XuH4',
       forumUrl: 'https://www.eurobricks.com/forum/forums/topic/194556-wip-praga-trial-truck-6x6/',
+      demo: { demoUrl: 'https://www.youtube.com/embed/V5R8TNchCIk', demoName: 'Competition' },
       additionalImages: [
         'https://bricksafe.com/files/Teo_LEGO_Technic/praga-6x6-trial-truck/DSC08768.JPG/1280x719.JPG',
         'https://bricksafe.com/files/Teo_LEGO_Technic/praga-6x6-trial-truck/DSC07998.JPG/1280x719.JPG',
