@@ -46,6 +46,10 @@ $body-font-size: 15px;
     animation: fadeIn 1s ease-in;
   }
 
+  .large-emoji {
+    font-size: 1.2em; /* Increase the size as needed */
+  }
+
   .feature-highlights {
     display: flex;
     justify-content: space-around;
