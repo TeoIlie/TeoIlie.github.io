@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2, OnInit, OnDestroy } from '@angular/core';
 
 interface Demo {
   demoUrl?: string;
@@ -23,7 +23,7 @@ interface LegoCreation {
   styleUrls: ['./lego-technic.component.scss'],
   standalone: false,
 })
-export class LegoTechnicComponent {
+export class LegoTechnicComponent implements OnInit, OnDestroy {
   legoCreations: LegoCreation[] = [
     {
       title: 'Praga Trial Truck',
@@ -68,7 +68,41 @@ export class LegoTechnicComponent {
         '2-Speed Gearbox',
         'Live-axle Suspension',
       ],
-      buildYear: 865,
+      buildYear: 2023,
+    },
+    {
+      title: 'Baja Truck',
+      description:
+        'A model of a Baja racing truck, featuring long travel lixe axle rear suspension, independent front suspension, positive caster on the front, and servo steering. The goal was a minimalist lightweight design to keep it fast and nimble 🛻',
+      imageUrl: 'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/Final1.jpg/800x450.jpg',
+      videoUrl: 'https://www.youtube.com/embed/ECJ1eubnlMo',
+      forumUrl: 'https://www.eurobricks.com/forum/forums/topic/188560-moc-buwizz-baja-truck/',
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06336.jpg/1280x720.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06329.jpg/1280x720.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06325.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06337.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06310.jpg/1280x720.jpg',
+      ],
+      techniques: ['BuWizz', 'Baja truck', 'Live-axle Suspension', 'Caster-angled steering'],
+      buildYear: 2021,
+    },
+    {
+      title: 'MAN TGS Dakar Truck',
+      description:
+        'Working model of the MAN TGS Dakar rally truck, with working live axle suspension, 4x4 transmission, servo steering, working doors, and a lot of detail!',
+      imageUrl: 'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/Final1.jpg/800x449.jpg',
+      videoUrl: 'https://www.youtube.com/embed/tCBB-U5y0eE',
+      forumUrl: 'https://www.eurobricks.com/forum/forums/topic/137216-moc-man-tgs-dakar-truck',
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC02848.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC03526.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC03471.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC03522.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/Final2.jpg/1280x719.jpg',
+      ],
+      techniques: ['Dakar', 'MAN', 'Remote Control', 'Custom parts'],
+      buildYear: 2021,
     },
   ];
 
@@ -77,6 +111,15 @@ export class LegoTechnicComponent {
   showImageModal = false;
   currentImageIndex = 0;
   currentImageUrl = '';
+  private keydownListener: Function | null = null;
+
+  constructor(private renderer: Renderer2) {}
+
+  ngOnInit() {}
+
+  ngOnDestroy() {
+    this.removeKeydownListener();
+  }
 
   selectCreation(creation: LegoCreation): void {
     this.selectedCreation = creation;
@@ -92,15 +135,17 @@ export class LegoTechnicComponent {
       this.currentImageIndex = index;
       this.showImageModal = true;
 
-      // Prevent scrolling when modal is open
       document.body.style.overflow = 'hidden';
+
+      this.setupKeydownListener();
     }
   }
 
   closeImageModal(): void {
     this.showImageModal = false;
 
-    // Re-enable scrolling
+    this.removeKeydownListener();
+
     document.body.style.overflow = 'auto';
   }
 
@@ -120,19 +165,33 @@ export class LegoTechnicComponent {
     }
   }
 
-  onKeydown(event: KeyboardEvent): void {
-    if (!this.showImageModal) return;
+  private setupKeydownListener(): void {
+    this.removeKeydownListener();
 
-    switch (event.key) {
-      case 'Escape':
-        this.closeImageModal();
-        break;
-      case 'ArrowLeft':
-        this.navigateImage(-1);
-        break;
-      case 'ArrowRight':
-        this.navigateImage(1);
-        break;
+    this.keydownListener = this.renderer.listen('document', 'keydown', (event: KeyboardEvent) => {
+      if (!this.showImageModal) return;
+
+      switch (event.key) {
+        case 'Escape':
+          event.preventDefault();
+          this.closeImageModal();
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          this.navigateImage(-1);
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          this.navigateImage(1);
+          break;
+      }
+    });
+  }
+
+  private removeKeydownListener(): void {
+    if (this.keydownListener) {
+      this.keydownListener();
+      this.keydownListener = null;
     }
   }
 }
