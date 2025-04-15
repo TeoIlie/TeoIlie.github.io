@@ -1,8 +1,8 @@
 <div class="section-heading">
   <h2 scrollAnimation animationClass="animate-fadeIn">Connect With Me</h2>
 
-  <div class="contact-info" scrollAnimation animationClass="animate-fadeIn" [delay]="200">
-    <div class="contact-item" scrollAnimation animationClass="animate-slideUp" [delay]="200">
+  <div class="contact-info" scrollAnimation animationClass="animate-fadeIn" [delay]="0">
+    <div class="contact-item" scrollAnimation animationClass="animate-slideUp" [delay]="100">
       <i class="fas fa-envelope"></i>
       <a href="mailto:teo.altum.quinque@gmail.com" target="_blank"
         >teo.altum.quinque&#64;gmail.com</a
@@ -12,14 +12,14 @@
       <i class="fas fa-phone"></i>
       <a href="tel:+14166686650">+1 (416) 668-6650</a>
     </div>
-    <div class="contact-item" scrollAnimation animationClass="animate-slideUp" [delay]="200">
+    <div class="contact-item" scrollAnimation animationClass="animate-slideUp" [delay]="300">
       <i class="fab fa-discord"></i>
       <span class="copy-text" (click)="copyToClipboard('teoilie')">teoilie</span>
       <span *ngIf="discordCopied" class="copied-message">Copied!</span>
     </div>
   </div>
 
-  <div class="contact-form" scrollAnimation animationClass="animate-slideUp" [delay]="400">
+  <div class="contact-form" scrollAnimation animationClass="animate-slideUp" [delay]="0">
     <h3>Send me a message</h3>
 
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
