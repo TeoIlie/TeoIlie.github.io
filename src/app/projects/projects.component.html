@@ -46,7 +46,11 @@
         [class.even]="i % 2 !== 0"
       >
         <div class="project-media">
-          <a [href]="project.githubUrl" target="_blank" rel="noopener noreferrer">
+          <a
+            [href]="project.githubUrl ? project.githubUrl : project.paperUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img [src]="project.imageUrl" [alt]="project.title" [class.gif]="project.isGif" />
           </a>
         </div>
