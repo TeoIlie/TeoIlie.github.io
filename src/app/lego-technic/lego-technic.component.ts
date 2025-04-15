@@ -132,6 +132,61 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
       techniques: ['Half-axle', 'Torsion bar', 'Tatra', '6x6'],
       buildYear: 2018,
     },
+    {
+      title: 'Audio Quattro Group B Rally Car',
+      description:
+        'This model of a group B Audo Quattro rally car was my first to feature a gearbox and was inspired by early 2000s LEGO Technic minimalist styling. I also placed extra emphasis on video styling, learning how to craft a beautiful edit with Final Cut Pro.',
+      imageUrl: 'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/Final1.jpg/800x450.jpg',
+      videoUrl: 'https://www.youtube.com/embed/AfcC9TIX9NU',
+      forumUrl:
+        'https://www.eurobricks.com/forum/forums/topic/173109-moc-audi-quattro-group-b-rally-car/',
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC06198.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC06216.jpg/1280x852.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/Final2.jpg/1280x720.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC06202.jpg/1280x719.jpg',
+      ],
+      techniques: ['Rally', 'Audi', 'Group B'],
+      buildYear: 2019,
+    },
+    {
+      title: 'Mercedes G-Class',
+      description:
+        'This was my first serious offroader, a model of the stunning Mercedes G-Class, which remains one of my all-time favourite trucks. It features pendular suspension to simplify the drive train and withstand high torque. I was really pleased with the look I achieved on the front grill.',
+      imageUrl:
+        'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-g-class-/Final1.jpg/800x449.jpg',
+      videoUrl: 'https://www.youtube.com/embed/l0Y01Bq4Wus',
+      forumUrl: 'https://www.eurobricks.com/forum/forums/topic/107838-moc-mercedes-g-class-swb',
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-g-class-/DSC01060.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-g-class-/DSC01058.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-g-class-/DSC01053.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-g-class-/DSC01082.JPG/1280x719.JPG',
+      ],
+      techniques: ['Mercedes', 'Pendular Suspension', 'Offroader'],
+      buildYear: 2015,
+    },
+    {
+      title: 'Tatra T815',
+      description:
+        'A small-scale model of the 8x8 Tatra T815, which has been built by most serious Technic builders. At this scale I was able to get away with skid-steering, vastly simplifying the build. I was particularly excited when Zerobricks, a LEGO Technic legend, built his own version inspired by mine, linked below.',
+      imageUrl: 'https://bricksafe.com/files/Teo_LEGO_Technic/tatra-t815/Final1.jpg/800x449.jpg',
+      videoUrl: 'https://www.youtube.com/embed/24NRLyLW_7M',
+      forumUrl:
+        'https://www.eurobricks.com/forum/forums/topic/106387-tatra-t815-8x8-in-lego-technic/',
+      demo: {
+        demoUrl: 'https://www.youtube.com/watch?v=j3He4Ela4pQ&t=29s&ab_channel=Zerobricks',
+        demoName: "Zerobrick's Version",
+      },
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/tatra-t815/DSC01104.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/tatra-t815/DSC01107.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/tatra-t815/DSC01101.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/tatra-t815/DSC01099.JPG/1280x719.JPG',
+      ],
+      techniques: ['Tatra', 'Skid-steering', 'Half-axles'],
+      buildYear: 2015,
+    },
   ];
 
   selectedCreation: LegoCreation | null = null;
