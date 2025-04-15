@@ -1,9 +1,12 @@
 <div class="section-heading">
   <h2 scrollAnimation animationClass="animate-fadeIn">About Me</h2>
   <div class="content">
-    <div class="profile" scrollAnimation animationClass="animate-fadeIn" [delay]="200">
+    <div class="profile" scrollAnimation animationClass="animate-fadeIn" [delay]="0">
       <div class="profile-image">
         <img src="assets/profile-image.jpg" alt="Teodor Ilie" />
+      </div>
+      <div class="subtitle-wrapper">
+        <p class="subtitle">MSc Student at Queen's University | Full-Stack Developer at BMO</p>
       </div>
       <div class="socials-grid">
         <a
@@ -18,11 +21,16 @@
           <i [class]="social.icon"></i>
         </a>
       </div>
+      <div class="cv-wrapper">
+        <a href="assets/Teodor_Ilie_Resume_CV.pdf" target="_blank" class="cv-link">
+          <i class="fas fa-file-pdf"></i>
+          <span>Download CV</span>
+        </a>
+      </div>
     </div>
 
-    <div class="bio" scrollAnimation animationClass="animate-slideUp" [delay]="400">
+    <div class="bio" scrollAnimation animationClass="animate-slideUp" [delay]="0">
       <h3>Hello, I'm <span class="highlight">Teodor Ilie</span></h3>
-      <p class="subtitle">MSc Student at Queen's University | Full-Stack Developer at BMO</p>
       <p>
         Welcome! I'm a Master's Student with the School of Computing at Queen's University in the
         <a href="https://labs.cs.queensu.ca/quarrg/" target="_blank">QUARRG</a>
@@ -30,35 +38,64 @@
         they can fill the gaps in the current Computer Vision technology.
       </p>
       <p>In my free time I enjoy kickboxing, playing guitar, and designing LEGO Technic models.</p>
-      <div class="skills" scrollAnimation animationClass="animate-slideUp" [delay]="600">
-        <h4>Skills and Interests</h4>
-        <div class="skill-tags">
-          <mat-chip-set>
-            <!-- Add animation to each chip with sequential delays (currently disabled with delay set to 0, to display faster, increase to enable) -->
-            <mat-chip
-              *ngFor="
-                let skill of [
-                  'Python',
-                  'Java',
-                  'C++',
-                  'SQL',
-                  'Spring',
-                  'Angular',
-                  'REST API',
-                  'FinTech',
-                  'Computer Vision',
-                  'Machine Learning',
-                ];
-                let i = index
-              "
-              scrollAnimation
-              animationClass="animate-fadeIn"
-              [delay]="0"
-              disableRipple
-            >
-              {{ skill }}
-            </mat-chip>
-          </mat-chip-set>
+
+      <div class="skill-education-container">
+        <div class="skills" scrollAnimation animationClass="animate-slideUp" [delay]="0">
+          <h4>Skills and Interests</h4>
+          <div class="skill-tags">
+            <mat-chip-set>
+              <mat-chip
+                *ngFor="
+                  let skill of [
+                    'Python',
+                    'Java',
+                    'C++',
+                    'SQL',
+                    'Spring',
+                    'Angular',
+                    'REST API',
+                    'FinTech',
+                    'Computer Vision',
+                    'Machine Learning',
+                  ];
+                  let i = index
+                "
+                scrollAnimation
+                animationClass="animate-fadeIn"
+                [delay]="0"
+                disableRipple
+              >
+                {{ skill }}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+        <div class="education" scrollAnimation animationClass="animate-slideUp" [delay]="0">
+          <h4>Education</h4>
+          <div class="education-item">
+            <i class="fas fa-graduation-cap"></i>
+            <div class="education-details">
+              <div class="degree">Masters of Computing</div>
+              <div class="institution">Queen's University, recipient of:</div>
+              <div class="awards">
+                <a href="https://vectorinstitute.ai/programs/scholarship/" target="_blank"
+                  >Vector for AI</a
+                >
+                <a
+                  href="https://www.nserc-crsng.gc.ca/students-etudiants/pg-cs/cgsm-bescm_eng.asp"
+                  target="_blank"
+                  >NSERC CGS</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="education-item">
+            <i class="fas fa-graduation-cap"></i>
+            <div class="education-details">
+              <div class="degree">Bachelor of Computing</div>
+              <div class="institution">Queen's University</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

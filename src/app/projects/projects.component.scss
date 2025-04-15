@@ -38,7 +38,7 @@
     flex-direction: row-reverse;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: $breakpoint-mobile) {
     flex-direction: column;
 
     &.even {
@@ -70,7 +70,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: $breakpoint-mobile) {
     width: 100%;
     margin-bottom: 20px;
   }

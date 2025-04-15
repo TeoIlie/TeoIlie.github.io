@@ -5,15 +5,19 @@ $icon-transition: 0.1s;
 .content {
   display: flex;
   gap: 50px;
-  align-items: center;
+  align-items: flex-start;
 
-  @media (max-width: 768px) {
+  @media (max-width: $breakpoint-mobile) {
     flex-direction: column;
+    align-items: center;
   }
 }
 
 .profile {
   flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .profile-image {
     width: 300px;
@@ -30,6 +34,45 @@ $icon-transition: 0.1s;
   }
 }
 
+.subtitle-wrapper {
+  text-align: center;
+  margin-top: 15px;
+
+  .subtitle {
+    font-size: 16px;
+    color: $subtitle;
+    margin-bottom: 5px;
+  }
+}
+
+.cv-wrapper {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.cv-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background-color: $chips-background;
+  color: $chips-color;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    background-color: $section-underline;
+    color: $white;
+    text-decoration: none;
+  }
+
+  i {
+    font-size: 18px;
+  }
+}
+
 .bio {
   flex: 1;
 
@@ -41,20 +84,87 @@ $icon-transition: 0.1s;
   .highlight {
     color: $section-underline;
   }
+}
 
-  .subtitle {
-    font-size: 18px;
-    color: $subtitle;
-    margin-bottom: 20px;
+.skill-education-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 30px;
+
+  @media (max-width: 1100px) {
+    flex-direction: column;
   }
 }
 
 .skills {
-  margin-top: 30px;
+  flex: 1;
+  min-width: 250px;
 
   h4 {
     font-size: 20px;
     margin-bottom: 15px;
+  }
+}
+
+.education {
+  flex: 1;
+  min-width: 250px;
+
+  h4 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .education-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+
+    i {
+      font-size: 22px;
+      color: $section-underline;
+      margin-right: 15px;
+      margin-top: 3px;
+    }
+
+    .education-details {
+      .degree {
+        font-weight: 500;
+        font-size: 16px;
+        color: $body-color;
+      }
+
+      .institution {
+        font-size: 14px;
+        color: $subtitle;
+        margin-top: 3px;
+      }
+
+      .awards {
+        font-size: 14px;
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+
+        a {
+          background-color: $chips-background;
+          color: $section-underline;
+          padding: 3px 8px;
+          border-radius: 4px;
+          font-weight: 500;
+          text-decoration: none;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background-color: $section-underline;
+            color: $white;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+          }
+        }
+      }
+    }
   }
 }
 
@@ -63,7 +173,7 @@ $icon-transition: 0.1s;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  margin-top: 25px; /* spacing between profile, social icons */
+  margin-top: 15px;
 }
 
 .social-card {
@@ -76,16 +186,15 @@ $icon-transition: 0.1s;
   padding: 0;
   text-decoration: none;
   color: $chips-color;
-  transition: color $icon-transition ease; /* link color transition */
+  transition: color $icon-transition ease;
 
   &:hover {
     color: $section-underline;
     text-decoration: none;
   }
 
-  /* Icon styling with scaling effect */
   i {
-    font-size: 28px; /* Adjust as needed */
+    font-size: 28px;
     margin-right: 6px;
     transition:
       transform $icon-transition ease,
@@ -96,7 +205,6 @@ $icon-transition: 0.1s;
     transform: scale(1.15);
   }
 
-  /* If I add the name back in to socials */
   span {
     font-weight: 500;
     margin: 0;

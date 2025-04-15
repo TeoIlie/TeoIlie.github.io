@@ -77,8 +77,8 @@ nav {
   }
 }
 
-/* ---------- MOBILE STYLES ---------- */
-@media (max-width: 768px) {
+// ================ Mobile styles =================
+@media (max-width: $breakpoint-mobile) {
   .custom-toolbar {
     padding: 0 20px;
 
