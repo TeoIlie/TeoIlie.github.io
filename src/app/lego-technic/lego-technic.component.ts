@@ -187,6 +187,40 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
       techniques: ['Tatra', 'Skid-steering', 'Half-axles'],
       buildYear: 2015,
     },
+    {
+      title: 'Ural 4320 Trial Truck',
+      description:
+        'Inspired by the massive Societ-era Russian trucks, this Ural was meant for offroad ability. Live-axles with motors mounted on-axle and return-to-centre servo steering power it, and long-travel live-axle suspension gives it ability. It was simple but effective, with a great bodywork to finish off.',
+      imageUrl:
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ural-truck/1Thumbnail.jpg/800x449.jpg',
+      videoUrl: 'https://www.youtube.com/embed/n7mZsgIcVk4',
+      forumUrl: 'https://www.eurobricks.com/forum/forums/topic/175008-moc-ural-4320-trial-truck/',
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ural-truck/Image%202019-08-27%20at%2011.16%20AM.jpg/800x851.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ural-truck/DSC06263.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ural-truck/DSC06256.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ural-truck/Final2.jpg/1280x719.jpg',
+      ],
+      techniques: ['Ural', 'Live axles', 'In-axle motor'],
+      buildYear: 2020,
+    },
+    {
+      title: 'Mercedes Uniknick',
+      description:
+        'This fun model was designed to mess around with articulated steering. The advantage of this in LEGO is that there is no need for fragile universal joints if each axle is powered individually. ',
+      imageUrl:
+        'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-uniknick/Final11.jpg/800x450.jpg',
+      videoUrl: 'https://www.youtube.com/embed/tU3wENPv49o',
+      forumUrl: 'https://www.eurobricks.com/forum/forums/topic/175008-moc-ural-4320-trial-truck/',
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-uniknick/DSC06302.JPG/1280x719.JPG',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-uniknick/uniknick.jpeg/800x641.jpeg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-uniknick/Final2.jpg/1280x914.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-uniknick/back.jpg/1280x720.jpg',
+      ],
+      techniques: ['Ural', 'Live axles', 'In-axle motor'],
+      buildYear: 2021,
+    },
   ];
 
   selectedCreation: LegoCreation | null = null;
