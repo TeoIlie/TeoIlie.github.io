@@ -3,14 +3,11 @@
 @use '@angular/material' as mat;
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
-// Global colour palette
-
-//Highlights
-$link: #6a5acd; // Slate blue - professional with a touch of distinction
-$section-underline: #5d4db3; // Slightly darker for proper hierarchy
-$hover-color: #483d8b; // Dark slate blue for hover states
-
-// Other colours
+// ========================= Global colour palette ========================
+// Colors
+$link: #6a5acd;
+$section-underline: #5d4db3;
+$hover-color: #483d8b;
 $body-color: #333;
 $body-background: #f9f9f9;
 $subtitle: #666;
@@ -19,20 +16,48 @@ $chips-color: #333;
 $chips-background: #eeeeee;
 $white: white;
 $form-border: #ddd;
-
-//Footer colours
 $footer-top: #eee;
 $footer-colour: #666;
 
-//Fonts
-$header-font: Montserrat;
-//optionally change this to Poppins
-$body-font: Roboto;
-$button-font: Roboto;
-
+// Fonts
+$header-font: 'Montserrat', sans-serif;
+$body-font: 'Roboto', sans-serif;
+$button-font: 'Roboto', sans-serif;
 $body-font-size: 15px;
 
-// Key frame animation styles
+// Breakpoints
+$breakpoint-mobile: 768px;
+
+// ====================== Global animation =============================
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+//============ Global sectio-description, section-heading style ==================
 .section-description {
   max-width: 800px;
   margin: 30px auto;
@@ -47,7 +72,7 @@ $body-font-size: 15px;
   }
 
   .large-emoji {
-    font-size: 1.2em; /* Increase the size as needed */
+    font-size: 1.2em;
   }
 
   .feature-highlights {
@@ -102,39 +127,31 @@ $body-font-size: 15px;
   }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.6s ease forwards;
-}
+.section-heading {
+  max-width: 1000px;
+  margin: 0 auto;
 
-.animate-slideUp {
-  animation: slideUp 0.6s ease forwards;
-}
+  h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    text-align: center;
+    position: relative;
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background-color: $section-underline;
+    }
   }
 }
 
-// Other global formatting
-
-// chips
-// Global mat-chip styling
-::ng-deep .mat-mdc-chip {
+//============ Global chip style ==================
+.mat-mdc-chip {
   padding: 8px 16px !important;
   border-radius: 30px !important;
   font-size: 14px !important;
@@ -161,10 +178,11 @@ $body-font-size: 15px;
   }
 }
 
-::ng-deep .mat-mdc-chip-set {
+.mat-mdc-chip-set {
   margin: 0 !important;
 }
 
+// ============ Material 3 theme (mostly overwritten) ===========
 html {
   @include mat.theme(
     (
@@ -177,8 +195,9 @@ html {
       density: 0,
     )
   );
-} /* You can add global styles to this file, and also import other style files */
+}
 
+//============ Global base HTML animations ==================
 * {
   margin: 0;
   padding: 0;
@@ -225,29 +244,6 @@ a {
 
 a:hover {
   text-decoration: underline;
-}
-
-.section-heading {
-  max-width: 1000px;
-  margin: 0 auto;
-
-  h2 {
-    font-size: 36px;
-    margin-bottom: 40px;
-    text-align: center;
-    position: relative;
-
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 3px;
-      background-color: $section-underline;
-    }
-  }
 }
 
 body,

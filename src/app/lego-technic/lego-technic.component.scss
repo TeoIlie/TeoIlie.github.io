@@ -16,7 +16,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 30px;
 
-  @media (max-width: 768px) {
+  @media (max-width: $breakpoint-mobile) {
     grid-template-columns: 1fr;
   }
 }
@@ -128,7 +128,7 @@
     display: flex;
     gap: 30px;
 
-    @media (max-width: 768px) {
+    @media (max-width: $breakpoint-mobile) {
       flex-direction: column;
     }
 
@@ -149,7 +149,7 @@
         border: none;
       }
 
-      @media (max-width: 768px) {
+      @media (max-width: $breakpoint-mobile) {
         width: 100%;
         margin-bottom: 20px;
         padding-top: 56.25%;
@@ -379,7 +379,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
 
-    @media (max-width: 768px) {
+    @media (max-width: $breakpoint-mobile) {
       grid-template-columns: repeat(2, 1fr);
     }
 
