@@ -1,13 +1,14 @@
-@use 'src/styles.scss' as *;
+@use '../../styles/variables' as *;
 
+$content-gap: 50px;
 $icon-transition: 0.1s;
 
 .content {
   display: flex;
-  gap: 50px;
+  gap: $content-gap;
   align-items: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: $breakpoint-mobile) {
     flex-direction: column;
   }
 }
@@ -63,7 +64,7 @@ $icon-transition: 0.1s;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  margin-top: 25px; /* spacing between profile, social icons */
+  margin-top: 25px;
 }
 
 .social-card {
@@ -76,29 +77,20 @@ $icon-transition: 0.1s;
   padding: 0;
   text-decoration: none;
   color: $chips-color;
-  transition: color $icon-transition ease; /* link color transition */
+  transition: color $icon-transition ease;
 
   &:hover {
     color: $section-underline;
     text-decoration: none;
+
+    i {
+      transform: scale(1.15);
+    }
   }
 
-  /* Icon styling with scaling effect */
   i {
-    font-size: 28px; /* Adjust as needed */
+    font-size: 28px;
     margin-right: 6px;
-    transition:
-      transform $icon-transition ease,
-      box-shadow $icon-transition ease;
-  }
-
-  &:hover i {
-    transform: scale(1.15);
-  }
-
-  /* If I add the name back in to socials */
-  span {
-    font-weight: 500;
-    margin: 0;
+    transition: transform $icon-transition ease;
   }
 }

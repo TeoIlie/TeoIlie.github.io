@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+@use 'variables' as *;
+
+// Material 3 theme (mostly overwritten)
+html {
+  color-scheme: light dark;
+  @include mat.theme(
+    (
+      color: mat.$violet-palette,
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}

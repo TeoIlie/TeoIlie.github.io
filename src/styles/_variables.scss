@@ -1,0 +1,27 @@
+@use '@angular/material' as mat;
+
+//============ Global colours and fonts ==================
+
+// Colors
+$link: #6a5acd;
+$section-underline: #5d4db3;
+$hover-color: #483d8b;
+$body-color: #333;
+$body-background: #f9f9f9;
+$subtitle: #666;
+$paragraph: #444;
+$chips-color: #333;
+$chips-background: #eeeeee;
+$white: white;
+$form-border: #ddd;
+$footer-top: #eee;
+$footer-colour: #666;
+
+// Fonts
+$header-font: 'Montserrat', sans-serif;
+$body-font: 'Roboto', sans-serif;
+$button-font: 'Roboto', sans-serif;
+$body-font-size: 15px;
+
+// Breakpoints
+$breakpoint-mobile: 768px;

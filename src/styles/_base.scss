@@ -1,0 +1,62 @@
+//============ Global base HTML animations ==================
+@use 'variables' as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: $body-font;
+  font-weight: 300;
+  line-height: 1.6;
+  color: $body-color;
+  background-color: $body-background;
+}
+
+h1,
+h2,
+h3 {
+  font-family: $header-font;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+}
+
+h3 {
+  font-weight: 500;
+}
+
+h4 {
+  font-weight: 300;
+}
+
+h5,
+h6 {
+  font-weight: 400;
+}
+
+p {
+  font-family: $body-font;
+  font-size: $body-font-size;
+  color: $paragraph;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+a {
+  color: $link;
+  text-decoration: none;
+}
+
+a:hover {
+  color: $hover-color;
+  text-decoration: underline;
+}

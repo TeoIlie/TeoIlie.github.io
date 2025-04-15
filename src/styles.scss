@@ -1,38 +1,36 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+@use 'styles/variables' as *;
+@use 'styles/animations';
+@use 'styles/base';
+@use 'styles/theme';
+
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
-// Global colour palette
+//============ Global section heading style with underline ==================
+.section-heading {
+  max-width: 1000px;
+  margin: 0 auto;
 
-//Highlights
-$link: #6a5acd; // Slate blue - professional with a touch of distinction
-$section-underline: #5d4db3; // Slightly darker for proper hierarchy
-$hover-color: #483d8b; // Dark slate blue for hover states
+  h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    text-align: center;
+    position: relative;
 
-// Other colours
-$body-color: #333;
-$body-background: #f9f9f9;
-$subtitle: #666;
-$paragraph: #444;
-$chips-color: #333;
-$chips-background: #eeeeee;
-$white: white;
-$form-border: #ddd;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background-color: $section-underline;
+    }
+  }
+}
 
-//Footer colours
-$footer-top: #eee;
-$footer-colour: #666;
-
-//Fonts
-$header-font: Montserrat;
-//optionally change this to Poppins
-$body-font: Roboto;
-$button-font: Roboto;
-
-$body-font-size: 15px;
-
-// Key frame animation styles
+//============ Global section description style ==================
 .section-description {
   max-width: 800px;
   margin: 30px auto;
@@ -47,7 +45,7 @@ $body-font-size: 15px;
   }
 
   .large-emoji {
-    font-size: 1.2em; /* Increase the size as needed */
+    font-size: 1.2em;
   }
 
   .feature-highlights {
@@ -102,42 +100,11 @@ $body-font-size: 15px;
   }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.6s ease forwards;
-}
+//============ Global chip style  ==================
 
-.animate-slideUp {
-  animation: slideUp 0.6s ease forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Other global formatting
-
-// chips
-// Global mat-chip styling
-::ng-deep .mat-mdc-chip {
+.mat-mdc-chip {
   padding: 8px 16px !important;
   border-radius: 30px !important;
-  font-size: 14px !important;
   background-color: $chips-background !important;
   color: $chips-color !important;
 
@@ -161,111 +128,15 @@ $body-font-size: 15px;
   }
 }
 
-::ng-deep .mat-mdc-chip-set {
+.mat-mdc-chip-set {
   margin: 0 !important;
 }
 
-html {
-  @include mat.theme(
-    (
-      color: (
-        theme-type: light,
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
-      ),
-      typography: Roboto,
-      density: 0,
-    )
-  );
-} /* You can add global styles to this file, and also import other style files */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+//============ Global animations ==================
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease forwards;
 }
 
-body {
-  font-family: $body-font, sans-serif;
-  font-weight: 300;
-  line-height: 1.6;
-  color: $body-color;
-  background-color: $body-background;
-}
-
-h1,
-h2 {
-  font-family: $header-font, sans-serif;
-  font-weight: 600;
-}
-h3 {
-  font-family: $header-font, sans-serif;
-  font-weight: 500;
-}
-h4 {
-  font-weight: 300;
-}
-h5,
-h6 {
-  font-weight: 400;
-}
-
-p {
-  font-family: $body-font, sans-serif;
-  font-size: $body-font-size;
-  color: $paragraph;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-a {
-  color: $link;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.section-heading {
-  max-width: 1000px;
-  margin: 0 auto;
-
-  h2 {
-    font-size: 36px;
-    margin-bottom: 40px;
-    text-align: center;
-    position: relative;
-
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 3px;
-      background-color: $section-underline;
-    }
-  }
-}
-
-body,
-html {
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
-
-input,
-textarea {
-  font-family: 'Roboto', Arial, sans-serif;
+.animate-slideUp {
+  animation: slideUp 0.6s ease forwards;
 }
