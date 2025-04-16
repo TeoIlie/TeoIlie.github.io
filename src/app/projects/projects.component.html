@@ -95,8 +95,17 @@
               target="_blank"
               class="project-link"
             >
-              <i class="fas fa-external-link-alt"></i>
+              <i class="fas fa-video"></i>
               <span>Demo</span>
+            </a>
+            <a
+              *ngIf="project.other"
+              [href]="project.other.otherUrl"
+              target="_blank"
+              class="project-link"
+            >
+              <i class="fas fa-external-link-alt"></i>
+              <span>{{ project.other.otherName }}</span>
             </a>
           </div>
         </div>

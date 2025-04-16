@@ -92,35 +92,43 @@ button {
   align-items: center;
   gap: 15px;
   padding: 4px;
-  transition: transform 0.2s ease;
 
   .copy-text {
     cursor: pointer;
     position: relative;
   }
 
-  &:hover {
-    transform: translateX(5px);
-    color: $section-underline;
-  }
-
   i {
-    // Adjust icon size
     font-size: 22px;
     color: $section-underline;
     width: 30px;
     text-align: center;
+    transition:
+      transform 0.2s ease,
+      color 0.2s ease;
   }
 
   a,
-  span {
+  span:not(.copied-message) {
     color: $body-color;
     text-decoration: none;
-    font-size: 16px; // Change icon text size
+    font-size: 16px;
+    transition:
+      transform 0.2s ease,
+      color 0.2s ease;
+  }
+
+  &:hover {
+    i,
+    a,
+    span:not(.copied-message) {
+      color: $section-underline;
+      transform: translateX(5px);
+    }
   }
 
   .copied-message {
-    font-size: 14px; // Change "copied" message size
+    font-size: 14px;
     color: $section-underline;
     margin-left: 8px;
     opacity: 1;

@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 
+interface Other {
+  otherUrl: string;
+  otherName: string;
+}
+
 interface Project {
   title: string;
   description: string;
@@ -9,6 +14,7 @@ interface Project {
   githubUrl?: string;
   liveUrl?: string;
   paperUrl?: string;
+  other?: Other;
 }
 
 @Component({
@@ -72,6 +78,10 @@ export class ProjectsComponent {
       paperUrl: 'https://icaps22.icaps-conference.org/workshops/KEPS/KEPS-22_paper_7781.pdf',
       liveUrl: 'http://mulab.ai/demo/p4pp',
       isGif: true,
+      other: {
+        otherUrl: 'https://mulab.ai/project/499-22-automated-assessments/',
+        otherName: 'Report',
+      },
     },
     {
       title: 'OpenGL Scene Generation',
