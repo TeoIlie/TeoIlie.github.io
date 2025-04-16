@@ -1,8 +1,8 @@
 import { Component, Renderer2, OnInit, OnDestroy } from '@angular/core';
 
 interface Demo {
-  demoUrl?: string;
-  demoName?: string;
+  demoUrl: string;
+  demoName: string;
 }
 
 interface LegoCreation {

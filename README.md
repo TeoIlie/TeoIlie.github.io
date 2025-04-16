@@ -46,3 +46,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 1. Create a short 4-5 sec video, 1800x1200 aspect ratio in Final Cut Pro
 2. Export > Apple Devices 1080p > H.264 Multi-Pass (Better) -> output is .m4v
 3. Upload to http://ezgif.com, max 800 px width, 20/24 FPS, FFmpeg method, optionally optimize for static background
+
+**Notes on Cloudflare setup**
+
+The Node version on Cloudflare Pages is explicitly set with an environment variable to `NODE_VERSION: 22.0.0` - update this as necessary
