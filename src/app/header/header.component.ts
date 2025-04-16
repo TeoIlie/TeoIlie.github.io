@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -8,6 +8,12 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   isMenuOpen = false;
+
+  @HostListener('window:resize')
+  onResize() {
+    // Close menu whenever window is resized
+    this.isMenuOpen = false;
+  }
 
   scrollToSection(id: string): void {
     const element = document.getElementById(id);
