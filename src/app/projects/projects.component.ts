@@ -8,7 +8,8 @@ interface Other {
 interface Project {
   title: string;
   description: string;
-  imageUrl: string;
+  webmUrl: string;
+  mp4Url: string;
   isGif: boolean;
   technologies: string[];
   githubUrl?: string;
@@ -29,7 +30,8 @@ export class ProjectsComponent {
       title: 'Deep RL for Active SLAM',
       description:
         'Built an Active SLAM system for autonomous navigation using ROS2, Gazebo, SLAM Toolbox, and PIC4RL on a Clearpath Jackal robot.',
-      imageUrl: 'assets/projects/slam.gif',
+      mp4Url: 'assets/videos/slam.mp4',
+      webmUrl: 'assets/videos/webm/slam.webm',
       technologies: [
         'ROS2',
         'Gazebo',
@@ -46,7 +48,8 @@ export class ProjectsComponent {
       title: 'CNN Handwriting Classifier',
       description:
         'Designed and implemented a Convolutional Neural Network model in Python from scratch to classify handwritten digits, using the MNIST dataset.',
-      imageUrl: 'assets/projects/cnn2.gif',
+      mp4Url: 'assets/videos/cnn.mp4',
+      webmUrl: 'assets/videos/webm/cnn.webm',
       technologies: ['Python', 'Convolutional Neural Network'],
       githubUrl: 'https://github.com/TeoIlie/Intro_to_Neural_Networks',
       isGif: true,
@@ -55,7 +58,8 @@ export class ProjectsComponent {
       title: 'AI Pacman Game',
       description:
         'Implemented probabilistic inference algorithms to enable Pacman to hunt invisible ghosts based on noisy distance readings.',
-      imageUrl: 'assets/projects/pacman.gif',
+      mp4Url: 'assets/videos/pacman.mp4',
+      webmUrl: 'assets/videos/webm/pacman.webm',
       technologies: ['Inference', 'Python', 'AI'],
       githubUrl: 'https://github.com/TeoIlie/AI_Pacman_Agent_Game/tree/main',
       isGif: true,
@@ -64,7 +68,8 @@ export class ProjectsComponent {
       title: 'Monocular Visual Odometry in OpenCV',
       description:
         'Implemented SIFT feature detection and brute-force matching to accomplish Monocular Visual Odometry (MVO)',
-      imageUrl: 'assets/projects/mvo2.gif',
+      mp4Url: 'assets/videos/mvo.mp4',
+      webmUrl: 'assets/videos/webm/mvo.webm',
       technologies: ['OpenCV', 'MVO', 'Carla', 'AdverCity'],
       githubUrl: 'https://github.com/TeoIlie/Computer_Vision_MVO_Toy_Problem',
       isGif: true,
@@ -73,7 +78,8 @@ export class ProjectsComponent {
       title: 'Theory alignment via regular bisimulation',
       description:
         'Designed a program using tarski, a PDDL Python library, to automatically detect isomorphism, which was used to automate checking correctness of candidate solutions.',
-      imageUrl: 'assets/projects/pddl.gif',
+      mp4Url: 'assets/videos/pddl.mp4',
+      webmUrl: 'assets/videos/webm/pddl.webm',
       technologies: ['PDDL', 'Python', 'tarski'],
       paperUrl: 'https://icaps22.icaps-conference.org/workshops/KEPS/KEPS-22_paper_7781.pdf',
       liveUrl: 'http://mulab.ai/demo/p4pp',
@@ -87,7 +93,8 @@ export class ProjectsComponent {
       title: 'OpenGL Scene Generation',
       description:
         'Designed a 3D scene with ray tracing, reflection, refraction, and surface rendering in OpenGL using C++',
-      imageUrl: 'assets/projects/boats2.gif',
+      mp4Url: 'assets/videos/boats.mp4',
+      webmUrl: 'assets/videos/webm/boats.webm',
       technologies: ['Computer Graphics', 'Ray Tracing', 'OpenGL'],
       githubUrl: 'https://github.com/TeoIlie/COMP390-Computer-Graphics',
       isGif: true,
