@@ -51,7 +51,20 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img [src]="project.imageUrl" [alt]="project.title" [class.gif]="project.isGif" />
+            <video
+              #vid
+              [autoplay]="true"
+              [loop]="true"
+              [muted]="true"
+              [playsInline]="true"
+              preload="auto"
+              class="project-video"
+              [attr.aria-label]="project.title"
+            >
+              <source [src]="project.webmUrl" type="video/webm" />
+              <source [src]="project.mp4Url" type="video/mp4" />
+              Your browser doesn’t support MP4 or WebM video format
+            </video>
           </a>
         </div>
 
