@@ -50,3 +50,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 **Notes on Cloudflare setup**
 
 The Node version on Cloudflare Pages is explicitly set with an environment variable to `NODE_VERSION: 22.0.0` - update this as necessary
+
+
+**Notes on Fonts, Icons**
+
+1. To add fonts in future, preconnect, then preload, then only use the specific required weights, see `index.html`
+2. In future, if using additional Angular Material icons, add them specifically to `app.module.ts`, then refence similar to `<mat-icon svgIcon="menu"></mat-icon>`
+
