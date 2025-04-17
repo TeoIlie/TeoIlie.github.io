@@ -3,13 +3,16 @@
   <div class="content">
     <div class="profile" scrollAnimation animationClass="animate-fadeIn" [delay]="0">
       <div class="profile-image">
-        <img
-          ngSrc="assets/profile-image.jpg"
-          width="300"
-          height="300"
-          priority
-          alt="Teodor Ilie profile"
-        />
+        <picture>
+          <source [srcset]="'assets/images/webp/profile-image.webp'" type="image/webp" />
+          <img
+            ngSrc="assets/images/profile-image.jpg"
+            width="300"
+            height="300"
+            priority
+            alt="Teodor Ilie profile"
+          />
+        </picture>
       </div>
       <div class="subtitle-wrapper">
         <p class="subtitle">MSc Student at Queen's University | Full-Stack Developer at BMO</p>
