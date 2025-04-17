@@ -15,6 +15,7 @@ import { ScrollAnimationDirective } from './shared/directives/scroll-animation.d
 
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,14 @@ import { DomSanitizer } from '@angular/platform-browser';
     LegoTechnicComponent,
   ],
   bootstrap: [AppComponent],
-  imports: [BrowserModule, FormsModule, MaterialModule, SafePipe, ScrollAnimationDirective],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    MaterialModule,
+    SafePipe,
+    ScrollAnimationDirective,
+    NgOptimizedImage,
+  ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class AppModule {
