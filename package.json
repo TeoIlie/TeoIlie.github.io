@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "format": "prettier --write \"src/**/*.{ts,html,scss,json}\"",
-    "comp" : "node convert-to-webp.js"
+    "comp" : "node convert-to-webp.js",
+    "serve": "ng serve --no-hmr"
   },
   "private": true,
   "dependencies": {
