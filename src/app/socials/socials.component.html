@@ -25,7 +25,15 @@
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
       <!-- Name Field -->
       <div class="form-group">
-        <input type="text" formControlName="name" placeholder="Your Name" required />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          formControlName="name"
+          autocomplete="name"
+          placeholder="Your Name"
+          required
+        />
         <div
           *ngIf="
             contactForm.get('name')?.invalid &&
@@ -39,7 +47,15 @@
 
       <!-- Email Field -->
       <div class="form-group">
-        <input type="email" formControlName="email" placeholder="Your Email" required />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          formControlName="email"
+          autocomplete="email"
+          placeholder="Your Email"
+          required
+        />
         <div
           *ngIf="
             contactForm.get('email')?.invalid &&
@@ -56,7 +72,15 @@
 
       <!-- Message Field -->
       <div class="form-group">
-        <textarea formControlName="message" placeholder="Your Message" rows="5" required></textarea>
+        <textarea
+          id="message"
+          name="message"
+          formControlName="message"
+          autocomplete="off"
+          placeholder="Your Message"
+          rows="5"
+          required
+        ></textarea>
         <div
           *ngIf="
             contactForm.get('message')?.invalid &&
