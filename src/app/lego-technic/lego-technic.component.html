@@ -54,7 +54,17 @@
         *ngFor="let creation of legoCreations"
         (click)="selectCreation(creation)"
       >
-        <img mat-card-image [src]="creation.imageUrl" [alt]="creation.title" />
+        <picture>
+          <source [srcset]="creation.imageUrl" type="image/webp" />
+          <img
+            mat-card-image
+            ngSrc="{{ creation.jpgFallbackUrl }}"
+            [alt]="creation.title"
+            width="712"
+            height="400"
+          />
+        </picture>
+
         <mat-card-content>
           <h3>{{ creation.title }}</h3>
           <p class="build-year" *ngIf="creation.buildYear">{{ creation.buildYear }}</p>
