@@ -1,4 +1,11 @@
-import { Component, Renderer2, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Renderer2,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 
 interface Demo {
   demoUrl: string;
@@ -23,6 +30,7 @@ interface LegoCreation {
   templateUrl: './lego-technic.component.html',
   styleUrls: ['./lego-technic.component.scss'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LegoTechnicComponent implements OnInit, OnDestroy {
   legoCreations: LegoCreation[] = [
@@ -103,7 +111,7 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
       forumUrl: 'https://www.eurobricks.com/forum/forums/topic/137216-moc-man-tgs-dakar-truck',
       demo: {
         demoUrl:
-          'https://thelegocarblog.com/2016/07/10/man-with-a-mission/screen-shot-2016-07-09-at-22-56-12/',
+          'https://thelegocarblog.com/2016/07/10/man-with-a-mission/',
         demoName: 'Showcase',
       },
       additionalImages: [
@@ -113,7 +121,7 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
         'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC03522.jpg/1280x719.jpg',
         'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/Final2.jpg/1280x719.jpg',
       ],
-      techniques: ['Dakar', 'MAN', 'Remote Control', 'Custom parts'],
+      techniques: ['Dakar', 'MAN', 'Leaf spring suspension', 'Custom parts'],
       buildYear: 2021,
     },
     {
@@ -236,7 +244,10 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
   currentImageUrl = '';
   private keydownListener: (() => void) | null = null;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private renderer: Renderer2,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {}
 
@@ -280,6 +291,8 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
     const imagesLength = this.selectedCreation.additionalImages.length;
     this.currentImageIndex = (this.currentImageIndex + direction + imagesLength) % imagesLength;
     this.currentImageUrl = this.selectedCreation.additionalImages[this.currentImageIndex];
+
+    this.cdr.markForCheck();
   }
 
   onOverlayClick(event: MouseEvent): void {
@@ -298,6 +311,7 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
         case 'Escape':
           event.preventDefault();
           this.closeImageModal();
+          this.cdr.markForCheck();
           break;
         case 'ArrowLeft':
           event.preventDefault();
