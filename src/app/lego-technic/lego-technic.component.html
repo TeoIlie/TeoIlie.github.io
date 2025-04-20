@@ -157,40 +157,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Image Modal -->
-    <div
-      class="image-modal-overlay"
-      [class.active]="showImageModal"
-      (click)="onOverlayClick($event)"
-      tabindex="0"
-    >
-      <div class="modal-content">
-        <button class="close-button" (click)="closeImageModal()">×</button>
-        <img
-          [src]="currentImageUrl"
-          [alt]="selectedCreation?.title + ' detail image'"
-          *ngIf="currentImageUrl"
-        />
-
-        <div
-          class="navigation-buttons"
-          *ngIf="
-            selectedCreation &&
-            selectedCreation.additionalImages &&
-            selectedCreation.additionalImages.length > 1
-          "
-        >
-          <button (click)="navigateImage(-1)">
-            <mat-icon svgIcon="chevron_left"></mat-icon>
-          </button>
-          <button (click)="navigateImage(1)">
-            <mat-icon svgIcon="chevron_right"></mat-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-
     <div
       class="inspiration-section"
       scrollAnimation
@@ -278,6 +244,40 @@
             <h5>Sariel</h5>
           </div>
         </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Modal - Move this outside of the lego-container for proper positioning -->
+  <div
+    class="image-modal-overlay"
+    [class.active]="showImageModal"
+    (click)="onOverlayClick($event)"
+    tabindex="0"
+    *ngIf="showImageModal"
+  >
+    <div class="modal-content">
+      <button class="close-button" (click)="closeImageModal()">×</button>
+      <img
+        [src]="currentImageUrl"
+        [alt]="selectedCreation?.title + ' detail image'"
+        *ngIf="currentImageUrl"
+      />
+
+      <div
+        class="navigation-buttons"
+        *ngIf="
+          selectedCreation &&
+          selectedCreation.additionalImages &&
+          selectedCreation.additionalImages.length > 1
+        "
+      >
+        <button (click)="navigateImage(-1)">
+          <mat-icon svgIcon="chevron_left"></mat-icon>
+        </button>
+        <button (click)="navigateImage(1)">
+          <mat-icon svgIcon="chevron_right"></mat-icon>
+        </button>
       </div>
     </div>
   </div>
