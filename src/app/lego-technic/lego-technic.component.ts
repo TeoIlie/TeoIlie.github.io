@@ -263,6 +263,22 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
   selectCreation(creation: LegoCreation): void {
     this.selectedCreation = creation;
     this.cdr.markForCheck();
+
+    // Allow DOM to update before scrolling
+    setTimeout(() => {
+      // Find the detail element
+      const detailElement = document.querySelector('.lego-detail');
+      if (detailElement) {
+        // Calculate scroll position - top of element minus a bit of padding
+        const scrollPosition = detailElement.getBoundingClientRect().top + window.scrollY - 40;
+
+        // Scroll smoothly
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth',
+        });
+      }
+    }, 100);
   }
 
   clearSelection(): void {
