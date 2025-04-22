@@ -11,6 +11,7 @@ import {
   HostListener,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { SharedIntersectionObserverService } from '../services/shared-intersection-observer.service';
 
 @Directive({
   selector: '[scrollAnimation]',
@@ -23,22 +24,26 @@ export class ScrollAnimationDirective implements OnInit, OnDestroy {
   @Input() once: boolean = true; // Whether to trigger animation only once
   @Input() disableOnMobile: boolean = true; // Whether to disable on mobile devices
 
-  private observer: IntersectionObserver | null = null;
   private hasAnimated: boolean = false;
   private timeout: number | null = null;
   private isMobile: boolean = false;
   private readonly mobileBreakpoint: number = 768; // Match with your $breakpoint-mobile
+  private isBrowser: boolean;
+  private isObserving: boolean = false;
 
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
     private ngZone: NgZone,
-    @Inject(PLATFORM_ID) private platformId: object
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: object,
+    private sharedIntersectionObserver: SharedIntersectionObserverService
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit() {
     // Only run on browser, not during SSR
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.isBrowser) {
       this.checkIfMobile();
       this.initializeAnimation();
     }
@@ -50,6 +55,8 @@ export class ScrollAnimationDirective implements OnInit, OnDestroy {
 
   @HostListener('window:resize')
   onResize() {
+    if (!this.isBrowser) return;
+
     // Update mobile status on window resize
     const wasMobile = this.isMobile;
     this.checkIfMobile();
@@ -76,40 +83,45 @@ export class ScrollAnimationDirective implements OnInit, OnDestroy {
     this.renderer.addClass(this.el.nativeElement, 'will-change-opacity');
     this.renderer.setStyle(this.el.nativeElement, 'opacity', '0');
 
-    // Run outside Angular's change detection for better performance
-    this.ngZone.runOutsideAngular(() => {
-      // Handle case where element is already visible on load
-      if (this.isElementInViewport()) {
-        this.animateElement();
-        return;
-      }
+    // Handle case where element is already visible on load
+    if (this.isElementInViewport()) {
+      this.animateElement();
+      return;
+    }
 
-      // Set up the intersection observer
-      const options = {
-        threshold: this.threshold,
-        rootMargin: '0px 0px 50px 0px', // Slightly extends the bottom threshold for earlier loading
-      };
+    // Set up the intersection observer through our shared service
+    const options = {
+      threshold: this.threshold,
+      rootMargin: '0px 0px 50px 0px', // Slightly extends the bottom threshold for earlier loading
+    };
 
-      this.observer = new IntersectionObserver(this.handleIntersection.bind(this), options);
-      this.observer.observe(this.el.nativeElement);
-    });
+    this.isObserving = true;
+    this.sharedIntersectionObserver.observe(
+      this.el.nativeElement,
+      this.handleIntersection.bind(this),
+      options
+    );
   }
 
-  private handleIntersection(entries: IntersectionObserverEntry[]): void {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && !this.hasAnimated) {
-        this.animateElement();
-      } else if (!entry.isIntersecting && !this.once && this.hasAnimated) {
-        // Reset animation if not once-only
-        this.resetAnimation();
+  private handleIntersection(entry: IntersectionObserverEntry): void {
+    if (entry.isIntersecting && !this.hasAnimated) {
+      this.animateElement();
+
+      // If once is true, stop observing
+      if (this.once) {
+        this.unobserveElement();
       }
-    });
+    } else if (!entry.isIntersecting && !this.once && this.hasAnimated) {
+      // Reset animation if not once-only
+      this.resetAnimation();
+    }
   }
 
   private animateElement(): void {
     // Cancel any existing timeout to prevent race conditions
     if (this.timeout !== null) {
       window.clearTimeout(this.timeout);
+      this.timeout = null;
     }
 
     if (this.delay > 0) {
@@ -126,12 +138,6 @@ export class ScrollAnimationDirective implements OnInit, OnDestroy {
     requestAnimationFrame(() => {
       this.renderer.addClass(this.el.nativeElement, this.animationClass);
     });
-
-    // If once is true, stop observing
-    if (this.once && this.observer) {
-      this.observer.disconnect();
-      this.observer = null;
-    }
   }
 
   private resetAnimation(): void {
@@ -148,11 +154,18 @@ export class ScrollAnimationDirective implements OnInit, OnDestroy {
     return rect.top <= windowHeight * (1 - this.threshold) && rect.bottom >= 0;
   }
 
-  private cleanup(): void {
-    if (this.observer) {
-      this.observer.disconnect();
-      this.observer = null;
+  private unobserveElement(): void {
+    if (this.isObserving) {
+      this.sharedIntersectionObserver.unobserve(this.el.nativeElement, {
+        threshold: this.threshold,
+        rootMargin: '0px 0px 50px 0px',
+      });
+      this.isObserving = false;
     }
+  }
+
+  private cleanup(): void {
+    this.unobserveElement();
 
     if (this.timeout !== null) {
       window.clearTimeout(this.timeout);

@@ -16,6 +16,7 @@ import { ScrollAnimationDirective } from './shared/directives/scroll-animation.d
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgOptimizedImage } from '@angular/common';
+import { SharedIntersectionObserverService } from './shared/services/shared-intersection-observer.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { NgOptimizedImage } from '@angular/common';
     ScrollAnimationDirective,
     NgOptimizedImage,
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [provideHttpClient(withInterceptorsFromDi()), SharedIntersectionObserverService],
 })
 export class AppModule {
   constructor(
