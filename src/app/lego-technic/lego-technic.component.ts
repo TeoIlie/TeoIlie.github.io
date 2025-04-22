@@ -6,7 +6,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   NgZone,
-  ViewEncapsulation,
 } from '@angular/core';
 
 interface Demo {
@@ -33,7 +32,6 @@ interface LegoCreation {
   styleUrls: ['./lego-technic.component.scss'],
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class LegoTechnicComponent implements OnInit, OnDestroy {
   legoCreations: LegoCreation[] = [
