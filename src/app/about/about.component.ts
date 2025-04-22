@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 interface SocialLink {
   name: string;
@@ -11,6 +11,7 @@ interface SocialLink {
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutComponent {
   socialLinks: SocialLink[] = [

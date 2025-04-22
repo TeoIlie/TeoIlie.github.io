@@ -1,4 +1,12 @@
-import { Component, Renderer2, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Renderer2,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  NgZone,
+} from '@angular/core';
 
 interface Demo {
   demoUrl: string;
@@ -23,6 +31,7 @@ interface LegoCreation {
   templateUrl: './lego-technic.component.html',
   styleUrls: ['./lego-technic.component.scss'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LegoTechnicComponent implements OnInit, OnDestroy {
   legoCreations: LegoCreation[] = [
@@ -102,8 +111,7 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
       videoUrl: 'https://www.youtube.com/embed/tCBB-U5y0eE',
       forumUrl: 'https://www.eurobricks.com/forum/forums/topic/137216-moc-man-tgs-dakar-truck',
       demo: {
-        demoUrl:
-          'https://thelegocarblog.com/2016/07/10/man-with-a-mission/screen-shot-2016-07-09-at-22-56-12/',
+        demoUrl: 'https://thelegocarblog.com/2016/07/10/man-with-a-mission/',
         demoName: 'Showcase',
       },
       additionalImages: [
@@ -113,7 +121,7 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
         'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC03522.jpg/1280x719.jpg',
         'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/Final2.jpg/1280x719.jpg',
       ],
-      techniques: ['Dakar', 'MAN', 'Remote Control', 'Custom parts'],
+      techniques: ['Dakar', 'MAN', 'Leaf spring suspension', 'Custom parts'],
       buildYear: 2021,
     },
     {
@@ -235,41 +243,80 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
   currentImageIndex = 0;
   currentImageUrl = '';
   private keydownListener: (() => void) | null = null;
+  private originalBodyOverflow: string | null = null;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private renderer: Renderer2,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit() {}
 
   ngOnDestroy() {
     this.removeKeydownListener();
+    this.restoreBodyOverflow();
   }
 
   selectCreation(creation: LegoCreation): void {
     this.selectedCreation = creation;
+    this.cdr.markForCheck();
+
+    // Allow DOM to update before scrolling
+    setTimeout(() => {
+      // Find the detail element
+      const detailElement = document.querySelector('.lego-detail');
+      if (detailElement) {
+        // Calculate scroll position - top of element minus a bit of padding
+        const scrollPosition = detailElement.getBoundingClientRect().top + window.scrollY - 40;
+
+        // Scroll smoothly
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth',
+        });
+      }
+    }, 100);
   }
 
   clearSelection(): void {
     this.selectedCreation = null;
+    this.cdr.markForCheck();
   }
 
   openImageModal(imageUrl: string, index: number): void {
     if (this.selectedCreation && this.selectedCreation.additionalImages) {
-      this.currentImageUrl = imageUrl;
-      this.currentImageIndex = index;
-      this.showImageModal = true;
+      // Run outside Angular zone for performance but reenter for state changes
+      this.ngZone.runOutsideAngular(() => {
+        // Store original body overflow
+        this.originalBodyOverflow = document.body.style.overflow;
 
-      document.body.style.overflow = 'hidden';
+        // Move modal to document body instead of keeping it in component
+        this.ngZone.run(() => {
+          this.currentImageUrl = imageUrl;
+          this.currentImageIndex = index;
+          this.showImageModal = true;
+          this.cdr.markForCheck();
 
-      this.setupKeydownListener();
+          // Set overflow hidden on body with a slight delay to ensure DOM updated
+          setTimeout(() => {
+            this.renderer.setStyle(document.body, 'overflow', 'hidden');
+          }, 0);
+        });
+
+        this.setupKeydownListener();
+      });
     }
   }
 
   closeImageModal(): void {
-    this.showImageModal = false;
+    this.ngZone.run(() => {
+      this.showImageModal = false;
+      this.cdr.markForCheck();
+    });
 
     this.removeKeydownListener();
-
-    document.body.style.overflow = 'auto';
+    this.restoreBodyOverflow();
   }
 
   navigateImage(direction: number): void {
@@ -280,6 +327,8 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
     const imagesLength = this.selectedCreation.additionalImages.length;
     this.currentImageIndex = (this.currentImageIndex + direction + imagesLength) % imagesLength;
     this.currentImageUrl = this.selectedCreation.additionalImages[this.currentImageIndex];
+
+    this.cdr.markForCheck();
   }
 
   onOverlayClick(event: MouseEvent): void {
@@ -294,20 +343,22 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
     this.keydownListener = this.renderer.listen('document', 'keydown', (event: KeyboardEvent) => {
       if (!this.showImageModal) return;
 
-      switch (event.key) {
-        case 'Escape':
-          event.preventDefault();
-          this.closeImageModal();
-          break;
-        case 'ArrowLeft':
-          event.preventDefault();
-          this.navigateImage(-1);
-          break;
-        case 'ArrowRight':
-          event.preventDefault();
-          this.navigateImage(1);
-          break;
-      }
+      this.ngZone.run(() => {
+        switch (event.key) {
+          case 'Escape':
+            event.preventDefault();
+            this.closeImageModal();
+            break;
+          case 'ArrowLeft':
+            event.preventDefault();
+            this.navigateImage(-1);
+            break;
+          case 'ArrowRight':
+            event.preventDefault();
+            this.navigateImage(1);
+            break;
+        }
+      });
     });
   }
 
@@ -315,6 +366,15 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
     if (this.keydownListener) {
       this.keydownListener();
       this.keydownListener = null;
+    }
+  }
+
+  private restoreBodyOverflow(): void {
+    if (this.originalBodyOverflow !== null) {
+      this.renderer.setStyle(document.body, 'overflow', this.originalBodyOverflow);
+      this.originalBodyOverflow = null;
+    } else {
+      this.renderer.setStyle(document.body, 'overflow', 'auto');
     }
   }
 }

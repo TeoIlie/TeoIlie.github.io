@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 interface Other {
   otherUrl: string;
@@ -23,6 +23,7 @@ interface Project {
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectsComponent {
   projects: Project[] = [

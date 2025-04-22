@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   templateUrl: './socials.component.html',
   styleUrls: ['./socials.component.scss'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SocialsComponent implements OnInit {
   contactForm!: FormGroup;
@@ -17,7 +18,8 @@ export class SocialsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +36,9 @@ export class SocialsComponent implements OnInit {
       this.discordCopied = true;
       setTimeout(() => {
         this.discordCopied = false;
+        this.cdr.markForCheck();
       }, 2000);
+      this.cdr.markForCheck();
     });
   }
 
@@ -49,6 +53,7 @@ export class SocialsComponent implements OnInit {
     const headers = new HttpHeaders({ Accept: 'application/json' });
 
     this.isSending = true;
+    this.cdr.markForCheck();
 
     this.http.post(endpoint, this.contactForm.value, { headers }).subscribe({
       next: (response) => {
@@ -57,11 +62,13 @@ export class SocialsComponent implements OnInit {
         this.messageError = false;
         this.isSending = false;
         this.resetForm();
+        this.cdr.markForCheck();
       },
       error: (error) => {
         console.error('Form submission error:', error);
         this.messageError = true;
         this.isSending = false;
+        this.cdr.markForCheck();
       },
     });
   }
@@ -70,6 +77,7 @@ export class SocialsComponent implements OnInit {
     this.contactForm.reset();
     setTimeout(() => {
       this.messageSent = false;
+      this.cdr.markForCheck();
     }, 5000);
   }
 }
