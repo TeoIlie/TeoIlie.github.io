@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ScullyLibModule } from '@scullyio/ng-lib';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { AboutComponent } from './about/about.component';
@@ -18,6 +20,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { NgOptimizedImage } from '@angular/common';
 import { SharedIntersectionObserverService } from './shared/services/shared-intersection-observer.service';
 
+const routes: Routes = [
+  { path: '', component: AppComponent },
+  { path: '**', redirectTo: '' },
+];
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +42,8 @@ import { SharedIntersectionObserverService } from './shared/services/shared-inte
     SafePipe,
     ScrollAnimationDirective,
     NgOptimizedImage,
+    ScullyLibModule,
+    RouterModule.forRoot(routes),
   ],
   providers: [provideHttpClient(withInterceptorsFromDi()), SharedIntersectionObserverService],
 })

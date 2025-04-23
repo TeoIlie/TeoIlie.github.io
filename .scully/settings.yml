@@ -1,0 +1,11 @@
+identifier: m29bt2zab1lf3av0
+appPort: 1864
+staticPort: 1668
+reloadPort: 2667
+hostName: localhost
+projectName: teo-ilie
+homeFolder: /Users/Teo/Documents/3.Other_Pursuits/11.Personal_projects/teo-ilie
+distFolder: docs
+outDir: /Users/Teo/Documents/3.Other_Pursuits/11.Personal_projects/teo-ilie/docs
+handle404: ''
+allowErrorCollect: true

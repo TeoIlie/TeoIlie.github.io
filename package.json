@@ -9,8 +9,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "format": "prettier --write \"src/**/*.{ts,html,scss,json}\"",
-    "comp" : "node convert-to-webp.js",
-    "serve": "ng serve --no-hmr"
+    "comp": "node convert-to-webp.js",
+    "serve": "ng serve --no-hmr",
+    "scully": "npx scully --project teo-ilie"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +24,8 @@
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
+    "@scullyio/init": "^2.1.21",
+    "@scullyio/scully-plugin-puppeteer": "^2.1.41",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
