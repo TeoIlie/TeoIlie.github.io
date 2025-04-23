@@ -62,3 +62,6 @@ The Node version on Cloudflare Pages is explicitly set with an environment varia
 1. Images are automatically converted to `.webp` using the script `npm run comp`. They are served in a `<picture>` tag, with `.jpg` fallback.
 2. Videos are manually converted to `.webm` using **Handbrake**, with custom preset **Web-WebM**. They are served in a `<video>` tag, with `.mp4` fallback also generated in **Handbrake** using **Web-MP4** custom preset.
 
+**Local performance testing**
+
+To test performance locally without deployment, more accurately than using `ng serve` and testing on `localhost:4000`, first build the app with `npm run build`, and then serve it with `npx http-server docs -p 8080`, then test Lighthouse on it there at `http://127.0.0.1:8080`
