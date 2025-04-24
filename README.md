@@ -65,3 +65,14 @@ The Node version on Cloudflare Pages is explicitly set with an environment varia
 **Local performance testing**
 
 To test performance locally without deployment, more accurately than using `ng serve` and testing on `localhost:4000`, first build the app with `npm run build`, and then serve it with `npx http-server docs -p 8080`, then test Lighthouse on it there at `http://127.0.0.1:8080`
+
+**Automatically create a `sitemap.xml`
+
+To create a sitemap, run
+```
+npx sitemap-generator-cli https://teoilie.com --output ./src/sitemap.xml
+```
+
+
+
+
