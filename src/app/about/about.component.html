@@ -2,15 +2,43 @@
   <h2 scrollAnimation animationClass="animate-fadeIn">About Me</h2>
   <div class="content">
     <div class="profile" scrollAnimation animationClass="animate-fadeIn" [delay]="0">
-      <div class="profile-image">
+      <div class="profile-image-container">
         <picture>
-          <source [srcset]="'assets/images/webp/profile-image.webp'" type="image/webp" />
+          <!-- Large webp -->
+          <source
+            media="(min-width: 768px)"
+            srcset="/assets/images/webp/profile-400.webp"
+            type="image/webp"
+          />
+          <!-- Small webp -->
+          <source
+            media="(max-width: 767px)"
+            srcset="/assets/images/webp/profile-300.webp"
+            type="image/webp"
+          />
+
+          <!-- Large jpg fallback -->
+          <source
+            media="(min-width: 768px)"
+            srcset="/assets/images/profile-400.jpg"
+            type="image/jpeg"
+          />
+          <!-- Small jpg fallback -->
+          <source
+            media="(max-width: 767px)"
+            srcset="/assets/images/profile-300.jpg"
+            type="image/jpeg"
+          />
+
+          <!-- Final fallback -->
           <img
-            ngSrc="assets/images/profile-image.jpg"
-            width="300"
-            height="300"
-            priority
-            alt="Teodor Ilie profile"
+            src="/assets/images/profile-400.jpg"
+            alt="Teodor Ilie profile image"
+            width="400"
+            height="400"
+            fetchpriority="high"
+            loading="eager"
+            decoding="sync"
           />
         </picture>
       </div>
@@ -22,6 +50,7 @@
           *ngFor="let social of socialLinks; let i = index"
           [href]="social.url"
           target="_blank"
+          rel="noopener noreferrer"
           class="social-card"
           scrollAnimation
           animationClass="animate-fadeIn"

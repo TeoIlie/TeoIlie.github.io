@@ -15,7 +15,6 @@ import { ScrollAnimationDirective } from './shared/directives/scroll-animation.d
 
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { NgOptimizedImage } from '@angular/common';
 import { SharedIntersectionObserverService } from './shared/services/shared-intersection-observer.service';
 
 @NgModule({
@@ -28,14 +27,7 @@ import { SharedIntersectionObserverService } from './shared/services/shared-inte
     LegoTechnicComponent,
   ],
   bootstrap: [AppComponent],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    MaterialModule,
-    SafePipe,
-    ScrollAnimationDirective,
-    NgOptimizedImage,
-  ],
+  imports: [BrowserModule, FormsModule, MaterialModule, SafePipe, ScrollAnimationDirective],
   providers: [provideHttpClient(withInterceptorsFromDi()), SharedIntersectionObserverService],
 })
 export class AppModule {
