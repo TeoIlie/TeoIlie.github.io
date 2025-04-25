@@ -73,6 +73,11 @@ To create a sitemap, run
 npx sitemap-generator-cli https://teoilie.com --output ./src/sitemap.xml
 ```
 
+**Updating dependencies automatically**
 
+1. `npm install -g npm-check-updates`, if the tool isn't yet installed
+2. `ncu` gather info about the update
+3. `ncu -u` applies the changes
+4. To reinstall from scratch, `rm -rf node_modules package-lock.json` to clear the dependencies, and then `npm install` to re-install
 
 
