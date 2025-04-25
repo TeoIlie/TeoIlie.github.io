@@ -79,11 +79,11 @@
         (click)="selectCreation(creation)"
       >
         <picture>
-          <source [srcset]="creation.imageUrl" type="image/webp" />
+          <source srcset="{{ creation.imageUrl }}" type="image/webp" />
           <img
             mat-card-image
-            ngSrc="{{ creation.jpgFallbackUrl }}"
-            [alt]="creation.title"
+            src="{{ creation.jpgFallbackUrl }}"
+            alt="{{ creation.title }}"
             width="712"
             height="400"
           />
@@ -200,8 +200,13 @@
         <a href="https://www.nico71.fr/" target="_blank" class="inspiration-card">
           <div class="inspiration-image">
             <picture>
-              <source [srcset]="'assets/images/webp/nico71.webp'" type="image/webp" />
-              <img ngSrc="assets/images/nico71.jpg" width="140" height="140" alt="Nico" />
+              <source srcset="assets/images/webp/nico71.webp" type="image/webp" />
+              <img
+                src="assets/images/nico71.jpg"
+                width="140"
+                height="140"
+                alt="Nico, a French Engineer and LEGO Creator"
+              />
             </picture>
           </div>
           <div class="inspiration-info">
@@ -212,8 +217,13 @@
         <a href="https://www.youtube.com/c/zerobricks" target="_blank" class="inspiration-card">
           <div class="inspiration-image">
             <picture>
-              <source [srcset]="'assets/images/webp/zerobricks.webp'" type="image/webp" />
-              <img ngSrc="assets/images/zerobricks.jpg" width="140" height="140" alt="ZeroBricks" />
+              <source srcset="assets/images/webp/zerobricks.webp" type="image/webp" />
+              <img
+                src="assets/images/zerobricks.jpg"
+                width="140"
+                height="140"
+                alt="ZeroBricks, creator of BuWizz"
+              />
             </picture>
           </div>
           <div class="inspiration-info">
@@ -224,8 +234,13 @@
         <a href="https://www.youtube.com/@madoca1977" target="_blank" class="inspiration-card">
           <div class="inspiration-image">
             <picture>
-              <source [srcset]="'assets/images/webp/madoca.webp'" type="image/webp" />
-              <img ngSrc="assets/images/madoca.png" width="140" height="140" alt="Madoca" />
+              <source srcset="assets/images/webp/madoca.webp" type="image/webp" />
+              <img
+                src="assets/images/madoca.png"
+                width="140"
+                height="140"
+                alt="Madoca, LEGO Technic legend"
+              />
             </picture>
           </div>
           <div class="inspiration-info">
@@ -236,8 +251,13 @@
         <a href="https://www.sheepo.es" target="_blank" class="inspiration-card">
           <div class="inspiration-image">
             <picture>
-              <source [srcset]="'assets/images/webp/sheepo.webp'" type="image/webp" />
-              <img ngSrc="assets/images/sheepo.jpg" width="140" height="140" alt="Sheepo" />
+              <source srcset="assets/images/webp/sheepo.webp" type="image/webp" />
+              <img
+                src="assets/images/sheepo.jpg"
+                width="140"
+                height="140"
+                alt="Sheepo, famous for large, complex vehicles"
+              />
             </picture>
           </div>
           <div class="inspiration-info">
@@ -248,8 +268,13 @@
         <a href="https://www.youtube.com/user/3fferman" target="_blank" class="inspiration-card">
           <div class="inspiration-image">
             <picture>
-              <source [srcset]="'assets/images/webp/efferman.webp'" type="image/webp" />
-              <img ngSrc="assets/images/efferman.jpg" width="140" height="140" alt="Efferman" />
+              <source srcset="assets/images/webp/efferman.webp" type="image/webp" />
+              <img
+                src="assets/images/efferman.jpg"
+                width="140"
+                height="140"
+                alt="Efferman, builder of robust designs and custom parts"
+              />
             </picture>
           </div>
           <div class="inspiration-info">
@@ -260,8 +285,13 @@
         <a href="https://sariel.pl" target="_blank" class="inspiration-card">
           <div class="inspiration-image">
             <picture>
-              <source [srcset]="'assets/images/webp/sariel.webp'" type="image/webp" />
-              <img ngSrc="assets/images/sariel.png" width="140" height="140" alt="Sariel" />
+              <source srcset="assets/images/webp/sariel.webp" type="image/webp" />
+              <img
+                src="assets/images/sariel.png"
+                width="140"
+                height="140"
+                alt="Sariel, prolific builder with published books and an active social media presence"
+              />
             </picture>
           </div>
           <div class="inspiration-info">

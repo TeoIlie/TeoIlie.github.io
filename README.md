@@ -61,6 +61,8 @@ The Node version on Cloudflare Pages is explicitly set with an environment varia
 
 1. Images are automatically converted to `.webp` using the script `npm run comp`. They are served in a `<picture>` tag, with `.jpg` fallback.
 2. Videos are manually converted to `.webm` using **Handbrake**, with custom preset **Web-WebM**. They are served in a `<video>` tag, with `.mp4` fallback also generated in **Handbrake** using **Web-MP4** custom preset.
+3. Ideal image resolution for the web is 72 px/inch, but can be resized slightly compared the bounding box to look better
+4. Excellent guide for serving responsive images - https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images
 
 **Local performance testing**
 
@@ -73,6 +75,11 @@ To create a sitemap, run
 npx sitemap-generator-cli https://teoilie.com --output ./src/sitemap.xml
 ```
 
+**Updating dependencies automatically**
 
+1. `npm install -g npm-check-updates`, if the tool isn't yet installed
+2. `ncu` gather info about the update
+3. `ncu -u` applies the changes
+4. To reinstall from scratch, `rm -rf node_modules package-lock.json` to clear the dependencies, and then `npm install` to re-install
 
 

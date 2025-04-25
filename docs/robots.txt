@@ -1,7 +1,4 @@
 User-agent: *
 Allow: /
 
-# Disallow indexing of assets
-Disallow: /assets/
-
 Sitemap: https://teoilie.com/sitemap.xml
