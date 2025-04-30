@@ -43,7 +43,6 @@
     <!-- Early connections to domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
 
     <!-- Preload webp profile image on mobile (jpg fallback will load normally, but only on old browsers)-->
     <link
@@ -55,30 +54,42 @@
       fetchpriority="high"
     />
 
-    <!-- Preload critical fonts -->
+    <!-- Preload critical fonts from assets -->
     <link
       rel="preload"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2"
+      href="assets/fontawesome/webfonts/fa-solid-900.woff2"
       as="font"
       type="font/woff2"
-      crossorigin
     />
     <link
       rel="preload"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2"
+      href="assets/fontawesome/webfonts/fa-brands-400.woff2"
       as="font"
       type="font/woff2"
-      crossorigin
     />
 
     <!-- Stylesheets (loaded after preloads) -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap"
       rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap"
+      media="print"
+      onload="this.media='all'"
     />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      href="assets/fontawesome/css/fontawesome.min.css"
+      media="print"
+      onload="this.media='all'"
+    />
+    <link
+      rel="stylesheet"
+      href="assets/fontawesome/css/solid.min.css"
+      media="print"
+      onload="this.media='all'"
+    />
+    <link
+      rel="stylesheet"
+      href="assets/fontawesome/css/brands.min.css"
       media="print"
       onload="this.media='all'"
     />
