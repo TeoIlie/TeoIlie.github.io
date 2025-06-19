@@ -2,38 +2,35 @@
 
 ## Building and deploying
 
-**Angular 19 Deployment Workaround**
-
-Angular 19 insists on building the project to a `broswer` folder, for SSR. My current solution is a workaround script in `package.json`. To build the project to the `docs` folder, run the script using
-
-```
-npm run build
-```
-
-Then `git push` and `github-pages` will deploy correctly. More info here: https://stackoverflow.com/questions/78544888/angular-18-ng-build-without-browser-folder
-
----
-
 **Build**
 
-First run this command for full lint/formatting
+1. First run this command for full code lint/formatting
 
 ```
 npm run format
 ```
 
-This command will build the application to the `docs` folder:
+2. Then run this command if any new images need to be compressed to `.webp` format:
 
 ```
-ng build --configuration production
+npm run comp
 ```
+
+3. Finally, this command will build the application to the `docs` folder:
+
+```
+npm run build
+```
+
+All these custom `npm` scripts can be found in `package.json` under `"scripts"`.
 
 **Deploy**
 
-By doing `git push`, GitHub Pages will automatically deploy the application. Deployments can be seen here:
-https://github.com/TeoIlie/TeoIlie.github.io/deployments/github-pages
+By doing `git push`, Cloudflare Pages will automatically deploy the application. Deployments can be seen here:
+https://dash.cloudflare.com
 
-**Resources**
+
+## Resources
 
 The website is currently available at https://teoilie.github.io
 
@@ -41,7 +38,19 @@ Resource: https://medium.com/swlh/how-to-deploy-an-angular-app-to-github-pages-w
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1, and currently runs version 19.2.5. GenAI tools were used sparingly for development (because let's face it right, they're epic 🚀)
 
-**Notes**
+
+## Notes
+
+**Angular 19 Deployment Workaround**
+
+Angular 19 insists on building the project to a `browser` folder, for SSR. My current solution is a workaround script in `package.json`. To build the project to the `docs` folder, run the script using
+
+```
+npm run build
+```
+
+Then `git push` and Cloudflare Pages will deploy correctly. More info here: https://stackoverflow.com/questions/78544888/angular-18-ng-build-without-browser-folder
+
 **Gif generation**
 
 1. Create a short 4-5 sec video, 1800x1200 aspect ratio in Final Cut Pro
