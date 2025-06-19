@@ -71,6 +71,8 @@ The Node version on Cloudflare Pages is explicitly set with an environment varia
 1. Images are automatically converted to `.webp` using the script `npm run comp`. They are served in a `<picture>` tag, with `.jpg` fallback.
 2. Videos are manually converted to `.webm` using **Handbrake**, with custom preset **Web-WebM**. They are served in a `<video>` tag, with `.mp4` fallback also generated in **Handbrake** using **Web-MP4** custom preset.
 3. Ideal image resolution for the web is 72 px/inch, but can be resized slightly compared the bounding box to look better
+  * To resize images, open them with **Preview**, and go to **Tools > Adjust Size... >** and set width, height, and resolution to match the requirements
+  * For example, for Technic card photos, set dimension to 712 x 400, and resolution to 762 pixels/inch, then copy them to `src/assets/images`
 4. Excellent guide for serving responsive images - https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images
 
 **Local performance testing**

@@ -117,6 +117,7 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
         'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00949.jpg/1280x719.jpg',
         'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00951.jpg/1280x719.jpg',
         'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00952.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00971-Enhanced-NR-1.JPG/1280x719.JPG',
       ],
       techniques: ['RAM', 'Pickup truck', 'BuWizz', 'Buggy Motors'],
       buildYear: 2025,
