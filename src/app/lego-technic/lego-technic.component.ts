@@ -81,28 +81,6 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
       buildYear: 2023,
     },
     {
-      title: 'Baja Truck',
-      description:
-        'A model of a Baja racing truck, featuring long travel lixe axle rear suspension, independent front suspension, positive caster on the front, and servo steering. This project was sponsored by BuWizz, a 3rd party controller manufacturer compatible with LEGO. The goal was a minimalist lightweight design to keep it fast and nimble 🛻',
-      imageUrl: 'assets/images/webp/baja.webp',
-      jpgFallbackUrl: 'assets/images/baja.jpg',
-      videoUrl: 'https://www.youtube.com/embed/ECJ1eubnlMo',
-      demo: {
-        demoName: 'Sponsor',
-        demoUrl: 'https://buwizz.com/',
-      },
-      forumUrl: 'https://www.eurobricks.com/forum/forums/topic/188560-moc-buwizz-baja-truck/',
-      additionalImages: [
-        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06336.jpg/1280x720.jpg',
-        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06329.jpg/1280x720.jpg',
-        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06325.jpg/1280x719.jpg',
-        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06337.jpg/1280x719.jpg',
-        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06310.jpg/1280x720.jpg',
-      ],
-      techniques: ['BuWizz', 'Baja truck', 'Live-axle Suspension', 'Caster-angled steering'],
-      buildYear: 2021,
-    },
-    {
       title: 'MAN TGS Dakar Truck',
       description:
         'This was one of my most complex models early on - a fully RC model of the MAN TGS Dakar rally truck, with working live axle suspension, 4x4 transmission, servo steering, working doors, and a lot of detail. It was featured in the LEGO Car Blog, linked below.',
@@ -122,6 +100,47 @@ export class LegoTechnicComponent implements OnInit, OnDestroy {
         'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/Final2.jpg/1280x719.jpg',
       ],
       techniques: ['Dakar', 'MAN', 'Leaf spring suspension', 'Custom parts'],
+      buildYear: 2021,
+    },
+    {
+      title: 'RAM Pickup Truck',
+      description:
+        'A RAM 1500 pickup truck, featuring 4x4 drive with 2 x buggy motors and BuWizz, IFS and live rear axle, two speed gearbox, and planetary hubs.',
+      imageUrl: 'assets/images/webp/ram.webp',
+      jpgFallbackUrl: 'assets/images/ram.png',
+      videoUrl: 'https://www.youtube.com/embed/larGRLjImKY',
+      forumUrl:
+        'https://www.eurobricks.com/forum/forums/topic/206569-moc-ram-1500-pickup-truck-buwizz-buggy-motors-🛻/',
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00959.png/1280x719.png',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00960.png/1280x719.png',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00949.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00951.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00952.jpg/1280x719.jpg',
+      ],
+      techniques: ['RAM', 'Pickup truck', 'BuWizz', 'Buggy Motors'],
+      buildYear: 2025,
+    },
+    {
+      title: 'Baja Truck',
+      description:
+        'A model of a Baja racing truck, featuring long travel lixe axle rear suspension, independent front suspension, positive caster on the front, and servo steering. This project was sponsored by BuWizz, a 3rd party controller manufacturer compatible with LEGO. The goal was a minimalist lightweight design to keep it fast and nimble 🛻',
+      imageUrl: 'assets/images/webp/baja.webp',
+      jpgFallbackUrl: 'assets/images/baja.jpg',
+      videoUrl: 'https://www.youtube.com/embed/ECJ1eubnlMo',
+      demo: {
+        demoName: 'Sponsor',
+        demoUrl: 'https://buwizz.com/',
+      },
+      forumUrl: 'https://www.eurobricks.com/forum/forums/topic/188560-moc-buwizz-baja-truck/',
+      additionalImages: [
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06336.jpg/1280x720.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06329.jpg/1280x720.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06325.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06337.jpg/1280x719.jpg',
+        'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06310.jpg/1280x720.jpg',
+      ],
+      techniques: ['BuWizz', 'Baja truck', 'Live-axle Suspension', 'Caster-angled steering'],
       buildYear: 2021,
     },
     {
