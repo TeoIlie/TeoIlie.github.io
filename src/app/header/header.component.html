@@ -1,13 +1,33 @@
 <mat-toolbar color="primary" class="custom-toolbar">
   <div class="logo">
     <img
-      src="assets/images/logo.svg"
+      [src]="currentTheme === THEMES.DARK ? 'assets/images/logo_dark.svg' : 'assets/images/logo.svg'"
       width="27.55"
       height="25"
       alt="Teo Ilie Logo"
       class="logo-image"
     />
     <a href="#">Teodor Ilie</a>
+  </div>
+
+  <!-- Theme Toggle -->
+  <div
+    class="theme-toggle-container"
+    (click)="toggleTheme()"
+    [attr.aria-label]="currentTheme === THEMES.LIGHT ? 'Switch to dark mode' : 'Switch to light mode'"
+    role="switch"
+    [attr.aria-checked]="currentTheme === THEMES.DARK"
+    tabindex="0"
+    (keydown.enter)="toggleTheme()"
+    (keydown.space)="toggleTheme()"
+  >
+    <div class="toggle-track" [class.dark]="currentTheme === THEMES.DARK">
+      <div class="toggle-icons">
+        <mat-icon class="sun-icon" svgIcon="light_mode"></mat-icon>
+        <mat-icon class="moon-icon" svgIcon="dark_mode"></mat-icon>
+      </div>
+      <div class="toggle-thumb" [class.dark]="currentTheme === THEMES.DARK"></div>
+    </div>
   </div>
 
   <!-- Hamburger Icon -->
