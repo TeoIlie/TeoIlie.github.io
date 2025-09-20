@@ -2,30 +2,94 @@
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 
+// Import essential variables
+@use 'styles/variables' as *;
+
 // ========================= Global colour palette ========================
-// Colors
-$link: #6a5acd;
-$section-underline: #5d4db3;
-$hover-color: #483d8b;
-$body-color: #333;
-$body-background: #f9f9f9;
-$subtitle: #666;
-$paragraph: #444;
-$chips-color: #333;
-$chips-background: #eeeeee;
-$white: white;
-$form-border: #ddd;
-$footer-top: #eee;
-$footer-colour: #666;
+// Theme-specific color definitions
+:root {
+  // Light theme colors
+  --link: #6a5acd;
+  --section-underline: #5d4db3;
+  --hover-color: #483d8b;
+  --body-color: #333;
+  --body-background: #f9f9f9;
+  --subtitle: #666;
+  --paragraph: #444;
+  --chips-color: #333;
+  --chips-background: #eeeeee;
+  --white: white;
+  --form-border: #ddd;
+  --footer-top: #eee;
+  --footer-colour: #666;
+}
 
-// Fonts
-$header-font: 'Montserrat', sans-serif;
-$body-font: 'Roboto', sans-serif;
-$button-font: 'Roboto', sans-serif;
-$body-font-size: 15px;
+.light-theme {
+  --link: #6a5acd;
+  --section-underline: #5d4db3;
+  --hover-color: #483d8b;
+  --body-color: #333;
+  --body-background: #f9f9f9;
+  --subtitle: #666;
+  --paragraph: #444;
+  --chips-color: #333;
+  --chips-background: #eeeeee;
+  --white: white;
+  --form-border: #ddd;
+  --footer-top: #eee;
+  --footer-colour: #666;
+}
 
-// Breakpoints
-$breakpoint-mobile: 768px;
+.dark-theme {
+  --link: #bf5af2;                    /* Vibrant purple - better contrast */
+  --section-underline: #a855f7;       /* Slightly deeper purple */
+  --hover-color: #d946ef;             /* Brighter hover state */
+  --body-color: #f2f2f7;              /* Primary text - brighter, more readable */
+  --body-background: #0a0a0a;         /* True deep black base */
+  --subtitle: #8e8e93;                /* Secondary text - more contrast */
+  --paragraph: #d1d1d6;               /* Body text - clear step down */
+  --chips-color: #f2f2f7;             /* Consistent with primary text */
+  --chips-background: #2c2c2e;        /* Chip backgrounds - clear separation */
+  --white: #1c1c1e;                   /* Card backgrounds - warmer, more distinct */
+  --form-border: #48484a;             /* More visible borders */
+  --footer-top: #1c1c1e;              /* Consistent with cards */
+  --footer-colour: #8e8e93;           /* Consistent secondary text */
+}
+
+// ====================== Accessibility & Motion =============================
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .will-change-opacity,
+  .animate-fadeIn,
+  .animate-slideUp,
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --link: #0066cc;
+    --section-underline: #0066cc;
+    --hover-color: #004499;
+    --body-color: #000;
+    --subtitle: #333;
+    --paragraph: #000;
+  }
+
+  .dark-theme {
+    --link: #66b3ff;
+    --section-underline: #66b3ff;
+    --hover-color: #99ccff;
+    --body-color: #fff;
+    --subtitle: #ccc;
+    --paragraph: #fff;
+  }
+}
 
 // ====================== Global animation =============================
 .will-change-opacity {
@@ -59,6 +123,39 @@ $breakpoint-mobile: 768px;
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+// ====================== Global Focus Indicators =============================
+/* Enhanced focus indicators for accessibility */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--section-underline);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Remove default outline for better custom styling */
+button:focus,
+input:focus,
+textarea:focus,
+a:focus,
+[role="button"]:focus {
+  outline: none;
+}
+
+/* Ensure focus is visible in high contrast mode */
+@media (prefers-contrast: high) {
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
   }
 }
 
@@ -148,8 +245,8 @@ $breakpoint-mobile: 768px;
   padding: 8px 16px !important;
   border-radius: 30px !important;
   font-size: 14px !important;
-  background-color: $chips-background !important;
-  color: $chips-color !important;
+  background-color: var(--chips-background) !important;
+  color: var(--chips-color) !important;
 
   // Remove double borders
   border: none !important;
@@ -169,6 +266,11 @@ $breakpoint-mobile: 768px;
       margin: 0 !important;
     }
   }
+
+  // Ensure text color updates properly in dark mode
+  .mdc-evolution-chip__text-label {
+    color: var(--chips-color) !important;
+  }
 }
 
 .mat-mdc-chip-set {
@@ -181,6 +283,20 @@ html {
     (
       color: (
         theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+.dark-theme {
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),

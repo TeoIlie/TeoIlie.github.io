@@ -1,0 +1,26 @@
+// Essential variables only - for component imports
+// This file should contain ONLY what components need
+
+// Fonts
+$header-font: 'Montserrat', sans-serif;
+$body-font: 'Roboto', sans-serif;
+$button-font: 'Roboto', sans-serif;
+$body-font-size: 15px;
+
+// Breakpoints
+$breakpoint-mobile: 768px;
+
+// CSS Custom Properties (theme-aware)
+$link: var(--link);
+$section-underline: var(--section-underline);
+$hover-color: var(--hover-color);
+$body-color: var(--body-color);
+$body-background: var(--body-background);
+$subtitle: var(--subtitle);
+$paragraph: var(--paragraph);
+$chips-color: var(--chips-color);
+$chips-background: var(--chips-background);
+$white: var(--white);
+$form-border: var(--form-border);
+$footer-top: var(--footer-top);
+$footer-colour: var(--footer-colour);

@@ -1,4 +1,4 @@
-@use 'src/styles.scss' as *;
+@use '../../styles/variables' as *;
 
 .custom-toolbar {
   position: fixed;
@@ -19,6 +19,118 @@
 
   &.scrolled {
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+  }
+
+  // Theme slide toggle
+  .theme-toggle-container {
+    margin-left: auto;
+    margin-right: 10px;
+    cursor: pointer;
+    outline: none;
+
+    @media (max-width: $breakpoint-mobile) {
+      margin-right: 5px;
+    }
+
+    &:focus-visible {
+      .toggle-track {
+        outline: 2px solid var(--section-underline);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  .toggle-track {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background: var(--chips-background);
+    border-radius: 15px;
+    transition: background-color 0.2s ease;
+    contain: layout style;
+
+    &.dark {
+      background: var(--section-underline);
+    }
+  }
+
+  .toggle-icons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+
+    .sun-icon,
+    .moon-icon {
+      position: absolute;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      will-change: opacity, transform;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sun-icon {
+      color: var(--hover-color);
+      left: 6px;
+    }
+
+    .moon-icon {
+      color: var(--white);
+      right: 6px;
+    }
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background: var(--white);
+    border-radius: 50%;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    will-change: transform, background-color;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+    &.dark {
+      transform: translate3d(30px, 0, 0);
+      background: var(--body-color);
+    }
+  }
+
+  // Enhance icon visibility and positioning based on toggle state
+  .toggle-track:not(.dark) {
+    .sun-icon {
+      opacity: 1;
+      color: var(--hover-color);
+      transform: translate3d(0, 0, 0) scale(1.05);
+    }
+    .moon-icon {
+      opacity: 0.2;
+      transform: translate3d(0, 0, 0) scale(0.95);
+    }
+  }
+
+  .toggle-track.dark {
+    .sun-icon {
+      opacity: 0.2;
+      transform: translate3d(0, 0, 0) scale(0.95);
+    }
+    .moon-icon {
+      opacity: 1;
+      color: var(--white);
+      transform: translate3d(0, 0, 0) scale(1.05);
+    }
   }
 
   // The hamburger icon is hidden by default on desktop screens
@@ -82,10 +194,15 @@ nav {
   .custom-toolbar {
     padding: 0 20px;
 
+    .theme-toggle-container {
+      margin-left: auto;
+      margin-right: 5px;
+    }
+
     .menu-toggle {
       /* Show the hamburger icon on mobile */
       display: block;
-      margin-left: auto;
+      margin-left: 0;
     }
   }
 

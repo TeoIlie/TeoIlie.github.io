@@ -1,10 +1,10 @@
-@use 'src/styles.scss' as *;
+@use '../../styles/variables' as *;
 
 .contact-form {
   max-width: 600px;
   margin: 0 auto;
   padding: 30px;
-  background-color: white;
+  background-color: var(--white);
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 
@@ -12,6 +12,7 @@
     font-size: 24px;
     margin-bottom: 20px;
     text-align: center;
+    color: var(--body-color);
   }
 }
 
@@ -22,14 +23,21 @@
   textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid;
+    border: 1px solid var(--form-border);
     border-radius: 4px;
     font-size: 16px;
+    background-color: var(--white);
+    color: var(--body-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &::placeholder {
+      color: var(--subtitle);
+    }
 
     &:focus {
       outline: none;
-      border-color: $section-underline;
-      box-shadow: 0 0 3px $section-underline;
+      border-color: var(--section-underline);
+      box-shadow: 0 0 3px var(--section-underline);
     }
   }
 }
@@ -38,7 +46,7 @@ button {
   display: block;
   width: 100%;
   padding: 12px;
-  background-color: $section-underline;
+  background-color: var(--section-underline);
   color: white;
   border: none;
   border-radius: 4px;
@@ -48,7 +56,17 @@ button {
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: $hover-color;
+    background-color: var(--hover-color);
+  }
+
+  &:disabled {
+    background-color: var(--section-underline);
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: var(--section-underline);
+    }
   }
 }
 
@@ -62,20 +80,34 @@ button {
   font-weight: bold;
 }
 
+.dark-theme .success-message {
+  background-color: #1a4a1a;
+  color: #90ee90;
+}
+
 .error-message {
   margin-top: 20px;
   padding: 15px;
   background-color: #da3232af;
-  color: $body-color;
+  color: var(--body-color);
   border-radius: 8px;
   text-align: center;
   font-weight: bold;
 }
 
+.dark-theme .error-message {
+  background-color: #4a1a1a;
+  color: #ff9999;
+}
+
 .validation-error {
-  color: red;
+  color: #dc3545;
   font-size: 14px;
   margin-top: 5px;
+}
+
+.dark-theme .validation-error {
+  color: #ff6b6b;
 }
 
 // contact info section
@@ -100,7 +132,7 @@ button {
 
   i {
     font-size: 22px;
-    color: $section-underline;
+    color: var(--section-underline);
     width: 30px;
     text-align: center;
     transition:
@@ -110,7 +142,7 @@ button {
 
   a,
   span:not(.copied-message) {
-    color: $body-color;
+    color: var(--body-color);
     text-decoration: none;
     font-size: 16px;
     transition:
@@ -122,14 +154,14 @@ button {
     i,
     a,
     span:not(.copied-message) {
-      color: $section-underline;
+      color: var(--section-underline);
       transform: translateX(5px);
     }
   }
 
   .copied-message {
     font-size: 14px;
-    color: $section-underline;
+    color: var(--section-underline);
     margin-left: 8px;
     opacity: 1;
     transition: opacity 1s ease;
