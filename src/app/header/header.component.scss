@@ -1,4 +1,4 @@
-@use 'src/styles.scss' as *;
+@use '../../styles/variables' as *;
 
 .custom-toolbar {
   position: fixed;
@@ -19,6 +19,23 @@
 
   &.scrolled {
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+  }
+
+  // Theme toggle button
+  .theme-toggle {
+    margin-left: auto;
+    margin-right: 10px;
+    color: $body-color;
+    transition: color 0.6s ease, transform 0.6s ease;
+
+    &:hover {
+      color: $hover-color;
+      transform: rotate(15deg);
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      margin-right: 5px;
+    }
   }
 
   // The hamburger icon is hidden by default on desktop screens
@@ -82,10 +99,15 @@ nav {
   .custom-toolbar {
     padding: 0 20px;
 
+    .theme-toggle {
+      margin-left: auto;
+      margin-right: 5px;
+    }
+
     .menu-toggle {
       /* Show the hamburger icon on mobile */
       display: block;
-      margin-left: auto;
+      margin-left: 0;
     }
   }
 
