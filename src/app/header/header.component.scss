@@ -133,15 +133,6 @@
     }
   }
 
-  // Hover effect (optimized to avoid layout shifts)
-  .theme-toggle-container:hover .toggle-track {
-    background-color: var(--chips-background);
-  }
-
-  .theme-toggle-container:hover .toggle-track.dark {
-    background-color: var(--hover-color);
-  }
-
   // The hamburger icon is hidden by default on desktop screens
   .menu-toggle {
     display: none;
