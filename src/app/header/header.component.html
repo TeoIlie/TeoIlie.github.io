@@ -30,9 +30,14 @@
     </div>
   </div>
 
-  <!-- Hamburger Icon -->
-  <button mat-icon-button class="menu-toggle" (click)="toggleMenu()" aria-label="Open Menu">
-    <mat-icon svgIcon="menu"></mat-icon>
+  <!-- Hamburger/Close Icon -->
+  <button mat-icon-button class="menu-toggle" (click)="toggleMenu()" [attr.aria-label]="isMenuOpen ? 'Close Menu' : 'Open Menu'">
+    <div class="hamburger-icon" [class.open]="isMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </button>
 
   <!-- Navigation Links -->
