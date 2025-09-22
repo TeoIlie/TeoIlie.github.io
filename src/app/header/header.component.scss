@@ -307,13 +307,16 @@ nav {
     transform: scaleY(0);
     transform-origin: top;
     opacity: 0;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
     pointer-events: none;
 
     &.open {
       transform: scaleY(1);
       opacity: 1;
       pointer-events: auto;
+    }
+
+    &.transitioning {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
     }
 
     ul {

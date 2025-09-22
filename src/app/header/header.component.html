@@ -41,7 +41,7 @@
   </button>
 
   <!-- Navigation Links -->
-  <nav [class.open]="isMenuOpen">
+  <nav [class.open]="isMenuOpen" [class.transitioning]="isTransitioning">
     <ul>
       <li>
         <button mat-button (click)="scrollToSection('about'); toggleMenu()">

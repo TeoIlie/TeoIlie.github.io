@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ThemeService, Theme, THEMES } from '../shared/services/theme.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, timer } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -12,10 +12,12 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnDestroy {
   isMenuOpen = false;
+  isTransitioning = false;
   theme$: Observable<Theme>;
   currentTheme: Theme = THEMES.LIGHT;
 
   private readonly destroy$ = new Subject<void>();
+  private readonly TRANSITION_DURATION_MS = 350; // Slightly longer than CSS 300ms
   readonly THEMES = THEMES;
 
   constructor(
@@ -47,7 +49,16 @@ export class HeaderComponent implements OnDestroy {
   }
 
   toggleMenu(): void {
+    this.isTransitioning = true;
     this.isMenuOpen = !this.isMenuOpen;
+
+    // Remove transition class after animation completes
+    timer(this.TRANSITION_DURATION_MS)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.isTransitioning = false;
+        this.cdr.markForCheck();
+      });
   }
 
   toggleTheme(): void {
