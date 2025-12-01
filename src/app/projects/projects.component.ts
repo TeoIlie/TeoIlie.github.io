@@ -28,6 +28,16 @@ interface Project {
 export class ProjectsComponent {
   projects: Project[] = [
     {
+      title: 'Autonomous Racing & Drifting Gym Simulator',
+      description:
+        'Designed a Gymnasium environment for training Deep Reinforcement Learning policies to race and drift on 1/10 scale or full-size vehicles.',
+      mp4Url: 'assets/videos/drift.mp4',
+      webmUrl: 'assets/videos/webm/drift.webm',
+      technologies: ['Deep RL', 'Gym', 'SB3', 'Wandb', 'Vehicle dynamics'],
+      githubUrl: 'https://github.com/TeoIlie/F1TENTH_Gym/',
+      isGif: true,
+    },
+    {
       title: 'Deep RL for Active SLAM',
       description:
         'Built an Active SLAM system for autonomous navigation using ROS2, Gazebo, SLAM Toolbox, and PIC4RL on a Clearpath Jackal robot.',

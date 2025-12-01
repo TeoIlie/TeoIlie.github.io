@@ -41,19 +41,19 @@
 }
 
 .dark-theme {
-  --link: #bf5af2;                    /* Vibrant purple - better contrast */
-  --section-underline: #a855f7;       /* Slightly deeper purple */
-  --hover-color: #d946ef;             /* Brighter hover state */
-  --body-color: #f2f2f7;              /* Primary text - brighter, more readable */
-  --body-background: #0a0a0a;         /* True deep black base */
-  --subtitle: #8e8e93;                /* Secondary text - more contrast */
-  --paragraph: #d1d1d6;               /* Body text - clear step down */
-  --chips-color: #f2f2f7;             /* Consistent with primary text */
-  --chips-background: #2c2c2e;        /* Chip backgrounds - clear separation */
-  --white: #1c1c1e;                   /* Card backgrounds - warmer, more distinct */
-  --form-border: #48484a;             /* More visible borders */
-  --footer-top: #1c1c1e;              /* Consistent with cards */
-  --footer-colour: #8e8e93;           /* Consistent secondary text */
+  --link: #bf5af2; /* Vibrant purple - better contrast */
+  --section-underline: #a855f7; /* Slightly deeper purple */
+  --hover-color: #d946ef; /* Brighter hover state */
+  --body-color: #f2f2f7; /* Primary text - brighter, more readable */
+  --body-background: #0a0a0a; /* True deep black base */
+  --subtitle: #8e8e93; /* Secondary text - more contrast */
+  --paragraph: #d1d1d6; /* Body text - clear step down */
+  --chips-color: #f2f2f7; /* Consistent with primary text */
+  --chips-background: #2c2c2e; /* Chip backgrounds - clear separation */
+  --white: #1c1c1e; /* Card backgrounds - warmer, more distinct */
+  --form-border: #48484a; /* More visible borders */
+  --footer-top: #1c1c1e; /* Consistent with cards */
+  --footer-colour: #8e8e93; /* Consistent secondary text */
 }
 
 // ====================== Accessibility & Motion =============================
@@ -132,7 +132,7 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 a:focus-visible,
-[role="button"]:focus-visible {
+[role='button']:focus-visible {
   outline: 2px solid var(--section-underline);
   outline-offset: 2px;
   border-radius: 2px;
@@ -143,7 +143,7 @@ button:focus,
 input:focus,
 textarea:focus,
 a:focus,
-[role="button"]:focus {
+[role='button']:focus {
   outline: none;
 }
 
@@ -153,7 +153,7 @@ a:focus,
   input:focus-visible,
   textarea:focus-visible,
   a:focus-visible,
-  [role="button"]:focus-visible {
+  [role='button']:focus-visible {
     outline: 3px solid currentColor;
     outline-offset: 2px;
   }

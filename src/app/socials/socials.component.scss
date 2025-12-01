@@ -28,7 +28,9 @@
     font-size: 16px;
     background-color: var(--white);
     color: var(--body-color);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
 
     &::placeholder {
       color: var(--subtitle);

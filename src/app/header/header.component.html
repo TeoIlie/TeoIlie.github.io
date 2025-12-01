@@ -1,7 +1,9 @@
 <mat-toolbar color="primary" class="custom-toolbar">
   <div class="logo">
     <img
-      [src]="currentTheme === THEMES.DARK ? 'assets/images/logo_dark.svg' : 'assets/images/logo.svg'"
+      [src]="
+        currentTheme === THEMES.DARK ? 'assets/images/logo_dark.svg' : 'assets/images/logo.svg'
+      "
       width="27.55"
       height="25"
       alt="Teo Ilie Logo"
@@ -14,7 +16,9 @@
   <div
     class="theme-toggle-container"
     (click)="toggleTheme()"
-    [attr.aria-label]="currentTheme === THEMES.LIGHT ? 'Switch to dark mode' : 'Switch to light mode'"
+    [attr.aria-label]="
+      currentTheme === THEMES.LIGHT ? 'Switch to dark mode' : 'Switch to light mode'
+    "
     role="switch"
     [attr.aria-checked]="currentTheme === THEMES.DARK"
     tabindex="0"
@@ -31,7 +35,12 @@
   </div>
 
   <!-- Hamburger/Close Icon -->
-  <button mat-icon-button class="menu-toggle" (click)="toggleMenu()" [attr.aria-label]="isMenuOpen ? 'Close Menu' : 'Open Menu'">
+  <button
+    mat-icon-button
+    class="menu-toggle"
+    (click)="toggleMenu()"
+    [attr.aria-label]="isMenuOpen ? 'Close Menu' : 'Open Menu'"
+  >
     <div class="hamburger-icon" [class.open]="isMenuOpen">
       <span></span>
       <span></span>

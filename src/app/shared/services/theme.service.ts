@@ -5,7 +5,7 @@ export type Theme = 'light' | 'dark';
 
 export const THEMES = {
   LIGHT: 'light' as const,
-  DARK: 'dark' as const
+  DARK: 'dark' as const,
 } as const;
 
 /**
@@ -13,7 +13,7 @@ export const THEMES = {
  * Handles theme persistence, system preference detection, and DOM updates.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   private readonly THEME_KEY = 'preferred-theme';
@@ -66,7 +66,9 @@ export class ThemeService {
     // Fall back to system preference
     if (typeof window !== 'undefined' && window.matchMedia) {
       try {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEMES.DARK : THEMES.LIGHT;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? THEMES.DARK
+          : THEMES.LIGHT;
       } catch (error) {
         console.warn('Failed to detect system theme preference:', error);
       }
