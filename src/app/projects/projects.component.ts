@@ -28,6 +28,20 @@ interface Project {
 export class ProjectsComponent {
   projects: Project[] = [
     {
+      title: 'Autonomous Racing Team Founder & Lead',
+      description:
+        'Founder & Captain of Ingenuity Labs Racing, a team of PhD, post-doc, and MSc students competing internationally at F1Tenth/RoboRacer autonomous racing competitions.',
+      mp4Url: 'assets/videos/f1_10.mp4',
+      webmUrl: 'assets/videos/webm/f1_10.webm',
+      technologies: ['Control', 'Perception', 'Planning', 'AV'],
+      githubUrl: 'https://github.com/Ingenuity-Labs-Racing',
+      isGif: true,
+      other: {
+        otherUrl: 'https://roboracer.ai/',
+        otherName: 'RoboRacer',
+      },
+    },
+    {
       title: 'Autonomous Racing & Drifting Gym Simulator',
       description:
         'Designed a Gymnasium environment for training Deep Reinforcement Learning policies to race and drift on 1/10 scale or full-size vehicles.',
