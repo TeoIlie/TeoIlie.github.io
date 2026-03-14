@@ -37,8 +37,9 @@ export class ProjectsComponent {
       githubUrl: 'https://github.com/Ingenuity-Labs-Racing',
       isGif: true,
       other: {
-        otherUrl: 'https://roboracer.ai/',
-        otherName: 'RoboRacer',
+        otherUrl:
+          'https://ingenuitylabs.queensu.ca/research/student-activities/ingenuity-labs-racing',
+        otherName: 'Team Site',
       },
     },
     {
@@ -50,6 +51,10 @@ export class ProjectsComponent {
       technologies: ['Deep RL', 'Gym', 'SB3', 'Wandb', 'Vehicle dynamics'],
       githubUrl: 'https://github.com/TeoIlie/F1TENTH_Gym/',
       isGif: true,
+      other: {
+        otherUrl: 'https://gym-khana.readthedocs.io',
+        otherName: 'View Docs',
+      },
     },
     {
       title: 'Deep RL for Active SLAM',
