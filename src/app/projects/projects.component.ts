@@ -43,13 +43,13 @@ export class ProjectsComponent {
       },
     },
     {
-      title: 'Autonomous Racing & Drifting Gym Simulator',
+      title: 'Gym-Khana: Autonomous Racing & Drifting Gym Simulator',
       description:
         'Designed a Gymnasium environment for training Deep Reinforcement Learning policies to race and drift on 1/10 scale or full-size vehicles.',
       mp4Url: 'assets/videos/drift.mp4',
       webmUrl: 'assets/videos/webm/drift.webm',
       technologies: ['Deep RL', 'Gym', 'SB3', 'Wandb', 'Vehicle dynamics'],
-      githubUrl: 'https://github.com/TeoIlie/F1TENTH_Gym/',
+      githubUrl: 'https://github.com/TeoIlie/Gym-Khana',
       isGif: true,
       other: {
         otherUrl: 'https://gym-khana.readthedocs.io',
