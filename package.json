@@ -10,6 +10,7 @@
     "lint": "ng lint",
     "format": "prettier --write \"src/**/*.{ts,html,scss,json}\"",
     "comp": "node convert-to-webp.js",
+    "strip-audio": "node strip-audio.js",
     "serve": "ng serve --no-hmr"
   },
   "private": true,
