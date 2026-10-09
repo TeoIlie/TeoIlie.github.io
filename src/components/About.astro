@@ -3,6 +3,7 @@ import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import Chips from './Chips.astro';
 import LinkButton from './LinkButton.astro';
+import SectionIntro from './SectionIntro.astro';
 import photo from '../assets/images/profile-1200.jpg';
 import { profile, socials, interests, education, credentials } from '../data/profile';
 
@@ -66,13 +67,10 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
   ))}
 </ul>
 
-<div class="about" data-reveal>
-  <div>
-    <span class="eyebrow">01 · About</span>
-    <h2>From simulation to the real world</h2>
-  </div>
+<div class="about">
+  <SectionIntro id="about" title="From simulation to the real world" />
 
-  <div class="bio">
+  <div class="bio" data-reveal>
     <p>
       I'm a Designer on the Autonomy Team at MacLean Engineering. I recently completed my Master's
       in Computer Science (AI) at Queen's University, where my research at Ingenuity Labs and the{' '}
@@ -357,6 +355,11 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     @media (max-width: 860px) {
       grid-template-columns: 1fr;
       gap: 24px;
+    }
+
+    /* The heading sits in the left column here, not above the content */
+    :global(.section-header) {
+      margin-bottom: 0;
     }
   }
 

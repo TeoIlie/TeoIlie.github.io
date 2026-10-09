@@ -5,27 +5,30 @@ import Experience from '../components/Experience.astro';
 import Projects from '../components/Projects.astro';
 import LegoGrid from '../components/LegoGrid.astro';
 import Contact from '../components/Contact.astro';
+import { sections, type SectionId } from '../data/site';
+
+// Section order (and the nav and eyebrow numbers) comes from data/site.ts
+const content = {
+  about: About,
+  experience: Experience,
+  projects: Projects,
+  lego: LegoGrid,
+  contact: Contact,
+} satisfies Record<SectionId, unknown>;
 ---
 
 <BaseLayout
   title="Teodor Ilie | Autonomy Designer at MacLean Engineering | AI & Robotics"
   description="Teodor Ilie is a designer on the Autonomy Team at MacLean Engineering, with an MSc in Computer Science (AI) from Queen's University and research in deep reinforcement learning for autonomous vehicles."
 >
-  <section id="about" class="container">
-    <About />
-  </section>
-  <section id="experience" class="container">
-    <Experience />
-  </section>
-  <section id="projects" class="container">
-    <Projects />
-  </section>
-  <section id="lego" class="container">
-    <LegoGrid />
-  </section>
-  <section id="contact" class="container">
-    <Contact />
-  </section>
+  {sections.map(({ id }) => {
+    const Content = content[id];
+    return (
+      <section id={id} class="container">
+        <Content />
+      </section>
+    );
+  })}
 </BaseLayout>
 
 <style>

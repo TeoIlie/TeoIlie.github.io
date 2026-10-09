@@ -1,17 +1,21 @@
 ---
+import { eyebrow, type SectionId } from '../data/site';
+
 interface Props {
-  eyebrow: string;
+  /** The section this introduces; sets the numbered eyebrow, e.g. "03 · Projects" */
+  id: SectionId;
   title: string;
   /** Muted row of related links under the intro, e.g. collaborators */
   links?: { name: string; url: string }[];
   linksLabel?: string;
+  class?: string;
 }
 
-const { eyebrow, title, links = [], linksLabel } = Astro.props;
+const { id, title, links = [], linksLabel, class: className } = Astro.props;
 ---
 
-<header class="section-header" data-reveal>
-  <span class="eyebrow">{eyebrow}</span>
+<header class:list={['section-header', className]} data-reveal>
+  <span class="eyebrow">{eyebrow(id)}</span>
   <h2>{title}</h2>
   <slot />
   {links.length > 0 && (

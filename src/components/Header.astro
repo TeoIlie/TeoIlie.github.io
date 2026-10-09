@@ -2,14 +2,7 @@
 import Icon from './Icon.astro';
 import Logo from '../assets/logo.svg';
 import { profile } from '../data/profile';
-
-const links = [
-  { href: '/#about', label: 'About' },
-  { href: '/#experience', label: 'Experience' },
-  { href: '/#projects', label: 'Projects' },
-  { href: '/#lego', label: 'LEGO' },
-  { href: '/#contact', label: 'Contact' },
-];
+import { sections } from '../data/site';
 ---
 
 <header>
@@ -21,9 +14,9 @@ const links = [
     <!-- On mobile the nav is a native popover: open/close, Esc and outside-click come free -->
     <nav id="site-nav" popover aria-label="Main">
       <ul>
-        {links.map((link) => (
+        {sections.map((section) => (
           <li>
-            <a href={link.href}>{link.label}</a>
+            <a href={`/#${section.id}`}>{section.nav}</a>
           </li>
         ))}
       </ul>

@@ -1,11 +1,9 @@
 ---
+import SectionIntro from './SectionIntro.astro';
 import { experience } from '../data/profile';
 ---
 
-<header class="section-header">
-  <span class="eyebrow">02 · Experience</span>
-  <h2>Research and industry</h2>
-</header>
+<SectionIntro id="experience" title="Research and industry" />
 
 <ol class="timeline">
   {experience.map((item) => (
