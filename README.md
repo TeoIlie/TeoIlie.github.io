@@ -4,7 +4,7 @@ Built with [Astro](https://astro.build) and deployed on Cloudflare Pages at http
 
 ## Developing
 
-Requires Node 22.12+ (pinned in `.nvmrc`, so `nvm use` picks it up).
+Requires Node 22.12+ (pinned in `.nvmrc`). Run `nvm use` in the project folder first, or make it the default with `nvm alias default 22`.
 
 ```
 npm install
@@ -70,6 +70,25 @@ Icons are Font Awesome SVGs inlined at build time, so only icons actually used a
 4. Run `npm run strip-audio` to remove audio tracks from both `.mp4` and `.webm` files (required for reliable autoplay on iOS)
 
 Project videos only download and play while scrolled into view.
+
+**Dark mode**
+
+Theme colours are CSS custom properties in `src/styles/global.scss` (`:root` for light, `.dark-theme` for dark). A small inline script in `BaseLayout.astro` sets the theme class on `<html>` before first paint, from `localStorage` or the system preference, so there is no flash of the wrong theme.
+
+**LEGO detail links**
+
+Each creation opens at `#lego-<filename>`, e.g. https://teoilie.com/#lego-unimog-u5000, so builds can be linked directly and the browser back button returns to the grid.
+
+**Local performance testing**
+
+Test the production build, not the dev server:
+
+```
+npm run build
+npm run preview
+```
+
+Then run Lighthouse in Chrome DevTools against http://localhost:4321.
 
 **Sitemap**
 
