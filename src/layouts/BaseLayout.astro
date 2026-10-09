@@ -4,7 +4,9 @@ import type { ImageMetadata } from 'astro';
 import { Font, getImage } from 'astro:assets';
 import Header from '../components/Header.astro';
 import photo from '../assets/images/profile-1200.jpg';
-import { profile, socials } from '../data/profile';
+import { profile } from '../data/profile';
+import { personJsonLd } from '../data/jsonld';
+import { siteName } from '../data/site';
 
 interface Props {
   title: string;
@@ -14,53 +16,13 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props;
-const siteName = `${profile.name} Portfolio`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const toJpg = async (src: ImageMetadata) =>
   new URL((await getImage({ src, width: 1200, format: 'jpg' })).src, Astro.site).href;
 const photoUrl = await toJpg(photo);
 const ogImage = image ? await toJpg(image) : photoUrl;
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Person',
-      name: profile.name,
-      alternateName: 'Teo Ilie',
-      url: Astro.site!.href,
-      email: profile.email,
-      image: photoUrl,
-      sameAs: socials.map((s) => s.url),
-      jobTitle: 'Designer, Autonomy Team',
-      worksFor: {
-        '@type': 'Organization',
-        name: 'MacLean Engineering',
-        sameAs: 'https://macleanengineering.com/',
-      },
-      alumniOf: {
-        '@type': 'CollegeOrUniversity',
-        name: "Queen's University",
-        sameAs: 'https://www.queensu.ca/',
-      },
-      knowsAbout: [
-        'Full-stack Development',
-        'Reinforcement Learning',
-        'Autonomous Vehicles',
-        'Robotics',
-        'ROS2',
-      ],
-      description:
-        "Teodor Ilie, also known as Teo Ilie, is a designer on the Autonomy Team at MacLean Engineering and a Queen's University Master's graduate in Computer Science (AI). He specializes in reinforcement learning, autonomous vehicles, robotics, and full-stack development.",
-    },
-    {
-      '@type': 'WebSite',
-      name: siteName,
-      url: Astro.site!.href,
-      publisher: { '@type': 'Person', name: profile.name },
-    },
-  ],
-};
+const jsonLd = personJsonLd(Astro.site!, photoUrl);
 ---
 
 <!doctype html>
@@ -108,7 +70,7 @@ const jsonLd = {
     <main>
       <slot />
     </main>
-    <footer>
+    <footer class="container">
       <p>
         &copy; {new Date().getFullYear()} {profile.name}
       </p>
@@ -135,8 +97,6 @@ const jsonLd = {
   }
 
   footer {
-    max-width: 1080px;
-    margin: 0 auto;
     padding: 32px 24px 40px;
     display: flex;
     flex-wrap: wrap;

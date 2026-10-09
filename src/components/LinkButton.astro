@@ -1,10 +1,8 @@
 ---
 import Icon from './Icon.astro';
+import type { Link } from '../lib/content';
 
-interface Props {
-  name: string;
-  url: string;
-  icon?: string;
+interface Props extends Link {
   /** Filled accent button for the main call to action */
   primary?: boolean;
 }

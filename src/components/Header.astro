@@ -6,7 +6,7 @@ import { sections } from '../data/site';
 ---
 
 <header>
-  <div class="bar">
+  <div class="bar container">
     <a href="/" class="logo">
       <Logo width="22" height="20" aria-hidden="true" /> {profile.name}
     </a>
@@ -22,12 +22,17 @@ import { sections } from '../data/site';
       </ul>
     </nav>
 
-    <button class="theme-toggle" type="button" role="switch" aria-label="Dark mode">
+    <button class="theme-toggle icon-button" type="button" role="switch" aria-label="Dark mode">
       <Icon name="solid/sun" class="sun" />
       <Icon name="solid/moon" class="moon" />
     </button>
 
-    <button class="menu-toggle" type="button" popovertarget="site-nav" aria-label="Menu">
+    <button
+      class="menu-toggle icon-button"
+      type="button"
+      popovertarget="site-nav"
+      aria-label="Menu"
+    >
       <span></span>
       <span></span>
     </button>
@@ -71,9 +76,7 @@ import { sections } from '../data/site';
   }
 
   .bar {
-    max-width: 1080px;
     height: 100%;
-    margin: 0 auto;
     padding: 0 24px;
     display: flex;
     align-items: center;
@@ -119,25 +122,17 @@ import { sections } from '../data/site';
   }
 
   /* Icon button that shows the sun in light mode and the moon in dark mode */
-  .theme-toggle {
-    display: grid;
-    place-items: center;
-    width: 36px;
-    height: 36px;
-    margin-left: 8px;
+  .theme-toggle,
+  .menu-toggle {
     border: 1px solid var(--border);
-    border-radius: 8px;
-    background: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition:
-      color 0.15s ease,
-      border-color 0.15s ease;
 
     &:hover {
-      color: var(--text);
       border-color: color-mix(in oklch, var(--text) 25%, var(--border));
     }
+  }
+
+  .theme-toggle {
+    margin-left: 8px;
 
     :global(.icon) {
       grid-area: 1 / 1;
@@ -188,14 +183,8 @@ import { sections } from '../data/site';
   @media (max-width: 860px) {
     /* Two lines that cross into an X while the menu is open */
     .menu-toggle {
-      display: block;
+      display: grid;
       position: relative;
-      width: 36px;
-      height: 36px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: none;
-      cursor: pointer;
 
       span {
         position: absolute;

@@ -1,4 +1,5 @@
 // Personal details shared by the About and Contact sections and the SEO metadata
+import type { Link } from '../lib/content';
 
 export const profile = {
   name: 'Teodor Ilie',
@@ -9,16 +10,31 @@ export const profile = {
   headline:
     "Autonomy at MacLean Engineering. Before that, deep RL research for autonomous racing at Queen's.",
   resume: '/assets/Teodor_Ilie_Resume_CV.pdf',
+  /** The contact form posts here */
+  formAction: 'https://formspree.io/f/moveyaaw',
 };
 
-export const socials = [
-  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/teodorilie/', icon: 'brands/linkedin' },
-  { name: 'GitHub', url: 'https://github.com/TeoIlie', icon: 'brands/github' },
-  { name: 'YouTube', url: 'https://www.youtube.com/@TeoTechnicTaken', icon: 'brands/youtube' },
+export const youtube = {
+  name: 'YouTube',
+  url: 'https://www.youtube.com/@TeoTechnicTaken',
+  icon: 'brands/youtube',
+};
+
+/** All are listed in Contact; `hero` ones also appear as icons in the hero */
+export const socials: (Required<Link> & { hero?: boolean })[] = [
+  {
+    name: 'LinkedIn',
+    url: 'https://www.linkedin.com/in/teodorilie/',
+    icon: 'brands/linkedin',
+    hero: true,
+  },
+  { name: 'GitHub', url: 'https://github.com/TeoIlie', icon: 'brands/github', hero: true },
+  youtube,
   {
     name: 'Google Scholar',
     url: 'https://scholar.google.ca/citations?user=YaQWjp8AAAAJ&hl=en',
     icon: 'solid/graduation-cap',
+    hero: true,
   },
   {
     name: 'Facebook',
@@ -48,10 +64,12 @@ export const interests = [
   'FinTech',
 ];
 
+// Newest first; the first entry is also used in the JSON-LD (alumniOf)
 export const education = [
   {
     degree: 'M.Sc., Computer Science (AI Spec.)',
     institution: "Queen's University",
+    url: 'https://www.queensu.ca/',
     years: '2024 – 2026',
     awards: [
       { name: 'Vector for AI', url: 'https://vectorinstitute.ai/programs/scholarship/' },
@@ -68,12 +86,14 @@ export const education = [
   {
     degree: 'B.Sc. (Hons), Computer Science',
     institution: "Queen's University",
+    url: 'https://www.queensu.ca/',
     years: '2018 – 2022',
     awards: [],
   },
 ];
 
-// Newest first; mirrors the Work Experience section of the resume
+// Newest first; mirrors the Work Experience section of the resume. The first entry is the current
+// job, used in the JSON-LD (jobTitle, worksFor)
 export const experience = [
   {
     role: 'Designer Level II, Autonomy Team',

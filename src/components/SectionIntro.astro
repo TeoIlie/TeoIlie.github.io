@@ -1,12 +1,13 @@
 ---
 import { eyebrow, type SectionId } from '../data/site';
+import type { Link } from '../lib/content';
 
 interface Props {
   /** The section this introduces; sets the numbered eyebrow, e.g. "03 · Projects" */
   id: SectionId;
   title: string;
   /** Muted row of related links under the intro, e.g. collaborators */
-  links?: { name: string; url: string }[];
+  links?: Link[];
   linksLabel?: string;
   class?: string;
 }

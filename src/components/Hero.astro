@@ -6,9 +6,7 @@ import photo from '../assets/images/profile-1200.jpg';
 import { profile, socials, credentials } from '../data/profile';
 
 // The full list lives in the Contact section
-const heroSocials = socials.filter((s) =>
-  ['LinkedIn', 'GitHub', 'Google Scholar'].includes(s.name)
-);
+const heroSocials = socials.filter((s) => s.hero);
 
 // Racing line behind the hero, pinned to its bottom edge and scaled uniformly (so pathLength stays
 // exact): low under the text on the left, rising behind the photo and off the top right
@@ -37,7 +35,7 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
       <ul class="socials">
         {heroSocials.map((social) => (
           <li>
-            <a href={social.url} target="_blank" rel="noopener noreferrer">
+            <a href={social.url} target="_blank" rel="noopener noreferrer" class="icon-button">
               <Icon name={social.icon} label={social.name} />
             </a>
           </li>
@@ -273,21 +271,7 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     gap: 2px;
 
     a {
-      display: grid;
-      place-items: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
       font-size: 18px;
-      color: var(--text-muted);
-      transition:
-        color 0.15s ease,
-        background-color 0.15s ease;
-
-      &:hover {
-        color: var(--text);
-        background-color: var(--surface-2);
-      }
     }
   }
 </style>

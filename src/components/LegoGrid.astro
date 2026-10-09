@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import SectionIntro from './SectionIntro.astro';
 import Chips from './Chips.astro';
-import { socials } from '../data/profile';
+import { youtube } from '../data/profile';
 import nico71 from '../assets/images/nico71.jpg';
 import zerobricks from '../assets/images/zerobricks.jpg';
 import madoca from '../assets/images/madoca.png';
@@ -14,7 +14,7 @@ import sariel from '../assets/images/sariel.png';
 const creations = (await getCollection('lego')).sort((a, b) => a.data.order - b.data.order);
 
 const communityLinks = [
-  { name: 'YouTube', url: socials.find((s) => s.name === 'YouTube')!.url },
+  youtube,
   {
     name: 'Eurobricks',
     url: 'https://www.eurobricks.com/forum/profile/120672-teo-lego-technic/',
@@ -199,7 +199,7 @@ const inspirations = [
       transition: border-color 0.15s ease;
 
       &:hover {
-        border-color: color-mix(in oklch, var(--accent) 45%, var(--border));
+        border-color: var(--border-hover);
       }
     }
 

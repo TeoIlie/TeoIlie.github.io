@@ -1,3 +1,7 @@
+import { profile } from './profile';
+
+export const siteName = `${profile.name} Portfolio`;
+
 // Homepage sections in page order: drives the nav, the section ids and the numbered eyebrows
 export const sections = [
   { id: 'about', nav: 'About', eyebrow: 'About' },
