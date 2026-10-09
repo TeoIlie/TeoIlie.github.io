@@ -1,7 +1,7 @@
 ---
 title: Monocular Visual Odometry in OpenCV
 order: 6
-video: mvo
+video: mvo2
 technologies:
   - OpenCV
   - MVO

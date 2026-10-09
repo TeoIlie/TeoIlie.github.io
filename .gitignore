@@ -15,7 +15,6 @@ npm-debug.log*
 # Miscellaneous
 /scratch
 *.zip
-CLAUDE.md
 
 # System files
 .DS_Store

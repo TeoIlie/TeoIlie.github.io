@@ -1,5 +1,5 @@
 // Prepares project videos for the web. Safe to re-run: nothing is re-encoded.
-//  - strips audio (silent tracks are needed for reliable autoplay on iOS)
+//  - strips audio and timecode tracks (silent videos autoplay reliably on iOS)
 //  - moves the moov atom to the front (faststart) so playback starts sooner
 //  - extracts the first frame as a poster in src/assets/images/posters/
 const fs = require('fs');
@@ -18,13 +18,15 @@ try {
   process.exit(1);
 }
 
-// Strip audio and apply faststart (video stream is copied, not re-encoded)
+// Keep only the video stream (no audio or timecode tracks) and apply faststart.
+// The video is copied, not re-encoded.
 function optimize(filePath) {
   const tmpPath = filePath.replace(/\.mp4$/, '_tmp.mp4');
   try {
-    execSync(`ffmpeg -y -i "${filePath}" -an -c:v copy -movflags +faststart "${tmpPath}"`, {
-      stdio: 'ignore',
-    });
+    execSync(
+      `ffmpeg -y -i "${filePath}" -map 0:v:0 -c copy -write_tmcd 0 -movflags +faststart "${tmpPath}"`,
+      { stdio: 'ignore' }
+    );
     fs.renameSync(tmpPath, filePath);
     console.log(`Optimized: ${filePath}`);
   } catch (error) {
