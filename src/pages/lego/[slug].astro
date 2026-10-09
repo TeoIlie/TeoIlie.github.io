@@ -34,35 +34,34 @@ const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)
     <h1 class="heading-underline heading-underline--left">{data.title}</h1>
     <p class="year">{data.buildYear}</p>
 
-    <div class="main">
-      <!-- Lightweight YouTube facade: the player only loads when clicked -->
+    <!-- Lightweight YouTube facade: the player only loads when clicked -->
+    <div class="video">
       <button
         type="button"
-        class="video"
         data-youtube-id={data.youtubeId}
         aria-label={`Play ${data.title} video`}
       >
         <Image
-          src={`https://i.ytimg.com/vi/${data.youtubeId}/hqdefault.jpg`}
+          src={`https://i.ytimg.com/vi/${data.youtubeId}/maxresdefault.jpg`}
           alt=""
-          width={480}
-          height={360}
+          width={1280}
+          height={720}
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 860px) calc(100vw - 100px), 940px"
           loading="eager"
           fetchpriority="high"
         />
         <Icon name="brands/youtube" />
       </button>
+    </div>
 
-      <div class="info">
-        <Content />
-        <h2 class="subheading">Techniques & Features</h2>
-        <Chips items={data.techniques} />
-        <div class="link-row">
-          {data.links.map((link) => (
-            <LinkButton {...link} />
-          ))}
-        </div>
-      </div>
+    <Content />
+    <h2 class="subheading">Techniques & Features</h2>
+    <Chips items={data.techniques} />
+    <div class="link-row">
+      {data.links.map((link) => (
+        <LinkButton {...link} />
+      ))}
     </div>
 
     {data.gallery.length > 0 && (
@@ -126,35 +125,28 @@ const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)
     margin-top: 20px;
   }
 
-  .main {
-    display: flex;
-    gap: 30px;
-    align-items: flex-start;
-    margin-top: 10px;
-
-    @media (max-width: 860px) {
-      flex-direction: column;
-    }
-  }
-
-  .info {
-    flex: 1;
-  }
-
-  .video,
-  iframe {
-    flex: 0 0 55%;
-    width: 100%;
+  /* The wrapper holds the size, so swapping the button for the (unscoped) iframe doesn't resize it */
+  .video {
+    margin: 20px 0;
     aspect-ratio: 16 / 9;
-    border: none;
     border-radius: 8px;
     overflow: hidden;
     background-color: #000;
-  }
 
-  .video {
-    position: relative;
-    cursor: pointer;
+    button,
+    :global(iframe) {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: none;
+    }
+
+    button {
+      position: relative;
+      background: none;
+      cursor: pointer;
+    }
 
     img {
       width: 100%;
@@ -172,7 +164,7 @@ const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)
       transition: scale 0.2s ease;
     }
 
-    &:hover :global(.icon) {
+    button:hover :global(.icon) {
       scale: 1.1;
     }
   }
