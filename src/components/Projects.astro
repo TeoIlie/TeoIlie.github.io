@@ -125,6 +125,8 @@ const collaborators = [
       width: 100%;
       border-radius: 8px;
       overflow: hidden;
+      /* Own layer, so mobile Safari applies the rounded clip to the (separately composited) video */
+      isolation: isolate;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
       background-color: var(--chips-background);
     }
