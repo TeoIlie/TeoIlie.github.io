@@ -1,6 +1,7 @@
 ---
 title: Deep RL for Active SLAM
 order: 3
+featured: true
 video: slam
 technologies:
   - ROS2

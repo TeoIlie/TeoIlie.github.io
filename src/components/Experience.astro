@@ -1,0 +1,66 @@
+---
+import { experience } from '../data/profile';
+---
+
+<header class="section-header">
+  <span class="eyebrow">02 · Experience</span>
+  <h2>Research and industry</h2>
+</header>
+
+<ol class="timeline">
+  {experience.map((item) => (
+    <li data-reveal>
+      <p class="dates mono">
+        {item.start} – {item.end}
+      </p>
+      <div>
+        <h3>{item.role}</h3>
+        <a href={item.url} target="_blank" rel="noopener" class="org">
+          {item.org}
+        </a>
+        <p>{item.summary}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .timeline {
+    list-style: none;
+    border-top: 1px solid var(--border);
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 8px 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .dates {
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    padding-top: 2px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  .org {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  li div p {
+    margin-top: 8px;
+    max-width: 640px;
+  }
+</style>

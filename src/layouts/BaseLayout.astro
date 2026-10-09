@@ -32,8 +32,12 @@ const jsonLd = {
       email: profile.email,
       image: photoUrl,
       sameAs: socials.map((s) => s.url),
-      jobTitle: 'Software Developer',
-      worksFor: { '@type': 'Organization', name: 'BMO Financial Group' },
+      jobTitle: 'Designer, Autonomy Team',
+      worksFor: {
+        '@type': 'Organization',
+        name: 'MacLean Engineering',
+        sameAs: 'https://macleanengineering.com/',
+      },
       alumniOf: {
         '@type': 'CollegeOrUniversity',
         name: "Queen's University",
@@ -47,7 +51,7 @@ const jsonLd = {
         'ROS2',
       ],
       description:
-        "Teodor Ilie, also known as Teo Ilie, is a full-stack software developer and Queen's University Master's student studying AI and Robotics. He specializes in web development, reinforcement learning, and autonomous robotics.",
+        "Teodor Ilie, also known as Teo Ilie, is a designer on the Autonomy Team at MacLean Engineering and a Queen's University Master's graduate in Computer Science (AI). He specializes in reinforcement learning, autonomous vehicles, robotics, and full-stack development.",
     },
     {
       '@type': 'WebSite',
@@ -70,8 +74,9 @@ const jsonLd = {
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Preload only the weights visible on first paint: body text and headings -->
-    <Font cssVariable="--font-body" preload={[{ weight: 300 }]} />
-    <Font cssVariable="--font-heading" preload={[{ weight: 600 }]} />
+    <Font cssVariable="--font-sans" preload={[{ weight: 400 }, { weight: 600 }]} />
+    <!-- Mono is in the hero's credentials strip, so preload it to avoid a late swap -->
+    <Font cssVariable="--font-mono" preload={[{ weight: 500 }]} />
 
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
     <link rel="alternate icon" href="/assets/favicon-32x32.png" type="image/png" />
@@ -105,14 +110,13 @@ const jsonLd = {
     </main>
     <footer>
       <p>
-        &copy; {new Date().getFullYear()} {profile.name}. All rights reserved. View the{' '}
-        <a href="https://github.com/TeoIlie/TeoIlie.github.io" target="_blank" rel="noopener">
-          source code on GitHub
-        </a>{' '}
-        🚀
+        &copy; {new Date().getFullYear()} {profile.name}
       </p>
       <p>
-        This site is hosted on Cloudflare Pages and uses their{' '}
+        <a href="https://github.com/TeoIlie/TeoIlie.github.io" target="_blank" rel="noopener">
+          Source
+        </a>{' '}
+        · Hosted on Cloudflare Pages with{' '}
         <a
           href="https://developers.cloudflare.com/web-analytics/about/"
           target="_blank"
@@ -120,31 +124,38 @@ const jsonLd = {
         >
           privacy-first analytics
         </a>
-        . Data is collected anonymously to help improve performance and content.
-        <br />
-        Messages sent via the contact form are transmitted securely and never shared with third
-        parties.
       </p>
     </footer>
   </body>
 </html>
 
 <style>
-  main,
-  footer {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  main {
+    padding: 0 24px;
   }
 
   footer {
-    text-align: center;
-    padding-block: 20px;
-    margin-top: 40px;
-    border-top: 1px solid var(--footer-top);
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 24px 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    border-top: 1px solid var(--border);
 
     p {
-      color: var(--subtitle);
+      font-size: 13px;
+    }
+
+    a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+
+      &:hover {
+        color: var(--text);
+      }
     }
   }
 </style>

@@ -4,69 +4,104 @@ import Icon from './Icon.astro';
 import Chips from './Chips.astro';
 import LinkButton from './LinkButton.astro';
 import photo from '../assets/images/profile-1200.jpg';
-import { profile, socials, interests, education } from '../data/profile';
+import { profile, socials, interests, education, credentials } from '../data/profile';
+
+// The full list lives in the Contact section
+const heroSocials = socials.filter((s) =>
+  ['LinkedIn', 'GitHub', 'Google Scholar'].includes(s.name)
+);
+
+// Racing line behind the hero, pinned to its bottom edge and scaled uniformly (so pathLength stays
+// exact): low under the text on the left, rising behind the photo and off the top right
+const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
 ---
 
-<h1 class="visually-hidden">{profile.name}</h1>
-<h2 class="section-title heading-underline">About Me</h2>
+<div class="hero">
+  <!-- Decorative: an optimal racing line that draws itself once, with a car-dot following it -->
+  <svg class="racing-line" viewBox="0 0 1000 370" aria-hidden="true">
+    <path class="track" d={racingLine} />
+    <path class="line" d={racingLine} pathLength="1" />
+    <!-- A zero-length dash with round caps draws a dot that can ride the line -->
+    <path class="car" d={racingLine} pathLength="1" />
+  </svg>
 
-<div class="about">
-  <div class="profile">
-    <Picture
-      src={photo}
-      alt={profile.name}
-      width={600}
-      height={600}
-      widths={[250, 300, 500, 600]}
-      sizes="(max-width: 860px) 250px, 300px"
-      formats={['avif', 'webp']}
-      loading="eager"
-      fetchpriority="high"
-    />
-    <p class="tagline">{profile.tagline}</p>
-    <ul class="socials">
-      {socials.map((social) => (
-        <li>
-          <a href={social.url} target="_blank" rel="noopener noreferrer">
-            <Icon name={social.icon} label={social.name} />
-          </a>
-        </li>
-      ))}
-    </ul>
-    <LinkButton name="Download Resume" url={profile.resume} icon="solid/file-pdf" />
+  <div class="intro">
+    <h1>{profile.name}</h1>
+    <p class="statement">
+      I build vehicles that <span>drive themselves</span>.
+    </p>
+    <p class="headline">{profile.headline}</p>
+    <div class="link-row actions">
+      <LinkButton name="View projects" url="/#projects" primary />
+      <LinkButton name="Resume" url={profile.resume} />
+      <span class="divider" aria-hidden="true"></span>
+      <ul class="socials">
+        {heroSocials.map((social) => (
+          <li>
+            <a href={social.url} target="_blank" rel="noopener noreferrer">
+              <Icon name={social.icon} label={social.name} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 
-  <div class="bio" data-reveal>
-    <h3>
-      Hello, I'm <span class="highlight">{profile.name}</span>
-    </h3>
+  <Picture
+    src={photo}
+    alt={profile.name}
+    width={680}
+    height={680}
+    widths={[160, 240, 340, 480, 680]}
+    sizes="(max-width: 860px) 160px, 340px"
+    formats={['avif', 'webp']}
+    loading="eager"
+    fetchpriority="high"
+  />
+</div>
+
+<ul class="credentials mono" aria-label="Highlights">
+  {credentials.map((item) => (
+    <li>{item}</li>
+  ))}
+</ul>
+
+<div class="about" data-reveal>
+  <div>
+    <span class="eyebrow">01 · About</span>
+    <h2>From simulation to the real world</h2>
+  </div>
+
+  <div class="bio">
     <p>
-      Welcome! I'm a Master's Student with the School of Computing at Queen's University in the{' '}
+      I'm a Designer on the Autonomy Team at MacLean Engineering. I recently completed my Master's
+      in Computer Science (AI) at Queen's University, where my research at Ingenuity Labs and the{' '}
       <a href="https://labs.cs.queensu.ca/quarrg/" target="_blank" rel="noopener">
         QUARRG
       </a>{' '}
-      lab, and a full-stack software developer at BMO. I am currently researching Deep Reinforcement
-      Learning solutions for autonomous vehicle navigation and control.
+      lab applied deep reinforcement learning to autonomous vehicle control, and I founded and led
+      Ingenuity Lab's autonomous racing team. Before that I spent four years as a full-stack
+      developer at BMO.
     </p>
     <p>
-      In my free time I enjoy kickboxing, playing guitar, and designing LEGO Technic models. Check
-      out my coding projects, LEGO Technic designs, or just enjoy the pretty pictures{' '}
-      <span class="large-emoji">🎨</span>
+      Outside of work I train in kickboxing, play guitar, and design LEGO Technic vehicles from the
+      ground up.
     </p>
 
     <div class="details">
       <div>
-        <h4>Interests</h4>
+        <h3 class="label">Interests</h3>
         <Chips items={interests} />
       </div>
       <div>
-        <h4>Education</h4>
-        {education.map((item) => (
-          <div class="degree">
-            <Icon name="solid/graduation-cap" />
-            <div>
+        <h3 class="label">Education</h3>
+        <ul>
+          {education.map((item) => (
+            <li class="degree">
               <strong>{item.degree}</strong>
-              <small>{item.institution}</small>
+              <span>
+                {item.institution} · {item.years}
+              </span>
               {item.awards.length > 0 && (
                 <div class="awards">
                   {item.awards.map((award) => (
@@ -76,125 +111,284 @@ import { profile, socials, interests, education } from '../data/profile';
                   ))}
                 </div>
               )}
-            </div>
-          </div>
-        ))}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </div>
 </div>
 
 <style>
-  .about {
+  .hero {
+    position: relative;
+    /* Keeps the racing line's negative z-index inside the hero */
+    isolation: isolate;
     display: flex;
-    gap: 50px;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    min-height: min(60vh, 540px);
 
     @media (max-width: 860px) {
-      flex-direction: column;
-      align-items: center;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 32px;
+      min-height: 0;
     }
-  }
 
-  .profile {
-    flex: 0 0 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+    /* <Picture> wraps the img: the wrapper is the flex item, so it mustn't shrink */
+    picture {
+      flex-shrink: 0;
+    }
 
+    /* Fixed square that scales with the viewport, so the circle never squashes */
     img {
-      width: 300px;
-      height: 300px;
+      display: block;
+      width: clamp(240px, 28vw, 340px);
+      max-width: none;
+      height: auto;
+      aspect-ratio: 1;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border);
+      padding: 6px;
+      background-color: var(--surface);
 
       @media (max-width: 860px) {
-        width: 250px;
-        height: 250px;
+        width: 160px;
+        padding: 4px;
       }
     }
   }
 
-  .tagline {
-    font-size: 16px;
-    color: var(--subtitle);
-    text-align: center;
-    margin: 0;
+  .intro {
+    max-width: 640px;
+  }
+
+  /* Bleeds past the container so the line enters and leaves the screen */
+  .racing-line {
+    position: absolute;
+    z-index: -1;
+    left: -15vw;
+    bottom: 0;
+    width: calc(100% + 30vw);
+    height: auto;
+    overflow: visible;
+    pointer-events: none;
+
+    @media (max-width: 860px) {
+      display: none;
+    }
+
+    /* Stroke widths are in viewBox units (~1.5px each at desktop widths) */
+    path {
+      fill: none;
+    }
+
+    .track {
+      stroke: var(--border);
+      stroke-width: 0.8;
+      stroke-dasharray: 4 6;
+    }
+
+    /* Dash length = path length, so shifting the offset from 1 to 0 draws the line */
+    .line {
+      stroke: color-mix(in oklch, var(--accent) 60%, transparent);
+      stroke-width: 1;
+      stroke-dasharray: 1 2;
+      animation: draw 2.6s cubic-bezier(0.3, 0, 0.2, 1) both;
+    }
+
+    /* The dot sits at -offset along the path, so 0 -> -1 drives it start to finish */
+    .car {
+      stroke: var(--accent);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 0.0001 2;
+      stroke-dashoffset: -1;
+      animation: drive 2.6s cubic-bezier(0.3, 0, 0.2, 1) both;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .line {
+        animation: none;
+        stroke-dashoffset: 0;
+      }
+
+      .car {
+        display: none;
+      }
+    }
+  }
+
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes drive {
+    from {
+      stroke-dashoffset: 0;
+    }
+    to {
+      stroke-dashoffset: -1;
+    }
+  }
+
+  .credentials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      &::before {
+        content: '';
+        width: 5px;
+        height: 5px;
+        background-color: var(--accent);
+      }
+    }
+  }
+
+  .statement {
+    margin-top: 16px;
+
+    span {
+      color: var(--accent);
+    }
+
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .headline {
+    max-width: 520px;
+    margin-top: 16px;
+    font-size: 17px;
+  }
+
+  /* Staggered entrance: hero items rise in one after another */
+  @media (prefers-reduced-motion: no-preference) {
+    .intro > *,
+    .hero :global(picture) {
+      animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .intro > :nth-child(2) {
+      animation-delay: 80ms;
+    }
+    .intro > :nth-child(3) {
+      animation-delay: 160ms;
+    }
+    .intro > :nth-child(4),
+    .hero :global(picture) {
+      animation-delay: 240ms;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      translate: 0 12px;
+    }
+  }
+
+  .actions {
+    align-items: center;
+  }
+
+  .divider {
+    width: 1px;
+    height: 24px;
+    margin: 0 4px;
+    background-color: var(--border);
   }
 
   .socials {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
+    gap: 2px;
 
     a {
-      display: flex;
-      font-size: 28px;
-      color: var(--body-color);
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: 18px;
+      color: var(--text-muted);
       transition:
-        color 0.1s ease,
-        scale 0.1s ease;
+        color 0.15s ease,
+        background-color 0.15s ease;
 
       &:hover {
-        color: var(--section-underline);
-        scale: 1.15;
+        color: var(--text);
+        background-color: var(--surface-2);
       }
     }
   }
 
-  .bio {
-    flex: 1;
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 48px;
+    margin-top: clamp(72px, 10vw, 120px);
+    padding-top: clamp(72px, 10vw, 120px);
+    border-top: 1px solid var(--border);
 
-    h3 {
-      font-size: 28px;
-      margin-bottom: 10px;
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      gap: 24px;
     }
   }
 
-  .highlight {
-    color: var(--section-underline);
+  .bio > p {
+    font-size: 17px;
+    margin-bottom: 16px;
   }
 
   .details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 40px;
 
-    > div {
-      flex: 1;
-      min-width: 250px;
-    }
-
-    @media (max-width: 1100px) {
-      flex-direction: column;
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
     }
   }
 
   .degree {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-
-    > :global(.icon) {
-      font-size: 22px;
-      margin-top: 3px;
-      color: var(--section-underline);
-    }
+    margin-bottom: 16px;
 
     strong {
       display: block;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 500;
     }
 
-    small {
+    span {
       display: block;
       font-size: 14px;
-      color: var(--subtitle);
+      color: var(--text-muted);
     }
   }
 
@@ -203,20 +397,17 @@ import { profile, socials, interests, education } from '../data/profile';
     flex-wrap: wrap;
     gap: 6px;
     margin-top: 8px;
-    font-size: 14px;
 
     a {
-      padding: 3px 8px;
-      border-radius: 4px;
+      padding: 1px 8px;
+      border: 1px solid color-mix(in oklch, var(--accent) 35%, var(--border));
+      border-radius: 6px;
+      font-size: 12px;
       font-weight: 500;
-      color: var(--section-underline);
-      background-color: var(--chips-background);
-      transition: all 0.2s ease;
+      transition: background-color 0.15s ease;
 
       &:hover {
-        color: var(--white);
-        background-color: var(--section-underline);
-        text-decoration: none;
+        background-color: color-mix(in oklch, var(--accent) 10%, transparent);
       }
     }
   }

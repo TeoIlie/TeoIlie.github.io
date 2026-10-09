@@ -29,27 +29,34 @@ const projects = await Promise.all(
 );
 
 const collaborators = [
-  { name: 'Ingenuity Labs', url: 'https://ingenuitylabs.queensu.ca/', icon: 'solid/gears' },
-  { name: 'QUARRG Lab', url: 'https://labs.cs.queensu.ca/quarrg/', icon: 'solid/robot' },
-  { name: 'MuLab', url: 'https://mulab.ai/', icon: 'solid/code-branch' },
+  { name: 'Ingenuity Labs', url: 'https://ingenuitylabs.queensu.ca/' },
+  { name: 'QUARRG Lab', url: 'https://labs.cs.queensu.ca/quarrg/' },
+  { name: 'MuLab', url: 'https://mulab.ai/' },
 ];
 ---
 
-<h2 class="section-title heading-underline">Projects</h2>
-
-<SectionIntro links={collaborators}>
+<SectionIntro
+  eyebrow="03 · Projects"
+  title="Selected work"
+  links={collaborators}
+  linksLabel="Collaborating with"
+>
   <p>
-    Explore a selection of my projects, ranging from a self-driving robot using Deep Reinforcement
-    Learning for map building, Probabilistic Inference with Pacman, and a Neural Network digit
-    classifier built from scratch. Also check out my collaborators below{' '}
-    <span class="large-emoji">🤖</span>
+    Autonomous racing, reinforcement learning for robot navigation, probabilistic inference, and
+    neural networks built from scratch.
   </p>
 </SectionIntro>
 
 <div class="projects">
   {projects.map((project) => (
-    <article class="card card-hover project" data-reveal>
-      <a href={project.links[0]?.url} target="_blank" rel="noopener" tabindex="-1">
+    <article class:list={['card card-hover project', { featured: project.featured }]} data-reveal>
+      <a
+        href={project.links[0]?.url}
+        target="_blank"
+        rel="noopener"
+        tabindex="-1"
+        class="media viewfinder"
+      >
         <video
           data-autoplay
           loop
@@ -64,13 +71,12 @@ const collaborators = [
         </video>
       </a>
       <div class="info">
-        <h3 class="heading-underline heading-underline--left">{project.title}</h3>
+        <h3>{project.title}</h3>
         <project.Description />
-        <h4>Technologies Used</h4>
-        <Chips items={project.technologies} />
+        <Chips items={project.technologies} limit={project.featured ? undefined : 4} />
         <div class="link-row">
-          {project.links.map((link) => (
-            <LinkButton {...link} />
+          {project.links.map((link, i) => (
+            <LinkButton {...link} primary={project.featured && i === 0} />
           ))}
         </div>
       </div>
@@ -97,63 +103,76 @@ const collaborators = [
 </script>
 
 <style>
+  /* Featured projects span the full width; the rest fill a two-column grid */
   .projects {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   .project {
     display: flex;
-    gap: 40px;
-    align-items: flex-start;
-    padding: 30px;
+    flex-direction: column;
+    padding: 8px;
+  }
 
-    &:nth-child(even) {
-      flex-direction: row-reverse;
-    }
+  .featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    align-items: center;
+    gap: 8px;
 
     @media (max-width: 860px) {
-      &,
-      &:nth-child(even) {
-        flex-direction: column;
-      }
+      grid-template-columns: 1fr;
     }
 
-    > a {
-      flex: 0 0 45%;
-      width: 100%;
-      border-radius: 8px;
-      overflow: hidden;
-      /* Own layer, so mobile Safari applies the rounded clip to the (separately composited) video */
-      isolation: isolate;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-      background-color: var(--chips-background);
+    .info {
+      padding: 24px 28px;
     }
+
+    h3 {
+      font-size: 24px;
+    }
+  }
+
+  .media {
+    display: block;
+    border-radius: 6px;
+    overflow: hidden;
+    /* Own layer, so mobile Safari applies the rounded clip to the (separately composited) video */
+    isolation: isolate;
+    background-color: var(--surface-2);
 
     video {
       display: block;
       width: 100%;
-      height: 300px;
+      aspect-ratio: 3 / 2;
       object-fit: cover;
-      transition: scale 0.3s ease;
-
-      &:hover {
-        scale: 1.03;
-      }
     }
   }
 
   .info {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    padding: 20px 16px 16px;
 
     h3 {
-      font-size: 28px;
-      margin-bottom: 15px;
+      margin-bottom: 8px;
     }
 
     :global(p) {
-      margin-bottom: 25px;
+      margin-bottom: 20px;
+    }
+
+    .link-row {
+      margin-top: auto;
+      padding-top: 20px;
     }
   }
 </style>

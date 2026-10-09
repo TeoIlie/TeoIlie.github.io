@@ -1,6 +1,7 @@
 ---
 title: 'Autonomous Racing Team Founder & Lead'
 order: 1
+featured: true
 video: f1_10
 technologies:
   - Control

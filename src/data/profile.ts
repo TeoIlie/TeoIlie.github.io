@@ -5,7 +5,9 @@ export const profile = {
   email: 'teo.altum.quinque@gmail.com',
   phone: { display: '+1 (416) 668-6650', href: 'tel:+14166686650' },
   discord: 'teoilie',
-  tagline: "MSc Student at Queen's University | Full-Stack Developer at BMO",
+  /** Supporting line under the hero statement */
+  headline:
+    "Autonomy at MacLean Engineering. Before that, deep RL research for autonomous racing at Queen's.",
   resume: '/assets/Teodor_Ilie_Resume_CV.pdf',
 };
 
@@ -26,6 +28,13 @@ export const socials = [
   { name: 'Strava', url: 'https://www.strava.com/athletes/9039374', icon: 'brands/strava' },
 ];
 
+// Short proof points shown in the hero's credentials strip
+export const credentials = [
+  'MSc CS (AI)',
+  'Vector · NSERC CGS · OGS',
+  "Hosted Canada's first RoboRacer event",
+];
+
 export const interests = [
   'Reinforcement Learning',
   'GenAI',
@@ -42,7 +51,8 @@ export const interests = [
 export const education = [
   {
     degree: 'M.Sc., Computer Science (AI Spec.)',
-    institution: "Queen's University, recipient of:",
+    institution: "Queen's University",
+    years: '2024 – 2026',
     awards: [
       { name: 'Vector for AI', url: 'https://vectorinstitute.ai/programs/scholarship/' },
       {
@@ -55,5 +65,58 @@ export const education = [
       },
     ],
   },
-  { degree: 'B.Sc. (Hons), Computer Science', institution: "Queen's University", awards: [] },
+  {
+    degree: 'B.Sc. (Hons), Computer Science',
+    institution: "Queen's University",
+    years: '2018 – 2022',
+    awards: [],
+  },
+];
+
+// Newest first; mirrors the Work Experience section of the resume
+export const experience = [
+  {
+    role: 'Designer Level II, Autonomy Team',
+    org: 'MacLean Engineering',
+    url: 'https://macleanengineering.com/',
+    start: 'Oct 2026',
+    end: 'Present',
+    summary: 'Building autonomous systems for underground mining vehicles.',
+  },
+  {
+    role: 'Founder & Team Lead',
+    org: 'Ingenuity Labs Racing',
+    url: 'https://github.com/Ingenuity-Labs-Racing',
+    start: 'Jul 2025',
+    end: 'Present',
+    summary:
+      "Founded and lead Queen's F1TENTH / RoboRacer autonomous racing team of PhD, post-doc and MSc students, building ROS2 SLAM, planning and control stacks. Hosted Canada's first RoboRacer event.",
+  },
+  {
+    role: 'Graduate Research Engineer',
+    org: "Ingenuity Labs, Queen's University",
+    url: 'https://ingenuitylabs.queensu.ca/',
+    start: 'Sep 2024',
+    end: '2026',
+    summary:
+      'Developed deep RL controllers for autonomous vehicle drifting and loss-of-traction recovery, trained in a custom parallelized Gym simulator and deployed on a physical 1/10-scale car.',
+  },
+  {
+    role: 'Full-Stack Software Developer',
+    org: 'BMO Financial Group',
+    url: 'https://www.bmo.com/',
+    start: 'Sep 2022',
+    end: '2026',
+    summary:
+      'Built SKOPE, an internal safekeeping app with Spring REST APIs and an Angular front end, in an Agile team practising TDD.',
+  },
+  {
+    role: 'Business Analyst (Summer Internships)',
+    org: 'BMO Financial Group',
+    url: 'https://www.bmo.com/',
+    start: 'May 2020',
+    end: 'Aug 2021',
+    summary:
+      'Designed an automated Power BI reporting tool later adopted bank-wide, and coordinated month-end systems monitoring across teams.',
+  },
 ];

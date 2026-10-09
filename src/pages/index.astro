@@ -1,17 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import About from '../components/About.astro';
+import Experience from '../components/Experience.astro';
 import Projects from '../components/Projects.astro';
 import LegoGrid from '../components/LegoGrid.astro';
 import Contact from '../components/Contact.astro';
 ---
 
 <BaseLayout
-  title="Teodor Ilie | AI & Robotics Master's Student | Full-Stack Developer"
-  description="Teodor Ilie is a Master's student in AI & Robotics at Queen's University and a full-stack developer, researching deep reinforcement learning for autonomous vehicles."
+  title="Teodor Ilie | Autonomy Designer at MacLean Engineering | AI & Robotics"
+  description="Teodor Ilie is a designer on the Autonomy Team at MacLean Engineering, with an MSc in Computer Science (AI) from Queen's University and research in deep reinforcement learning for autonomous vehicles."
 >
   <section id="about" class="container">
     <About />
+  </section>
+  <section id="experience" class="container">
+    <Experience />
   </section>
   <section id="projects" class="container">
     <Projects />
@@ -19,17 +23,38 @@ import Contact from '../components/Contact.astro';
   <section id="lego" class="container">
     <LegoGrid />
   </section>
-  <section id="socials" class="container">
+  <section id="contact" class="container">
     <Contact />
   </section>
 </BaseLayout>
 
 <style>
+  /* Faint blueprint grid behind the hero, fading out as the page scrolls */
+  :global(main) {
+    position: relative;
+    /* The hero racing line bleeds past the container; never let it add horizontal scroll */
+    overflow-x: clip;
+  }
+
+  :global(main)::before {
+    --grid: color-mix(in oklch, var(--text) 6%, transparent);
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 auto;
+    height: 900px;
+    background:
+      linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 40px 40px,
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 40px 40px;
+    mask-image: radial-gradient(ellipse 70% 80% at 50% 0%, #000 40%, transparent 100%);
+    pointer-events: none;
+  }
+
   section {
-    min-height: 100vh;
-    padding: 100px 0 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding-block: clamp(72px, 10vw, 120px);
+
+    & + section {
+      border-top: 1px solid var(--border);
+    }
   }
 </style>

@@ -36,8 +36,8 @@ const photos = await Promise.all(
       <Icon name="solid/arrow-left" /> All creations
     </a>
 
-    <h1 class="heading-underline heading-underline--left">{data.title}</h1>
-    <p class="year">{data.buildYear}</p>
+    <span class="eyebrow">LEGO Technic · {data.buildYear}</span>
+    <h1 style={`view-transition-name: lego-${entry.id}`}>{data.title}</h1>
 
     <!-- Lightweight YouTube facade: the player only loads when clicked -->
     <div class="video">
@@ -61,7 +61,7 @@ const photos = await Promise.all(
     </div>
 
     <Content />
-    <h2 class="subheading">Techniques & Features</h2>
+    <h2 class="label">Techniques & features</h2>
     <Chips items={data.techniques} />
     <div class="link-row">
       {data.links.map((link) => (
@@ -71,7 +71,7 @@ const photos = await Promise.all(
 
     {data.gallery.length > 0 && (
       <>
-        <h2 class="subheading">More Photos</h2>
+        <h2 class="label">More photos</h2>
         <ul class="gallery">
           {data.gallery.map((url, i) => (
             <li>
@@ -176,34 +176,40 @@ const photos = await Promise.all(
 <style>
   article {
     margin-top: calc(var(--header-height) + 40px);
-    padding: 30px;
+    margin-bottom: 40px;
+    padding: clamp(20px, 4vw, 40px);
+
+    > :global(p) {
+      max-width: 720px;
+      font-size: 17px;
+    }
   }
 
   .back {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 32px;
+    font-size: 14px;
     font-weight: 500;
+    color: var(--text-muted);
+
+    &:hover {
+      color: var(--text);
+    }
   }
 
   h1 {
-    font-size: 32px;
-    margin-bottom: 8px;
-  }
-
-  .year {
-    color: var(--subtitle);
-    font-size: 16px;
+    font-size: clamp(32px, 5vw, 44px);
   }
 
   h2 {
-    margin-top: 20px;
+    margin-top: 32px;
   }
 
   /* The wrapper holds the size, so swapping the button for the (unscoped) iframe doesn't resize it */
   .video {
-    margin: 20px 0;
+    margin: 32px 0;
     aspect-ratio: 16 / 9;
     border-radius: 8px;
     overflow: hidden;
@@ -256,7 +262,6 @@ const photos = await Promise.all(
       display: block;
       overflow: hidden;
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
       cursor: zoom-in;
     }
 

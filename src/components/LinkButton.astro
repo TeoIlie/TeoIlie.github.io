@@ -5,20 +5,30 @@ interface Props {
   name: string;
   url: string;
   icon?: string;
+  /** Filled accent button for the main call to action */
+  primary?: boolean;
 }
 
-const { name, url, icon = inferIcon(url) } = Astro.props;
+const { name, url, icon = inferIcon(url), primary = false } = Astro.props;
+// Same-page anchors open in place; everything else in a new tab
+const external = !url.startsWith('/#');
 
 function inferIcon(url: string) {
   if (url.includes('github.com')) return 'brands/github';
   if (/youtube\.com|youtu\.be/.test(url)) return 'brands/youtube';
-  if (url.endsWith('.pdf')) return 'solid/paperclip';
+  if (url.endsWith('.pdf')) return 'solid/file-lines';
   if (url.includes('eurobricks.com')) return 'solid/comments';
-  return 'solid/up-right-from-square';
+  if (url.startsWith('/#')) return 'solid/arrow-down';
+  return 'solid/arrow-up-right-from-square';
 }
 ---
 
-<a href={url} target="_blank" rel="noopener" class="link-button">
+<a
+  href={url}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+  class:list={['link-button', { 'link-button--primary': primary }]}
+>
   <Icon name={icon} />
   <span>{name}</span>
 </a>

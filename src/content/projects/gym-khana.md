@@ -1,6 +1,7 @@
 ---
 title: 'Gym-Khana: Autonomous Racing & Drifting Gym Simulator'
 order: 2
+featured: true
 video: drift2
 technologies:
   - Deep RL

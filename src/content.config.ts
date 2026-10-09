@@ -14,6 +14,8 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     order: z.number(),
+    // Shown as a large card above the grid of other projects
+    featured: z.boolean().default(false),
     // Name of the video in public/assets/videos/ (.mp4); its poster is
     // src/assets/images/posters/<video>.jpg (made by npm run prepare-videos)
     video: z.string(),
