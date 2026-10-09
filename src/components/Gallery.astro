@@ -1,0 +1,242 @@
+---
+// Photo grid whose thumbnails open a full-screen <dialog> lightbox (plain links without JS)
+import { Image, getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+
+interface Props {
+  /** Used in the alt text and the dialog label */
+  title: string;
+  /** Remote photo URLs (their domain must be in image.domains in astro.config.mjs) */
+  urls: string[];
+}
+
+const { title, urls } = Astro.props;
+
+// Full-size versions for the lightbox (and the plain links it falls back to without JS)
+const photos = await Promise.all(
+  urls.map((url) => getImage({ src: url, inferSize: true, widths: [960, 1280] }))
+);
+---
+
+<h2 class="label">More photos</h2>
+<ul class="gallery">
+  {urls.map((url, i) => (
+    <li>
+      <a href={photos[i].src} data-srcset={photos[i].srcSet.attribute} data-index={i}>
+        <Image
+          src={url}
+          alt={`${title} detail ${i + 1}`}
+          inferSize
+          width={960}
+          widths={[320, 640, 960]}
+          sizes="(max-width: 860px) calc(100vw - 100px), 460px"
+        />
+      </a>
+    </li>
+  ))}
+</ul>
+
+<dialog class="lightbox" aria-label={`${title} photos`}>
+  <img alt="" sizes="90vw" />
+  <form method="dialog">
+    <button class="close" aria-label="Close">
+      <Icon name="solid/xmark" />
+    </button>
+  </form>
+  {photos.length > 1 && (
+    <>
+      <button type="button" class="prev" data-step="-1" aria-label="Previous photo">
+        <Icon name="solid/chevron-left" />
+      </button>
+      <button type="button" class="next" data-step="1" aria-label="Next photo">
+        <Icon name="solid/chevron-right" />
+      </button>
+      <p class="count" aria-live="polite" />
+    </>
+  )}
+</dialog>
+
+<script>
+  // Gallery lightbox: <dialog> handles focus, Escape and the backdrop; this adds paging
+  const lightbox = document.querySelector<HTMLDialogElement>('.lightbox');
+  if (lightbox) {
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('.gallery a')];
+    const img = lightbox.querySelector('img')!;
+    const count = lightbox.querySelector('.count');
+    let current = 0;
+
+    const show = (index: number) => {
+      current = (index + links.length) % links.length;
+      const link = links[current];
+      img.srcset = link.dataset.srcset!;
+      img.src = link.href;
+      img.alt = link.querySelector('img')!.alt;
+      if (count) count.textContent = `${current + 1} / ${links.length}`;
+    };
+
+    links.forEach((link, i) =>
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        show(i);
+        lightbox.showModal();
+      })
+    );
+
+    lightbox.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const step = target.closest<HTMLElement>('[data-step]')?.dataset.step;
+      if (step) show(current + Number(step));
+      // Clicks outside the photo and buttons land on the dialog itself
+      else if (target === lightbox) lightbox.close();
+    });
+
+    lightbox.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+
+    // Swipe to page on touch screens
+    let touchX = 0;
+    lightbox.addEventListener('touchstart', (e) => (touchX = e.touches[0].clientX), {
+      passive: true,
+    });
+    lightbox.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+    });
+  }
+</script>
+
+<style>
+  h2 {
+    margin-top: 32px;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
+    gap: 20px;
+
+    a {
+      display: block;
+      overflow: hidden;
+      border-radius: 8px;
+      cursor: zoom-in;
+    }
+
+    /* Slight zoom crops the 1px black edge some photos have */
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      scale: 1.01;
+      transition: scale 0.2s ease;
+    }
+
+    a:hover img {
+      scale: 1.04;
+    }
+  }
+
+  /* Fills the viewport so a click anywhere outside the photo closes it */
+  .lightbox {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    padding: 0;
+    border: none;
+    background: none;
+    place-items: center;
+    opacity: 0;
+    transition:
+      opacity 0.2s ease,
+      overlay 0.2s allow-discrete,
+      display 0.2s allow-discrete;
+
+    &[open] {
+      display: grid;
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+
+    &::backdrop {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    img {
+      max-width: calc(100vw - 32px);
+      max-height: calc(100dvh - 120px);
+      width: auto;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    button {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+      }
+    }
+
+    .close {
+      top: 16px;
+      right: 16px;
+    }
+
+    .prev,
+    .next {
+      top: 50%;
+      translate: 0 -50%;
+    }
+
+    .prev {
+      left: 16px;
+    }
+
+    .next {
+      right: 16px;
+    }
+
+    .count {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      translate: -50% 0;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+    }
+  }
+
+  /* Arrows sit below the photo on narrow screens, where swiping is the main way to page */
+  @media (max-width: 860px) {
+    .lightbox {
+      .prev,
+      .next {
+        top: auto;
+        bottom: 8px;
+        translate: none;
+      }
+    }
+  }
+
+  :global(html:has(.lightbox[open])) {
+    overflow: hidden;
+  }
+</style>

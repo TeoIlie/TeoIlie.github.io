@@ -1,0 +1,88 @@
+---
+// Lightweight YouTube facade: only the thumbnail loads; the player replaces it when clicked
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+
+interface Props {
+  /** YouTube video id */
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+---
+
+<div class="video">
+  <button type="button" data-youtube-id={id} aria-label={`Play ${title} video`}>
+    <Image
+      src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+      alt=""
+      width={1280}
+      height={720}
+      widths={[640, 960, 1280]}
+      sizes="(max-width: 860px) calc(100vw - 100px), 940px"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <Icon name="brands/youtube" />
+  </button>
+</div>
+
+<script>
+  document.querySelector<HTMLButtonElement>('[data-youtube-id]')?.addEventListener('click', (e) => {
+    const button = e.currentTarget as HTMLButtonElement;
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${button.dataset.youtubeId}?autoplay=1`;
+    iframe.title = button.getAttribute('aria-label')!;
+    iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    button.replaceWith(iframe);
+  });
+</script>
+
+<style>
+  /* The wrapper holds the size, so swapping the button for the (unscoped) iframe doesn't resize it */
+  .video {
+    margin: 32px 0;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #000;
+
+    button,
+    :global(iframe) {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: none;
+    }
+
+    button {
+      position: relative;
+      background: none;
+      cursor: pointer;
+    }
+
+    /* Slight zoom crops the 1px black edge some YouTube thumbnails have */
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      scale: 1.01;
+    }
+
+    :global(.icon) {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      translate: -50% -50%;
+      font-size: 64px;
+      color: #f00;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+      transition: scale 0.2s ease;
+    }
+
+    button:hover :global(.icon) {
+      scale: 1.1;
+    }
+  }
+</style>
