@@ -29,12 +29,12 @@ There are no unit tests or ESLint.
 **Structure:**
 - `src/pages/index.astro` - homepage; just `<section id="about|projects|lego|socials" class="container">` wrappers around section components
 - `src/pages/lego/[slug].astro` - `getStaticPaths()` over the `lego` collection; YouTube facade, gallery
-- `src/layouts/BaseLayout.astro` - `<head>` (SEO/OG tags, canonical, JSON-LD from `data/profile.ts`, fonts, pre-paint theme script), Header, `<main>`, footer. Props: `title`, `description`, optional `image` (OG image, via `getImage`; defaults to the profile photo)
+- `src/layouts/BaseLayout.astro` - `<head>` (SEO/OG tags, canonical, JSON-LD from `data/profile.ts`, `<Font>` tags with preloads, pre-paint theme script), Header, `<main>`, footer. Props: `title`, `description`, optional `image` (OG image, via `getImage`; defaults to the profile photo)
 - `src/components/` - sections: `About`, `Projects`, `LegoGrid`, `Contact`, `Header`; building blocks: `Icon`, `Chips`, `LinkButton`, `SectionIntro`
 - `src/content.config.ts` - Zod schemas; both collections share the `links` schema and use the markdown body as the description
 - `src/content/projects/*.md`, `src/content/lego/*.md` - one file per item; `order` sets position; filename is the slug/URL
 - `src/data/profile.ts` - name, email, phone, discord, socials, interests, education (single source for About, Contact, JSON-LD)
-- `src/styles/global.css` - theme tokens (colours + `--font-heading`/`--font-body`), base styles, shared classes, scroll-reveal
+- `src/styles/global.css` - theme tokens (colours), base styles, shared classes, scroll-reveal
 - `src/assets/` - `logo.svg` (uses `currentColor`, imported as a component) and `images/` (optimized at build)
 - `public/` - served unprocessed: videos, resume PDF, favicons, `robots.txt`, `_headers`
 
@@ -59,7 +59,7 @@ There are no unit tests or ESLint.
 
 ## Build & Deployment
 
-- `astro.config.mjs`: `site: 'https://teoilie.com'`, `outDir: './docs'`, `build.inlineStylesheets: 'always'`, `image.domains`, `@astrojs/sitemap`.
+- `astro.config.mjs`: `site: 'https://teoilie.com'`, `outDir: './docs'`, `build.inlineStylesheets: 'always'`, `image.domains`, `@astrojs/sitemap`, `fonts` (Fonts API, Fontsource provider: Roboto → `--font-body`, Montserrat → `--font-heading`; add a weight there before using it).
 - `docs/` is gitignored; Cloudflare Pages runs `npm run build` on every push and serves `docs`. Its `NODE_VERSION` env var is `22.23.3` (Preview; set Production too when merging to `main`).
 - `*.pages.dev` preview URLs get `x-robots-tag: noindex` and a failing Cloudflare analytics beacon, so preview Lighthouse SEO/Best Practices scores are lower than on teoilie.com.
 - `public/_headers` sets immutable caching for `/_astro/*`.

@@ -2,8 +2,7 @@
 /* Fixed header height, also used to offset anchors and the LEGO pages */
 :root {
   --header-height: 70px;
-  --font-heading: 'Montserrat', sans-serif;
-  --font-body: 'Roboto', sans-serif;
+  /* --font-heading and --font-body come from the Fonts API (astro.config.mjs) */
 
   --link: #6a5acd;
   --section-underline: #5d4db3;
