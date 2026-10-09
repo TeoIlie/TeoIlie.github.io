@@ -1,5 +1,7 @@
 /* ========================= Theme ========================= */
+/* Fixed header height, also used to offset anchors and the LEGO pages */
 :root {
+  --header-height: 70px;
   --font-heading: 'Montserrat', sans-serif;
   --font-body: 'Roboto', sans-serif;
 
@@ -10,12 +12,10 @@
   --body-background: #f9f9f9;
   --subtitle: #666;
   --paragraph: #444;
-  --chips-color: #333;
   --chips-background: #eeeeee;
   --white: white;
   --form-border: #ddd;
   --footer-top: #eee;
-  --footer-colour: #666;
   color-scheme: light;
 }
 
@@ -27,12 +27,10 @@
   --body-background: #0a0a0a;
   --subtitle: #8e8e93;
   --paragraph: #d1d1d6;
-  --chips-color: #f2f2f7;
   --chips-background: #2c2c2e;
   --white: #1c1c1e;
   --form-border: #48484a;
   --footer-top: #1c1c1e;
-  --footer-colour: #8e8e93;
   color-scheme: dark;
 }
 
@@ -67,7 +65,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 70px; /* fixed header */
+  scroll-padding-top: var(--header-height);
 }
 
 body {
@@ -86,10 +84,14 @@ h2 {
 
 h3 {
   font-family: var(--font-heading);
+  font-size: 24px;
   font-weight: 500;
 }
 
-h4 {
+/* Small label-style heading; the class gives other heading levels the same look */
+h4,
+.subheading {
+  font-family: var(--font-body);
   font-size: 20px;
   font-weight: 300;
   margin-bottom: 15px;
@@ -155,7 +157,8 @@ ul {
   text-align: center;
 }
 
-/* Accent bar under a heading: centred, or left-aligned with --left */
+/* Accent bar under a heading: centred, or left-aligned with --left.
+   Set --underline-width on the heading to change its length. */
 .heading-underline {
   position: relative;
   padding-bottom: 12px;
@@ -165,17 +168,20 @@ ul {
     position: absolute;
     bottom: 0;
     left: 50%;
-    width: 120px;
+    width: var(--underline-width, 120px);
     height: 3px;
     translate: -50%;
     background-color: var(--section-underline);
   }
 }
 
-.heading-underline--left::after {
-  left: 0;
-  width: 60px;
-  translate: none;
+.heading-underline--left {
+  --underline-width: 60px;
+
+  &::after {
+    left: 0;
+    translate: none;
+  }
 }
 
 .card {
@@ -230,7 +236,7 @@ ul {
   font-size: 14px;
   font-weight: 400;
   background-color: var(--chips-background);
-  color: var(--chips-color);
+  color: var(--body-color);
 }
 
 .link-row {
@@ -246,7 +252,7 @@ ul {
   gap: 8px;
   padding: 10px 18px;
   background-color: var(--chips-background);
-  color: var(--chips-color);
+  color: var(--body-color);
   border-radius: 6px;
   font-weight: 500;
   transition: all 0.2s ease;

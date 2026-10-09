@@ -5,6 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import Chips from '../../components/Chips.astro';
 import LinkButton from '../../components/LinkButton.astro';
+import { profile } from '../../data/profile';
 
 export async function getStaticPaths() {
   const creations = await getCollection('lego');
@@ -21,7 +22,7 @@ const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)
 ---
 
 <BaseLayout
-  title={`${data.title} – LEGO Technic | Teodor Ilie`}
+  title={`${data.title} – LEGO Technic | ${profile.name}`}
   description={description}
   image={data.cover}
 >
@@ -54,7 +55,7 @@ const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)
 
       <div class="info">
         <Content />
-        <h2>Techniques & Features</h2>
+        <h2 class="subheading">Techniques & Features</h2>
         <Chips items={data.techniques} />
         <div class="link-row">
           {data.links.map((link) => (
@@ -66,7 +67,7 @@ const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)
 
     {data.gallery.length > 0 && (
       <>
-        <h2>More Photos</h2>
+        <h2 class="subheading">More Photos</h2>
         <ul class="gallery">
           {data.gallery.map((url) => (
             <li>
@@ -74,6 +75,7 @@ const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)
                 src={url}
                 alt={`${data.title} detail`}
                 inferSize
+                width={960}
                 widths={[320, 640, 960]}
                 sizes="(max-width: 860px) calc(100vw - 100px), 460px"
               />
@@ -98,7 +100,7 @@ const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)
 
 <style>
   article {
-    margin-top: 110px;
+    margin-top: calc(var(--header-height) + 40px);
     padding: 30px;
   }
 
@@ -121,10 +123,7 @@ const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)
   }
 
   h2 {
-    margin: 20px 0 15px;
-    font-family: var(--font-body);
-    font-size: 20px;
-    font-weight: 300;
+    margin-top: 20px;
   }
 
   .main {

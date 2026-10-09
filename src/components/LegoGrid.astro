@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import SectionIntro from './SectionIntro.astro';
 import Chips from './Chips.astro';
+import { socials } from '../data/profile';
 import nico71 from '../assets/images/nico71.jpg';
 import zerobricks from '../assets/images/zerobricks.jpg';
 import madoca from '../assets/images/madoca.png';
@@ -13,11 +14,7 @@ import sariel from '../assets/images/sariel.png';
 const creations = (await getCollection('lego')).sort((a, b) => a.data.order - b.data.order);
 
 const communityLinks = [
-  {
-    name: 'Youtube Channel',
-    url: 'https://www.youtube.com/@TeoTechnicTaken',
-    icon: 'brands/youtube',
-  },
+  { ...socials.find((s) => s.name === 'YouTube')!, name: 'Youtube Channel' },
   {
     name: 'Eurobricks Forum',
     url: 'https://www.eurobricks.com/forum/profile/120672-teo-lego-technic/',
@@ -161,7 +158,6 @@ const inspirations = [
     }
 
     h3 {
-      font-size: 24px;
       margin-bottom: 8px;
     }
 
@@ -179,12 +175,8 @@ const inspirations = [
     text-align: center;
 
     h3 {
-      font-size: 24px;
+      --underline-width: 60px;
       margin-bottom: 25px;
-
-      &::after {
-        width: 60px;
-      }
     }
 
     p {

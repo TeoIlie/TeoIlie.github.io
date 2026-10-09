@@ -149,7 +149,6 @@ import { profile } from '../data/profile';
     padding: 30px;
 
     h3 {
-      font-size: 24px;
       margin-bottom: 20px;
       text-align: center;
     }
@@ -189,15 +188,11 @@ import { profile } from '../data/profile';
     display: none;
     margin-top: 5px;
     font-size: 14px;
-    color: #dc3545;
+    color: light-dark(#dc3545, #ff6b6b);
   }
 
   :user-invalid + small {
     display: block;
-  }
-
-  :global(.dark-theme) small {
-    color: #ff6b6b;
   }
 
   button[type='submit'] {
@@ -230,22 +225,12 @@ import { profile } from '../data/profile';
   }
 
   .success {
-    color: #155724;
-    background-color: #d4edda;
+    color: light-dark(#155724, #90ee90);
+    background-color: light-dark(#d4edda, #1a4a1a);
   }
 
   .error {
-    color: #721c24;
-    background-color: #f8d7da;
-  }
-
-  :global(.dark-theme) .success {
-    color: #90ee90;
-    background-color: #1a4a1a;
-  }
-
-  :global(.dark-theme) .error {
-    color: #ff9999;
-    background-color: #4a1a1a;
+    color: light-dark(#721c24, #ff9999);
+    background-color: light-dark(#f8d7da, #4a1a1a);
   }
 </style>

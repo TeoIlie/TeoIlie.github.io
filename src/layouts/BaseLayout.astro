@@ -18,6 +18,7 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props;
+const siteName = `${profile.name} Portfolio`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(
   image ? (await getImage({ src: image, width: 1200, format: 'jpg' })).src : '/og-image.jpg',
@@ -31,7 +32,7 @@ const jsonLd = {
       '@type': 'Person',
       name: profile.name,
       alternateName: 'Teo Ilie',
-      url: 'https://teoilie.com',
+      url: Astro.site!.href,
       email: profile.email,
       image: new URL('/og-image.jpg', Astro.site).href,
       sameAs: socials.map((s) => s.url),
@@ -54,8 +55,8 @@ const jsonLd = {
     },
     {
       '@type': 'WebSite',
-      name: 'Teodor Ilie Portfolio',
-      url: 'https://teoilie.com',
+      name: siteName,
+      url: Astro.site!.href,
       publisher: { '@type': 'Person', name: profile.name },
     },
   ],
@@ -81,7 +82,7 @@ const jsonLd = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Teodor Ilie Portfolio" />
+    <meta property="og:site_name" content={siteName} />
     <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Apply the saved/system theme before first paint to avoid a flash -->
@@ -93,7 +94,7 @@ const jsonLd = {
       if (theme !== 'light' && theme !== 'dark') {
         theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
-      document.documentElement.classList.add(`${theme}-theme`);
+      if (theme === 'dark') document.documentElement.classList.add('dark-theme');
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
@@ -104,7 +105,7 @@ const jsonLd = {
     </main>
     <footer>
       <p>
-        &copy; {new Date().getFullYear()} Teodor Ilie. All rights reserved. View the{' '}
+        &copy; {new Date().getFullYear()} {profile.name}. All rights reserved. View the{' '}
         <a href="https://github.com/TeoIlie/TeoIlie.github.io" target="_blank" rel="noopener">
           source code on GitHub
         </a>{' '}
@@ -143,7 +144,7 @@ const jsonLd = {
     border-top: 1px solid var(--footer-top);
 
     p {
-      color: var(--footer-colour);
+      color: var(--subtitle);
     }
   }
 </style>

@@ -2,6 +2,7 @@
 import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import Chips from './Chips.astro';
+import LinkButton from './LinkButton.astro';
 import photo from '../assets/images/profile-1200.jpg';
 import { profile, socials, interests, education } from '../data/profile';
 ---
@@ -14,6 +15,8 @@ import { profile, socials, interests, education } from '../data/profile';
     <Picture
       src={photo}
       alt={profile.name}
+      width={600}
+      height={600}
       widths={[250, 300, 500, 600]}
       sizes="(max-width: 860px) 250px, 300px"
       formats={['avif', 'webp']}
@@ -30,9 +33,7 @@ import { profile, socials, interests, education } from '../data/profile';
         </li>
       ))}
     </ul>
-    <a href={profile.resume} target="_blank" class="link-button">
-      <Icon name="solid/file-pdf" /> Download Resume
-    </a>
+    <LinkButton name="Download Resume" url={profile.resume} icon="solid/file-pdf" />
   </div>
 
   <div class="bio" data-reveal>
@@ -132,7 +133,7 @@ import { profile, socials, interests, education } from '../data/profile';
     a {
       display: flex;
       font-size: 28px;
-      color: var(--chips-color);
+      color: var(--body-color);
       transition:
         color 0.1s ease,
         scale 0.1s ease;
