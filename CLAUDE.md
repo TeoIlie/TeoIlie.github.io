@@ -60,7 +60,7 @@ There are no unit tests or ESLint.
 ## Build & Deployment
 
 - `astro.config.mjs`: `site: 'https://teoilie.com'`, `outDir: './docs'`, `build.inlineStylesheets: 'always'`, `image.domains`, `@astrojs/sitemap`, `fonts` (Fonts API, Fontsource provider: Roboto → `--font-body`, Montserrat → `--font-heading`; add a weight there before using it).
-- `docs/` is gitignored; Cloudflare Pages runs `npm run build` on every push and serves `docs`. Its `NODE_VERSION` env var is `22.23.3` (Preview; set Production too when merging to `main`).
+- `docs/` is gitignored; Cloudflare Pages runs `npm run build` on every push and serves `docs`. Its `NODE_VERSION` env var is `22.23.3` (Production and Preview).
 - `*.pages.dev` preview URLs get `x-robots-tag: noindex` and a failing Cloudflare analytics beacon, so preview Lighthouse SEO/Best Practices scores are lower than on teoilie.com.
 - `public/_headers` sets immutable caching for `/_astro/*`.
 
