@@ -6,7 +6,8 @@ import SectionIntro from './SectionIntro.astro';
 import Chips from './Chips.astro';
 import LinkButton from './LinkButton.astro';
 
-// First frames extracted by `npm run prepare-videos`, shown until the video plays
+// First frames extracted by `npm run prepare-videos`, shown until the video plays. Also set as
+// the video's background, since Firefox drops the poster a moment before painting the first frame.
 const posters = import.meta.glob<ImageMetadata>('../assets/images/posters/*.jpg', {
   eager: true,
   import: 'default',
@@ -56,6 +57,7 @@ const collaborators = [
           playsinline
           preload="none"
           poster={project.poster}
+          style={`background: url(${project.poster}) center / cover`}
           aria-label={project.title}
         >
           <source src={`/assets/videos/${project.video}.mp4`} type="video/mp4" />
