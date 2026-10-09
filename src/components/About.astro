@@ -1,156 +1,95 @@
 ---
 import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
-import profile from '../assets/images/profile-1200.jpg';
-
-const socialLinks = [
-  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/teodorilie/', icon: 'brands/linkedin' },
-  { name: 'GitHub', url: 'https://github.com/TeoIlie', icon: 'brands/github' },
-  { name: 'YouTube', url: 'https://www.youtube.com/@TeoTechnicTaken', icon: 'brands/youtube' },
-  {
-    name: 'Google Scholar',
-    url: 'https://scholar.google.ca/citations?user=YaQWjp8AAAAJ&hl=en',
-    icon: 'solid/graduation-cap',
-  },
-  {
-    name: 'Facebook',
-    url: 'https://www.facebook.com/profile.php?id=100004509104826',
-    icon: 'brands/facebook',
-  },
-  { name: 'Strava', url: 'https://www.strava.com/athletes/9039374', icon: 'brands/strava' },
-];
-
-const interests = [
-  'Reinforcement Learning',
-  'GenAI',
-  'Autonomous Control',
-  'Event Camera',
-  'Computer Vision',
-  'Deep Learning',
-  'Automated Planning',
-  'Explainable AI',
-  'Cybersecurity',
-  'FinTech',
-];
-
-const awards = [
-  { name: 'Vector for AI', url: 'https://vectorinstitute.ai/programs/scholarship/' },
-  {
-    name: 'NSERC CGS',
-    url: 'https://www.nserc-crsng.gc.ca/students-etudiants/pg-cs/cgsm-bescm_eng.asp',
-  },
-  {
-    name: 'OGS',
-    url: 'https://www.queensu.ca/grad-postdoc/grad-studies/funding/ontario-graduate-scholarship',
-  },
-];
+import Chips from './Chips.astro';
+import photo from '../assets/images/profile-1200.jpg';
+import { profile, socials, interests, education } from '../data/profile';
 ---
 
-<div class="section-heading">
-  <h1 class="visually-hidden">Teodor Ilie</h1>
-  <h2>About Me</h2>
-  <div class="content">
-    <div class="profile">
-      <Picture
-        src={profile}
-        alt="Teodor Ilie"
-        widths={[250, 300, 500, 600]}
-        sizes="(max-width: 860px) 250px, 300px"
-        formats={['avif', 'webp']}
-        loading="eager"
-        fetchpriority="high"
-        class="profile-image"
-      />
-      <p class="subtitle">MSc Student at Queen's University | Full-Stack Developer at BMO</p>
-      <ul class="socials-grid">
-        {socialLinks.map((social) => (
-          <li>
-            <a href={social.url} target="_blank" rel="noopener noreferrer" class="social-link">
-              <Icon name={social.icon} label={social.name} />
-            </a>
-          </li>
+<h1 class="visually-hidden">{profile.name}</h1>
+<h2 class="section-title heading-underline">About Me</h2>
+
+<div class="about">
+  <div class="profile">
+    <Picture
+      src={photo}
+      alt={profile.name}
+      widths={[250, 300, 500, 600]}
+      sizes="(max-width: 860px) 250px, 300px"
+      formats={['avif', 'webp']}
+      loading="eager"
+      fetchpriority="high"
+    />
+    <p class="tagline">{profile.tagline}</p>
+    <ul class="socials">
+      {socials.map((social) => (
+        <li>
+          <a href={social.url} target="_blank" rel="noopener noreferrer">
+            <Icon name={social.icon} label={social.name} />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <a href={profile.resume} target="_blank" class="link-button">
+      <Icon name="solid/file-pdf" /> Download Resume
+    </a>
+  </div>
+
+  <div class="bio" data-reveal>
+    <h3>
+      Hello, I'm <span class="highlight">{profile.name}</span>
+    </h3>
+    <p>
+      Welcome! I'm a Master's Student with the School of Computing at Queen's University in the{' '}
+      <a href="https://labs.cs.queensu.ca/quarrg/" target="_blank" rel="noopener">
+        QUARRG
+      </a>{' '}
+      lab, and a full-stack software developer at BMO. I am currently researching Deep Reinforcement
+      Learning solutions for autonomous vehicle navigation and control.
+    </p>
+    <p>
+      In my free time I enjoy kickboxing, playing guitar, and designing LEGO Technic models. Check
+      out my coding projects, LEGO Technic designs, or just enjoy the pretty pictures{' '}
+      <span class="large-emoji">🎨</span>
+    </p>
+
+    <div class="details">
+      <div>
+        <h4>Interests</h4>
+        <Chips items={interests} />
+      </div>
+      <div>
+        <h4>Education</h4>
+        {education.map((item) => (
+          <div class="degree">
+            <Icon name="solid/graduation-cap" />
+            <div>
+              <strong>{item.degree}</strong>
+              <small>{item.institution}</small>
+              {item.awards.length > 0 && (
+                <div class="awards">
+                  {item.awards.map((award) => (
+                    <a href={award.url} target="_blank" rel="noopener">
+                      {award.name}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         ))}
-      </ul>
-      <a href="/assets/Teodor_Ilie_Resume_CV.pdf" target="_blank" class="link-button">
-        <Icon name="solid/file-pdf" />
-        <span>Download Resume</span>
-      </a>
-    </div>
-
-    <div class="bio" data-reveal>
-      <h3>
-        Hello, I'm <span class="highlight">Teodor Ilie</span>
-      </h3>
-      <p>
-        Welcome! I'm a Master's Student with the School of Computing at Queen's University in the{' '}
-        <a href="https://labs.cs.queensu.ca/quarrg/" target="_blank" rel="noopener">
-          QUARRG
-        </a>{' '}
-        lab, and a full-stack software developer at BMO. I am currently researching Deep
-        Reinforcement Learning solutions for autonomous vehicle navigation and control.
-      </p>
-      <p>
-        In my free time I enjoy kickboxing, playing guitar, and designing LEGO Technic models. Check
-        out my coding projects, LEGO Technic designs, or just enjoy the pretty pictures{' '}
-        <span class="large-emoji">🎨</span>
-      </p>
-
-      <div class="skill-education-container">
-        <div class="skills">
-          <h4>Interests</h4>
-          <ul class="chips">
-            {interests.map((skill) => (
-              <li class="chip">{skill}</li>
-            ))}
-          </ul>
-        </div>
-        <div class="education">
-          <h4>Education</h4>
-          <div class="education-item">
-            <Icon name="solid/graduation-cap" />
-            <div>
-              <div class="degree">M.Sc., Computer Science (AI Spec.)</div>
-              <div class="institution">Queen's University, recipient of:</div>
-              <div class="awards">
-                {awards.map((award) => (
-                  <a href={award.url} target="_blank" rel="noopener">
-                    {award.name}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div class="education-item">
-            <Icon name="solid/graduation-cap" />
-            <div>
-              <div class="degree">B.Sc. (Hons), Computer Science</div>
-              <div class="institution">Queen's University</div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
-<style lang="scss">
-  @use '../styles/variables' as *;
-
-  .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  .content {
+<style>
+  .about {
     display: flex;
     gap: 50px;
     align-items: flex-start;
 
-    @media (max-width: $breakpoint-mobile) {
+    @media (max-width: 860px) {
       flex-direction: column;
       align-items: center;
     }
@@ -163,51 +102,44 @@ const awards = [
     align-items: center;
     gap: 15px;
 
-    :global(.profile-image) {
-      display: block;
+    img {
       width: 300px;
       height: 300px;
       border-radius: 50%;
       object-fit: cover;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 
-      @media (max-width: $breakpoint-mobile) {
+      @media (max-width: 860px) {
         width: 250px;
         height: 250px;
       }
     }
   }
 
-  .subtitle {
+  .tagline {
     font-size: 16px;
     color: var(--subtitle);
     text-align: center;
     margin: 0;
   }
 
-  .socials-grid {
+  .socials {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 16px;
-    list-style: none;
-  }
 
-  .social-link {
-    display: flex;
-    color: var(--chips-color);
-    font-size: 28px;
-    transition: color 0.1s ease;
+    a {
+      display: flex;
+      font-size: 28px;
+      color: var(--chips-color);
+      transition:
+        color 0.1s ease,
+        scale 0.1s ease;
 
-    :global(.icon) {
-      transition: transform 0.1s ease;
-    }
-
-    &:hover {
-      color: var(--section-underline);
-
-      :global(.icon) {
-        transform: scale(1.15);
+      &:hover {
+        color: var(--section-underline);
+        scale: 1.15;
       }
     }
   }
@@ -219,78 +151,71 @@ const awards = [
       font-size: 28px;
       margin-bottom: 10px;
     }
-
-    .highlight {
-      color: var(--section-underline);
-    }
   }
 
-  .skill-education-container {
+  .highlight {
+    color: var(--section-underline);
+  }
+
+  .details {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
     margin-top: 30px;
 
+    > div {
+      flex: 1;
+      min-width: 250px;
+    }
+
     @media (max-width: 1100px) {
       flex-direction: column;
     }
-
-    h4 {
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
   }
 
-  .skills,
-  .education {
-    flex: 1;
-    min-width: 250px;
-  }
-
-  .education-item {
+  .degree {
     display: flex;
-    align-items: flex-start;
     gap: 15px;
     margin-bottom: 20px;
 
     > :global(.icon) {
       font-size: 22px;
-      color: var(--section-underline);
       margin-top: 3px;
+      color: var(--section-underline);
+    }
+
+    strong {
+      display: block;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    small {
+      display: block;
+      font-size: 14px;
+      color: var(--subtitle);
     }
   }
 
-  .degree {
-    font-weight: 500;
-    font-size: 16px;
-    color: var(--body-color);
-  }
-
-  .institution {
-    font-size: 14px;
-    color: var(--subtitle);
-    margin-top: 3px;
-  }
-
   .awards {
-    font-size: 14px;
-    margin-top: 8px;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+    margin-top: 8px;
+    font-size: 14px;
 
     a {
-      background-color: var(--chips-background);
-      color: var(--section-underline);
       padding: 3px 8px;
       border-radius: 4px;
       font-weight: 500;
-      text-decoration: none;
+      color: var(--section-underline);
+      background-color: var(--chips-background);
       transition: all 0.2s ease;
 
       &:hover {
-        background-color: var(--section-underline);
         color: var(--white);
+        background-color: var(--section-underline);
+        text-decoration: none;
       }
     }
   }

@@ -1,18 +1,19 @@
 ---
-title: 'MAN TGS Dakar Truck'
+title: MAN TGS Dakar Truck
 order: 3
 buildYear: 2021
 cover: ../../assets/images/dakar.jpg
 youtubeId: tCBB-U5y0eE
-forumUrl: https://www.eurobricks.com/forum/forums/topic/137216-moc-man-tgs-dakar-truck
-demo:
-  url: https://thelegocarblog.com/2016/07/10/man-with-a-mission/
-  name: 'Showcase'
 techniques:
-  - 'Dakar'
-  - 'MAN'
-  - 'Leaf spring suspension'
-  - 'Custom parts'
+  - Dakar
+  - MAN
+  - Leaf spring suspension
+  - Custom parts
+links:
+  - name: Work-in-Progress Thread
+    url: https://www.eurobricks.com/forum/forums/topic/137216-moc-man-tgs-dakar-truck
+  - name: Showcase
+    url: https://thelegocarblog.com/2016/07/10/man-with-a-mission/
 gallery:
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC02848.jpg/1280x719.jpg'
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/dakar-truck/DSC03526.JPG/1280x719.JPG'

@@ -1,0 +1,17 @@
+---
+interface Props {
+  items: string[];
+  /** Show only the first `limit` items, followed by a "+N" chip */
+  limit?: number;
+}
+
+const { items, limit = items.length } = Astro.props;
+const hidden = items.length - limit;
+---
+
+<ul class="chips">
+  {items.slice(0, limit).map((item) => (
+    <li class="chip">{item}</li>
+  ))}
+  {hidden > 0 && <li class="chip">+{hidden}</li>}
+</ul>

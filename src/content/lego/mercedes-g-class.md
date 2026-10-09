@@ -1,14 +1,16 @@
 ---
-title: 'Mercedes G-Class'
+title: Mercedes G-Class
 order: 8
 buildYear: 2015
 cover: ../../assets/images/g-class.jpg
 youtubeId: l0Y01Bq4Wus
-forumUrl: https://www.eurobricks.com/forum/forums/topic/107838-moc-mercedes-g-class-swb
 techniques:
-  - 'Mercedes'
-  - 'Pendular Suspension'
-  - 'Offroader'
+  - Mercedes
+  - Pendular Suspension
+  - Offroader
+links:
+  - name: Work-in-Progress Thread
+    url: https://www.eurobricks.com/forum/forums/topic/107838-moc-mercedes-g-class-swb
 gallery:
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-g-class-/DSC01060.JPG/1280x719.JPG'
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/mercedes-g-class-/DSC01058.JPG/1280x719.JPG'

@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Logo from '../assets/logo.svg';
 
 const links = [
   { href: '/#about', label: 'About Me', icon: 'solid/circle-user' },
@@ -9,43 +10,24 @@ const links = [
 ];
 ---
 
-<header class="site-header">
+<header>
   <a href="/" class="logo">
-    <img src="/assets/images/logo.svg" width="28" height="25" alt="" class="logo-light" />
-    <img src="/assets/images/logo_dark.svg" width="28" height="25" alt="" class="logo-dark" />
-    Teodor Ilie
+    <Logo width="28" height="25" aria-hidden="true" /> Teodor Ilie
   </a>
 
-  <button
-    class="theme-toggle"
-    type="button"
-    role="switch"
-    aria-checked="false"
-    aria-label="Dark mode"
-  >
-    <span class="toggle-track">
-      <Icon name="solid/sun" class="sun-icon" />
-      <Icon name="solid/moon" class="moon-icon" />
-      <span class="toggle-thumb"></span>
-    </span>
+  <button class="theme-toggle" type="button" role="switch" aria-label="Dark mode">
+    <Icon name="solid/sun" class="sun" />
+    <Icon name="solid/moon" class="moon" />
   </button>
 
-  <button
-    class="menu-toggle"
-    type="button"
-    aria-expanded="false"
-    aria-controls="site-nav"
-    aria-label="Menu"
-  >
-    <span class="hamburger-icon">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
+  <!-- On mobile the nav is a native popover: open/close, Esc and outside-click come free -->
+  <button class="menu-toggle" type="button" popovertarget="site-nav" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
   </button>
 
-  <nav id="site-nav" aria-label="Main">
+  <nav id="site-nav" popover aria-label="Main">
     <ul>
       {links.map((link) => (
         <li>
@@ -60,159 +42,124 @@ const links = [
 
 <script>
   const root = document.documentElement;
-  const header = document.querySelector<HTMLElement>('.site-header')!;
-  const themeToggle = header.querySelector<HTMLButtonElement>('.theme-toggle')!;
-  const menuToggle = header.querySelector<HTMLButtonElement>('.menu-toggle')!;
+  const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
+  const nav = document.querySelector<HTMLElement>('#site-nav')!;
 
-  const syncThemeToggle = () =>
-    themeToggle.setAttribute('aria-checked', String(root.classList.contains('dark-theme')));
-  syncThemeToggle();
+  const sync = () =>
+    toggle.setAttribute('aria-checked', String(root.classList.contains('dark-theme')));
+  sync();
 
-  themeToggle.addEventListener('click', () => {
+  toggle.addEventListener('click', () => {
     const theme = root.classList.contains('dark-theme') ? 'light' : 'dark';
-    root.classList.remove('light-theme', 'dark-theme');
-    root.classList.add(`${theme}-theme`);
+    root.classList.toggle('dark-theme', theme === 'dark');
+    root.classList.toggle('light-theme', theme === 'light');
     try {
       localStorage.setItem('preferred-theme', theme);
     } catch {}
-    syncThemeToggle();
+    sync();
   });
 
-  const setMenu = (open: boolean) => {
-    header.classList.toggle('menu-open', open);
-    menuToggle.setAttribute('aria-expanded', String(open));
-  };
-  menuToggle.addEventListener('click', () => setMenu(!header.classList.contains('menu-open')));
-  header
-    .querySelectorAll('nav a')
-    .forEach((a) => a.addEventListener('click', () => setMenu(false)));
-  window.addEventListener('resize', () => setMenu(false));
-
-  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 10);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  // Close the mobile menu once a section is chosen
+  nav.addEventListener('click', (e) => {
+    if ((e.target as Element).closest('a') && nav.matches(':popover-open')) nav.hidePopover();
+  });
 </script>
 
-<style lang="scss">
-  @use '../styles/variables' as *;
-
-  .site-header {
+<style>
+  header {
     position: fixed;
     inset: 0 0 auto;
+    z-index: 1000;
     height: 70px;
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 0 50px;
-    z-index: 1000;
     background-color: var(--white);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    font-family: $header-font;
-
-    &.scrolled {
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
-    }
+    font-family: var(--font-heading);
   }
 
   .logo {
     display: flex;
     align-items: center;
     gap: 15px;
+    margin-right: auto;
     font-size: 24px;
     font-weight: 600;
     color: var(--body-color);
-    text-decoration: none;
     white-space: nowrap;
 
-    img {
-      height: 25px;
-      width: auto;
+    &:hover {
+      text-decoration: none;
     }
   }
 
-  .logo-dark,
-  :global(.dark-theme) .logo-light {
-    display: none;
-  }
-
-  :global(.dark-theme) .logo-dark {
-    display: block;
-  }
-
-  // ---------- Theme toggle ----------
+  /* ---------- Theme toggle: a pill whose thumb slides over the active icon ---------- */
   .theme-toggle {
-    margin-left: auto;
-    background: none;
-    border: none;
-    cursor: pointer;
-    border-radius: 15px;
-  }
-
-  .toggle-track {
     position: relative;
-    display: block;
     width: 60px;
     height: 30px;
-    background: var(--chips-background);
+    border: none;
     border-radius: 15px;
+    background: var(--chips-background);
+    cursor: pointer;
     transition: background-color 0.2s ease;
-  }
 
-  .toggle-thumb {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 24px;
-    height: 24px;
-    background: var(--white);
-    border-radius: 50%;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    transition:
-      transform 0.2s ease,
-      background-color 0.2s ease;
-  }
-
-  .toggle-track :global(.sun-icon),
-  .toggle-track :global(.moon-icon) {
-    position: absolute;
-    top: 6px;
-    font-size: 18px;
-    z-index: 1;
-    transition: opacity 0.2s ease;
-  }
-
-  .toggle-track :global(.sun-icon) {
-    left: 6px;
-    color: var(--hover-color);
-  }
-
-  .toggle-track :global(.moon-icon) {
-    right: 6px;
-    color: var(--white);
-    opacity: 0.2;
-  }
-
-  :global(.dark-theme) {
-    .toggle-track {
-      background: var(--section-underline);
+    &::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--white);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      transition:
+        translate 0.2s ease,
+        background-color 0.2s ease;
     }
-    .toggle-thumb {
-      transform: translateX(30px);
-      background: var(--body-color);
+
+    :global(.icon) {
+      position: absolute;
+      top: 6px;
+      font-size: 18px;
+      transition: opacity 0.2s ease;
     }
-    .toggle-track :global(.sun-icon) {
+
+    :global(.sun) {
+      left: 6px;
+      color: var(--hover-color);
+    }
+
+    :global(.moon) {
+      right: 6px;
+      color: var(--white);
       opacity: 0.2;
     }
-    .toggle-track :global(.moon-icon) {
+  }
+
+  :global(.dark-theme) .theme-toggle {
+    background: var(--section-underline);
+
+    &::before {
+      translate: 30px;
+      background: var(--body-color);
+    }
+
+    :global(.sun) {
+      opacity: 0.2;
+    }
+
+    :global(.moon) {
       opacity: 1;
     }
   }
 
-  // ---------- Nav ----------
+  /* ---------- Nav ---------- */
   nav ul {
     display: flex;
-    list-style: none;
     gap: 10px;
   }
 
@@ -221,96 +168,97 @@ const links = [
     align-items: center;
     gap: 6px;
     padding: 8px 12px;
-    color: var(--body-color);
-    font-weight: 500;
     font-size: 14px;
-    text-decoration: none;
-    transition: color 0.1s ease;
+    font-weight: 500;
+    color: var(--body-color);
 
     &:hover {
       color: var(--hover-color);
+      text-decoration: none;
     }
   }
 
-  // ---------- Hamburger ----------
   .menu-toggle {
     display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 12px;
-    border-radius: 50%;
   }
 
-  .hamburger-icon {
-    display: block;
-    width: 24px;
-    height: 18px;
-    position: relative;
-
-    span {
+  @media (min-width: 861px) {
+    /* Undo the popover's hidden/overlay defaults so the nav sits inline */
+    nav[popover] {
       display: block;
-      position: absolute;
-      height: 2px;
-      width: 100%;
-      left: 0;
-      background: var(--body-color);
-      border-radius: 1px;
-      transition: 0.25s ease-in-out;
-    }
-
-    span:nth-child(1) {
-      top: 0;
-    }
-    span:nth-child(2),
-    span:nth-child(3) {
-      top: 8px;
-    }
-    span:nth-child(4) {
-      top: 16px;
+      position: static;
+      inset: auto;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: none;
+      color: inherit;
+      overflow: visible;
     }
   }
 
-  .menu-open .hamburger-icon {
-    span:nth-child(1),
-    span:nth-child(4) {
-      top: 8px;
-      width: 0;
-      left: 50%;
-    }
-    span:nth-child(2) {
-      transform: rotate(45deg);
-    }
-    span:nth-child(3) {
-      transform: rotate(-45deg);
-    }
-  }
-
-  // ---------- Mobile ----------
-  @media (max-width: $breakpoint-mobile) {
-    .site-header {
+  @media (max-width: 860px) {
+    header {
       padding: 0 20px;
     }
 
+    /* Hamburger that turns into an X while the menu is open */
     .menu-toggle {
       display: block;
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 50%;
+      background: none;
+      cursor: pointer;
+
+      span {
+        position: absolute;
+        left: 10px;
+        width: 24px;
+        height: 2px;
+        border-radius: 1px;
+        background: var(--body-color);
+        transition:
+          rotate 0.25s ease,
+          opacity 0.25s ease,
+          top 0.25s ease;
+      }
+
+      span:nth-child(1) {
+        top: 14px;
+      }
+      span:nth-child(2) {
+        top: 21px;
+      }
+      span:nth-child(3) {
+        top: 28px;
+      }
     }
 
-    nav {
-      position: absolute;
-      top: 70px;
-      left: 0;
-      right: 0;
+    header:has(nav:popover-open) .menu-toggle {
+      span:nth-child(1) {
+        top: 21px;
+        rotate: 45deg;
+      }
+      span:nth-child(2) {
+        opacity: 0;
+      }
+      span:nth-child(3) {
+        top: 21px;
+        rotate: -45deg;
+      }
+    }
+
+    nav[popover] {
+      inset: 70px 0 auto;
+      width: 100%;
+      margin: 0;
+      border: none;
       background-color: var(--white);
+      color: inherit;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      transform: scaleY(0);
-      transform-origin: top;
-      opacity: 0;
-      visibility: hidden;
-      transition:
-        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.25s ease,
-        visibility 0.3s;
 
       ul {
         flex-direction: column;
@@ -318,12 +266,6 @@ const links = [
         gap: 5px;
         padding: 10px 0;
       }
-    }
-
-    .menu-open nav {
-      transform: scaleY(1);
-      opacity: 1;
-      visibility: visible;
     }
   }
 </style>

@@ -1,18 +1,19 @@
 ---
-title: 'Praga Trial Truck'
+title: Praga Trial Truck
 order: 1
 buildYear: 2024
 cover: ../../assets/images/praga.jpg
 youtubeId: Gx4-P59XuH4
-forumUrl: https://www.eurobricks.com/forum/forums/topic/194556-wip-praga-trial-truck-6x6/
-demo:
-  url: https://youtu.be/V5R8TNchCIk
-  name: 'Competition'
 techniques:
-  - 'Heavy-duty gearbox'
-  - '6x6'
-  - 'BuWizz'
-  - 'Trial Truck'
+  - Heavy-duty gearbox
+  - 6x6
+  - BuWizz
+  - Trial Truck
+links:
+  - name: Work-in-Progress Thread
+    url: https://www.eurobricks.com/forum/forums/topic/194556-wip-praga-trial-truck-6x6/
+  - name: Competition
+    url: https://youtu.be/V5R8TNchCIk
 gallery:
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/praga-6x6-trial-truck/DSC08768.JPG/1280x719.JPG'
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/praga-6x6-trial-truck/DSC07998.JPG/1280x719.JPG'

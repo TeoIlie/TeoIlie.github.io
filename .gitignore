@@ -1,4 +1,5 @@
-# Build output (docs/ is committed for Cloudflare Pages)
+# Build output (Cloudflare Pages builds it on every push)
+/docs/
 .astro/
 
 # Node

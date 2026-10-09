@@ -1,8 +1,14 @@
 ---
-import { getCollection } from 'astro:content';
-import Icon from './Icon.astro';
+import { getCollection, render } from 'astro:content';
+import SectionIntro from './SectionIntro.astro';
+import Chips from './Chips.astro';
+import LinkButton from './LinkButton.astro';
 
-const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const projects = await Promise.all(
+  (await getCollection('projects'))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async (entry) => ({ ...entry.data, Description: (await render(entry)).Content }))
+);
 
 const collaborators = [
   { name: 'Ingenuity Labs', url: 'https://ingenuitylabs.queensu.ca/', icon: 'solid/gears' },
@@ -11,97 +17,43 @@ const collaborators = [
 ];
 ---
 
-<div class="section-heading">
-  <h2>Projects</h2>
+<h2 class="section-title heading-underline">Projects</h2>
 
-  <div class="section-description" data-reveal>
-    <p class="intro-text">
-      Explore a selection of my projects, ranging from a self-driving robot using Deep Reinforcement
-      Learning for map building, Probabilistic Inference with Pacman, and a Neural Network digit
-      classifier built from scratch. Also check out my collaborators below{' '}
-      <span class="large-emoji">🤖</span>
-    </p>
-    <div class="feature-highlights">
-      {collaborators.map((c) => (
-        <a href={c.url} target="_blank" rel="noopener" class="feature-link">
-          <Icon name={c.icon} />
-          <span>{c.name}</span>
-        </a>
-      ))}
-    </div>
-  </div>
+<SectionIntro links={collaborators}>
+  <p>
+    Explore a selection of my projects, ranging from a self-driving robot using Deep Reinforcement
+    Learning for map building, Probabilistic Inference with Pacman, and a Neural Network digit
+    classifier built from scratch. Also check out my collaborators below{' '}
+    <span class="large-emoji">🤖</span>
+  </p>
+</SectionIntro>
 
-  <div class="project-list">
-    {projects.map(({ data: project }, i) => (
-      <article class:list={['project-item', { reverse: i % 2 === 1 }]} data-reveal>
-        <a
-          class="project-media"
-          href={project.githubUrl ?? project.paperUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${project.title} on GitHub`}
-        >
-          <video
-            data-autoplay
-            loop
-            muted
-            playsinline
-            preload="none"
-            width="450"
-            height="300"
-            aria-label={project.title}
-          >
-            <source src={project.video.mp4} type="video/mp4" />
-            <source src={project.video.webm} type="video/webm" />
-          </video>
-        </a>
-
-        <div class="project-info">
-          <h3>{project.title}</h3>
-          <p>{project.description}</p>
-
-          <h4>Technologies Used</h4>
-          <ul class="chips">
-            {project.technologies.map((tech) => (
-              <li class="chip">{tech}</li>
-            ))}
-          </ul>
-
-          <div class="link-row">
-            {project.githubUrl && (
-              <a href={project.githubUrl} target="_blank" rel="noopener" class="link-button">
-                <Icon name="brands/github" />
-                <span>View Code</span>
-              </a>
-            )}
-            {project.paperUrl && (
-              <a href={project.paperUrl} target="_blank" rel="noopener" class="link-button">
-                <Icon name="solid/paperclip" />
-                <span>Paper</span>
-              </a>
-            )}
-            {project.demoUrl && (
-              <a href={project.demoUrl} target="_blank" rel="noopener" class="link-button">
-                <Icon name="solid/video" />
-                <span>Demo</span>
-              </a>
-            )}
-            {project.other && (
-              <a href={project.other.url} target="_blank" rel="noopener" class="link-button">
-                <Icon name="solid/up-right-from-square" />
-                <span>{project.other.name}</span>
-              </a>
-            )}
-          </div>
+<div class="projects">
+  {projects.map((project) => (
+    <article class="card card-hover project" data-reveal>
+      <a href={project.links[0]?.url} target="_blank" rel="noopener" tabindex="-1">
+        <video data-autoplay loop muted playsinline preload="none" aria-label={project.title}>
+          <source src={`/assets/videos/${project.video}.mp4`} type="video/mp4" />
+          <source src={`/assets/videos/webm/${project.video}.webm`} type="video/webm" />
+        </video>
+      </a>
+      <div class="info">
+        <h3 class="heading-underline heading-underline--left">{project.title}</h3>
+        <project.Description />
+        <h4>Technologies Used</h4>
+        <Chips items={project.technologies} />
+        <div class="link-row">
+          {project.links.map((link) => (
+            <LinkButton {...link} />
+          ))}
         </div>
-      </article>
-    ))}
-  </div>
+      </div>
+    </article>
+  ))}
 </div>
 
 <script>
-  // Only download and play project videos while they are on screen.
-  const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]');
+  // Only download and play project videos while they are on screen
   const observer = new IntersectionObserver(
     (entries) => {
       for (const { target, isIntersecting } of entries) {
@@ -112,100 +64,65 @@ const collaborators = [
     },
     { rootMargin: '200px 0px' }
   );
-  videos.forEach((video) => observer.observe(video));
+  document.querySelectorAll('video[data-autoplay]').forEach((video) => observer.observe(video));
 </script>
 
-<style lang="scss">
-  @use '../styles/variables' as *;
-
-  .project-list {
+<style>
+  .projects {
     display: flex;
     flex-direction: column;
     gap: 40px;
   }
 
-  .project-item {
+  .project {
     display: flex;
     gap: 40px;
     align-items: flex-start;
     padding: 30px;
-    background-color: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
 
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    &.reverse {
+    &:nth-child(even) {
       flex-direction: row-reverse;
     }
 
-    @media (max-width: $breakpoint-mobile) {
+    @media (max-width: 860px) {
       &,
-      &.reverse {
+      &:nth-child(even) {
         flex-direction: column;
       }
     }
-  }
 
-  .project-media {
-    flex: 0 0 45%;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-    background-color: var(--chips-background);
+    > a {
+      flex: 0 0 45%;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      background-color: var(--chips-background);
+    }
 
     video {
       display: block;
       width: 100%;
       height: 300px;
       object-fit: cover;
-      transition: transform 0.3s ease;
+      transition: scale 0.3s ease;
 
       &:hover {
-        transform: scale(1.03);
+        scale: 1.03;
       }
-    }
-
-    @media (max-width: $breakpoint-mobile) {
-      width: 100%;
     }
   }
 
-  .project-info {
+  .info {
     flex: 1;
 
     h3 {
       font-size: 28px;
-      color: var(--body-color);
       margin-bottom: 15px;
-      position: relative;
-      padding-bottom: 12px;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background-color: var(--section-underline);
-      }
     }
 
-    p {
+    :global(p) {
       margin-bottom: 25px;
-    }
-
-    h4 {
-      font-size: 20px;
-      margin-bottom: 15px;
-      color: var(--body-color);
     }
   }
 </style>

@@ -1,15 +1,17 @@
 ---
-title: 'RAM Pickup Truck'
+title: RAM Pickup Truck
 order: 4
 buildYear: 2025
 cover: ../../assets/images/ram.png
 youtubeId: larGRLjImKY
-forumUrl: https://www.eurobricks.com/forum/forums/topic/206569-moc-ram-1500-pickup-truck-buwizz-buggy-motors-%F0%9F%9B%BB/
 techniques:
-  - 'RAM'
-  - 'Pickup truck'
-  - 'BuWizz'
-  - 'Buggy Motors'
+  - RAM
+  - Pickup truck
+  - BuWizz
+  - Buggy Motors
+links:
+  - name: Work-in-Progress Thread
+    url: https://www.eurobricks.com/forum/forums/topic/206569-moc-ram-1500-pickup-truck-buwizz-buggy-motors-%F0%9F%9B%BB/
 gallery:
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00959.png/1280x719.png'
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/ram-pick-up/DSC00960.png/1280x719.png'

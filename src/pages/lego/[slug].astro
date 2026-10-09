@@ -1,0 +1,194 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import Chips from '../../components/Chips.astro';
+import LinkButton from '../../components/LinkButton.astro';
+
+export async function getStaticPaths() {
+  const creations = await getCollection('lego');
+  return creations.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+
+// First ~155 characters of the description, cut at a word boundary
+const body = (entry.body ?? '').replace(/\s+/g, ' ').trim();
+const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)) + '…' : body;
+---
+
+<BaseLayout
+  title={`${data.title} – LEGO Technic | Teodor Ilie`}
+  description={description}
+  image={data.cover}
+>
+  <article class="container card">
+    <a href="/#lego" class="back">
+      <Icon name="solid/arrow-left" /> All creations
+    </a>
+
+    <h1 class="heading-underline heading-underline--left">{data.title}</h1>
+    <p class="year">{data.buildYear}</p>
+
+    <div class="main">
+      <!-- Lightweight YouTube facade: the player only loads when clicked -->
+      <button
+        type="button"
+        class="video"
+        data-youtube-id={data.youtubeId}
+        aria-label={`Play ${data.title} video`}
+      >
+        <Image
+          src={`https://i.ytimg.com/vi/${data.youtubeId}/hqdefault.jpg`}
+          alt=""
+          width={480}
+          height={360}
+          loading="eager"
+          fetchpriority="high"
+        />
+        <Icon name="brands/youtube" />
+      </button>
+
+      <div class="info">
+        <Content />
+        <h2>Techniques & Features</h2>
+        <Chips items={data.techniques} />
+        <div class="link-row">
+          {data.links.map((link) => (
+            <LinkButton {...link} />
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {data.gallery.length > 0 && (
+      <>
+        <h2>More Photos</h2>
+        <ul class="gallery">
+          {data.gallery.map((url) => (
+            <li>
+              <Image
+                src={url}
+                alt={`${data.title} detail`}
+                inferSize
+                widths={[320, 640, 960]}
+                sizes="(max-width: 860px) calc(100vw - 100px), 460px"
+              />
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </article>
+</BaseLayout>
+
+<script>
+  document.querySelector<HTMLButtonElement>('[data-youtube-id]')?.addEventListener('click', (e) => {
+    const button = e.currentTarget as HTMLButtonElement;
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${button.dataset.youtubeId}?autoplay=1`;
+    iframe.title = button.getAttribute('aria-label')!;
+    iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    button.replaceWith(iframe);
+  });
+</script>
+
+<style>
+  article {
+    margin-top: 110px;
+    padding: 30px;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+
+  .year {
+    color: var(--subtitle);
+    font-size: 16px;
+  }
+
+  h2 {
+    margin: 20px 0 15px;
+    font-family: var(--font-body);
+    font-size: 20px;
+    font-weight: 300;
+  }
+
+  .main {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    margin-top: 10px;
+
+    @media (max-width: 860px) {
+      flex-direction: column;
+    }
+  }
+
+  .info {
+    flex: 1;
+  }
+
+  .video,
+  iframe {
+    flex: 0 0 55%;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #000;
+  }
+
+  .video {
+    position: relative;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    :global(.icon) {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      translate: -50% -50%;
+      font-size: 64px;
+      color: #f00;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+      transition: scale 0.2s ease;
+    }
+
+    &:hover :global(.icon) {
+      scale: 1.1;
+    }
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
+    gap: 20px;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    }
+  }
+</style>

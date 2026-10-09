@@ -1,14 +1,16 @@
 ---
-title: 'Audi Quattro Group B Rally Car'
+title: Audi Quattro Group B Rally Car
 order: 7
 buildYear: 2019
 cover: ../../assets/images/audi.jpg
 youtubeId: AfcC9TIX9NU
-forumUrl: https://www.eurobricks.com/forum/forums/topic/173109-moc-audi-quattro-group-b-rally-car/
 techniques:
-  - 'Rally'
-  - 'Audi'
-  - 'Group B'
+  - Rally
+  - Audi
+  - Group B
+links:
+  - name: Work-in-Progress Thread
+    url: https://www.eurobricks.com/forum/forums/topic/173109-moc-audi-quattro-group-b-rally-car/
 gallery:
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC06198.jpg/1280x719.jpg'
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/audi-quattro/DSC06216.jpg/1280x852.jpg'

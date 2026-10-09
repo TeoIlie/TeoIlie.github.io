@@ -1,0 +1,229 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import SectionIntro from './SectionIntro.astro';
+import Chips from './Chips.astro';
+import nico71 from '../assets/images/nico71.jpg';
+import zerobricks from '../assets/images/zerobricks.jpg';
+import madoca from '../assets/images/madoca.png';
+import sheepo from '../assets/images/sheepo.jpg';
+import efferman from '../assets/images/efferman.jpg';
+import sariel from '../assets/images/sariel.png';
+
+const creations = (await getCollection('lego')).sort((a, b) => a.data.order - b.data.order);
+
+const communityLinks = [
+  {
+    name: 'Youtube Channel',
+    url: 'https://www.youtube.com/@TeoTechnicTaken',
+    icon: 'brands/youtube',
+  },
+  {
+    name: 'Eurobricks Forum',
+    url: 'https://www.eurobricks.com/forum/profile/120672-teo-lego-technic/',
+    icon: 'solid/handshake',
+  },
+  {
+    name: 'BrickSafe Portfolio',
+    url: 'https://bricksafe.com/pages/Teo_LEGO_Technic',
+    icon: 'solid/folder-open',
+  },
+];
+
+const inspirations = [
+  {
+    name: 'Nico71',
+    url: 'https://www.nico71.fr/',
+    image: nico71,
+    alt: 'Nico, a French Engineer and LEGO Creator',
+  },
+  {
+    name: 'ZeroBricks',
+    url: 'https://www.youtube.com/c/zerobricks',
+    image: zerobricks,
+    alt: 'ZeroBricks, creator of BuWizz',
+  },
+  {
+    name: 'Madoca',
+    url: 'https://www.youtube.com/@madoca1977',
+    image: madoca,
+    alt: 'Madoca, LEGO Technic legend',
+  },
+  {
+    name: 'Sheepo',
+    url: 'https://www.sheepo.es',
+    image: sheepo,
+    alt: 'Sheepo, famous for large, complex vehicles',
+  },
+  {
+    name: 'Efferman',
+    url: 'https://www.youtube.com/user/3fferman',
+    image: efferman,
+    alt: 'Efferman, builder of robust designs and custom parts',
+  },
+  {
+    name: 'Sariel',
+    url: 'https://sariel.pl',
+    image: sariel,
+    alt: 'Sariel, prolific builder with published books and an active social media presence',
+  },
+];
+---
+
+<h2 class="section-title heading-underline">LEGO Technic Creations</h2>
+
+<SectionIntro links={communityLinks}>
+  <p>
+    My passion for LEGO Technic began over a decade ago and continues to this day. Check out an
+    assortment of custom-built gearboxes, transmissions, suspensions, and axle designs - all
+    engineered from the ground up. I designed every project meticulously from original blueprints,
+    learning the joy of building something my own.
+  </p>
+  <p>
+    That same drive fuels my real-world engineering and coding accomplishments - building an
+    exceptional coding project is not so different from engineering a really cool truck. P.S. Kudos
+    to my wife for not only putting up with my obsession but helping shoot much of the footage{' '}
+    <span class="large-emoji">🫶</span>
+  </p>
+</SectionIntro>
+
+<ul class="grid">
+  {creations.map(({ id, data }) => (
+    <li>
+      <a class="card card-hover creation" href={`/lego/${id}`} data-reveal>
+        <Image
+          src={data.cover}
+          alt=""
+          widths={[360, data.cover.width]}
+          sizes="(max-width: 860px) 100vw, 485px"
+        />
+        <div>
+          <h3>{data.title}</h3>
+          <p>{data.buildYear}</p>
+          <Chips items={data.techniques} limit={2} />
+        </div>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<section class="inspirations" data-reveal>
+  <h3 class="heading-underline">Builders Who Inspire Me</h3>
+  <p>
+    For setting the bar high, and showing all us builders what LEGO Technic can do, here are some
+    notable inspirations. Thanks for the motivation, and sometimes even collaboration{' '}
+    <span class="large-emoji">🤟</span>
+  </p>
+  <ul>
+    {inspirations.map((builder) => (
+      <li>
+        <a href={builder.url} target="_blank" rel="noopener" class="card card-hover">
+          <Image
+            src={builder.image}
+            alt={builder.alt}
+            width={140}
+            height={140}
+            densities={[1, 2]}
+          />
+          {builder.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .creation {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+    color: inherit;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+
+    div {
+      padding: 20px;
+    }
+
+    h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--subtitle);
+      margin-bottom: 15px;
+    }
+  }
+
+  .inspirations {
+    margin-top: 50px;
+    padding-top: 40px;
+    border-top: 1px solid var(--footer-top);
+    text-align: center;
+
+    h3 {
+      font-size: 24px;
+      margin-bottom: 25px;
+
+      &::after {
+        width: 60px;
+      }
+    }
+
+    p {
+      max-width: 800px;
+      margin: 0 auto 30px;
+      font-size: 16px;
+    }
+
+    ul {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+
+      @media (max-width: 860px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      padding: 25px 15px 20px;
+      font-family: var(--font-heading);
+      font-size: 18px;
+      color: var(--body-color);
+    }
+
+    img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+</style>

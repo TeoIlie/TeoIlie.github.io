@@ -1,18 +1,19 @@
 ---
-title: 'Baja Truck'
+title: Baja Truck
 order: 5
 buildYear: 2021
 cover: ../../assets/images/baja.jpg
 youtubeId: ECJ1eubnlMo
-forumUrl: https://www.eurobricks.com/forum/forums/topic/188560-moc-buwizz-baja-truck/
-demo:
-  url: https://buwizz.com/
-  name: 'Sponsor'
 techniques:
-  - 'BuWizz'
-  - 'Baja truck'
-  - 'Live-axle Suspension'
-  - 'Caster-angled steering'
+  - BuWizz
+  - Baja truck
+  - Live-axle Suspension
+  - Caster-angled steering
+links:
+  - name: Work-in-Progress Thread
+    url: https://www.eurobricks.com/forum/forums/topic/188560-moc-buwizz-baja-truck/
+  - name: Sponsor
+    url: https://buwizz.com/
 gallery:
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06336.jpg/1280x720.jpg'
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06329.jpg/1280x720.jpg'

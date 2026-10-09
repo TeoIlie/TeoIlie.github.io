@@ -4,28 +4,37 @@ import '@fontsource/roboto/latin-400.css';
 import '@fontsource/roboto/latin-500.css';
 import '@fontsource/montserrat/latin-500.css';
 import '@fontsource/montserrat/latin-600.css';
-import '../styles/global.scss';
+import '../styles/global.css';
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import Header from '../components/Header.astro';
+import { profile, socials } from '../data/profile';
 
 interface Props {
   title: string;
   description: string;
+  /** Social preview image; defaults to the profile photo */
+  image?: ImageMetadata;
 }
 
-const { title, description } = Astro.props;
+const { title, description, image } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL('/og-image.jpg', Astro.site);
+const ogImage = new URL(
+  image ? (await getImage({ src: image, width: 1200, format: 'jpg' })).src : '/og-image.jpg',
+  Astro.site
+);
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Person',
-      name: 'Teodor Ilie',
+      name: profile.name,
       alternateName: 'Teo Ilie',
       url: 'https://teoilie.com',
-      email: 'teo.altum.quinque@gmail.com',
-      image: ogImage.href,
-      sameAs: ['https://github.com/TeoIlie', 'https://www.linkedin.com/in/teodorilie/'],
+      email: profile.email,
+      image: new URL('/og-image.jpg', Astro.site).href,
+      sameAs: socials.map((s) => s.url),
       jobTitle: 'Software Developer',
       worksFor: { '@type': 'Organization', name: 'BMO Financial Group' },
       alumniOf: {
@@ -47,7 +56,7 @@ const jsonLd = {
       '@type': 'WebSite',
       name: 'Teodor Ilie Portfolio',
       url: 'https://teoilie.com',
-      publisher: { '@type': 'Person', name: 'Teodor Ilie' },
+      publisher: { '@type': 'Person', name: profile.name },
     },
   ],
 };
@@ -74,26 +83,67 @@ const jsonLd = {
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Teodor Ilie Portfolio" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
 
     <!-- Apply the saved/system theme before first paint to avoid a flash -->
     <script is:inline>
-      (() => {
-        let theme;
-        try {
-          theme = localStorage.getItem('preferred-theme');
-        } catch {}
-        if (theme !== 'light' && theme !== 'dark') {
-          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-        document.documentElement.classList.add(`${theme}-theme`);
-      })();
+      let theme;
+      try {
+        theme = localStorage.getItem('preferred-theme');
+      } catch {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.classList.add(`${theme}-theme`);
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
-    <slot />
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <p>
+        &copy; {new Date().getFullYear()} Teodor Ilie. All rights reserved. View the{' '}
+        <a href="https://github.com/TeoIlie/TeoIlie.github.io" target="_blank" rel="noopener">
+          source code on GitHub
+        </a>{' '}
+        🚀
+      </p>
+      <p>
+        This site is hosted on Cloudflare Pages and uses their{' '}
+        <a
+          href="https://developers.cloudflare.com/web-analytics/about/"
+          target="_blank"
+          rel="noopener"
+        >
+          privacy-first analytics
+        </a>
+        . Data is collected anonymously to help improve performance and content.
+        <br />
+        Messages sent via the contact form are transmitted securely and never shared with third
+        parties.
+      </p>
+    </footer>
   </body>
 </html>
+
+<style>
+  main,
+  footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  footer {
+    text-align: center;
+    padding-block: 20px;
+    margin-top: 40px;
+    border-top: 1px solid var(--footer-top);
+
+    p {
+      color: var(--footer-colour);
+    }
+  }
+</style>

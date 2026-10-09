@@ -2,21 +2,22 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const link = z.object({ url: z.url(), name: z.string() });
+// Rendered by LinkButton; the icon is inferred from the URL unless given
+const links = z
+  .array(z.object({ name: z.string(), url: z.url(), icon: z.string().optional() }))
+  .default([]);
 
+// In both collections the markdown body is the description, and `order` sets
+// the position on the page.
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
     order: z.number(),
-    description: z.string(),
-    // Paths relative to public/
-    video: z.object({ mp4: z.string(), webm: z.string() }),
+    // Name of the video in public/assets/videos/ (.mp4) and videos/webm/ (.webm)
+    video: z.string(),
     technologies: z.array(z.string()),
-    githubUrl: z.url().optional(),
-    paperUrl: z.url().optional(),
-    demoUrl: z.url().optional(),
-    other: link.optional(),
+    links,
   }),
 });
 
@@ -26,12 +27,11 @@ const lego = defineCollection({
     z.object({
       title: z.string(),
       order: z.number(),
-      buildYear: z.number().optional(),
+      buildYear: z.number(),
       cover: image(),
       youtubeId: z.string(),
-      forumUrl: z.url().optional(),
-      demo: link.optional(),
       techniques: z.array(z.string()),
+      links,
       gallery: z.array(z.url()).default([]),
     }),
 });
