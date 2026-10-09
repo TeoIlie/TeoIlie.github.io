@@ -1,0 +1,643 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Icon from './Icon.astro';
+import nico71 from '../assets/images/nico71.jpg';
+import zerobricks from '../assets/images/zerobricks.jpg';
+import madoca from '../assets/images/madoca.png';
+import sheepo from '../assets/images/sheepo.jpg';
+import efferman from '../assets/images/efferman.jpg';
+import sariel from '../assets/images/sariel.png';
+
+const creations = await Promise.all(
+  (await getCollection('lego'))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async (entry) => ({ ...entry, Content: (await render(entry)).Content }))
+);
+
+const communityLinks = [
+  {
+    name: 'Youtube Channel',
+    url: 'https://www.youtube.com/@TeoTechnicTaken',
+    icon: 'brands/youtube',
+  },
+  {
+    name: 'Eurobricks Forum',
+    url: 'https://www.eurobricks.com/forum/profile/120672-teo-lego-technic/',
+    icon: 'solid/handshake',
+  },
+  {
+    name: 'BrickSafe Portfolio',
+    url: 'https://bricksafe.com/pages/Teo_LEGO_Technic',
+    icon: 'solid/folder-open',
+  },
+];
+
+const inspirations = [
+  {
+    name: 'Nico71',
+    url: 'https://www.nico71.fr/',
+    image: nico71,
+    alt: 'Nico, a French Engineer and LEGO Creator',
+  },
+  {
+    name: 'ZeroBricks',
+    url: 'https://www.youtube.com/c/zerobricks',
+    image: zerobricks,
+    alt: 'ZeroBricks, creator of BuWizz',
+  },
+  {
+    name: 'Madoca',
+    url: 'https://www.youtube.com/@madoca1977',
+    image: madoca,
+    alt: 'Madoca, LEGO Technic legend',
+  },
+  {
+    name: 'Sheepo',
+    url: 'https://www.sheepo.es',
+    image: sheepo,
+    alt: 'Sheepo, famous for large, complex vehicles',
+  },
+  {
+    name: 'Efferman',
+    url: 'https://www.youtube.com/user/3fferman',
+    image: efferman,
+    alt: 'Efferman, builder of robust designs and custom parts',
+  },
+  {
+    name: 'Sariel',
+    url: 'https://sariel.pl',
+    image: sariel,
+    alt: 'Sariel, prolific builder with published books and an active social media presence',
+  },
+];
+---
+
+<div class="section-heading">
+  <h2>LEGO Technic Creations</h2>
+
+  <div class="section-description" data-reveal>
+    <p class="intro-text">
+      My passion for LEGO Technic began over a decade ago and continues to this day. Check out an
+      assortment of custom-built gearboxes, transmissions, suspensions, and axle designs - all
+      engineered from the ground up. I designed every project meticulously from original blueprints,
+      learning the joy of building something my own.
+    </p>
+    <p class="intro-text">
+      That same drive fuels my real-world engineering and coding accomplishments - building an
+      exceptional coding project is not so different from engineering a really cool truck. P.S.
+      Kudos to my wife for not only putting up with my obsession but helping shoot much of the
+      footage <span class="large-emoji">🫶</span>
+    </p>
+    <div class="feature-highlights">
+      {communityLinks.map((link) => (
+        <a href={link.url} target="_blank" rel="noopener" class="feature-link">
+          <Icon name={link.icon} />
+          <span>{link.name}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div class="lego-container">
+    <ul class="lego-grid">
+      {creations.map(({ id, data }) => (
+        <li>
+          <a class="lego-card" href={`#lego-${id}`} data-reveal>
+            <Image
+              src={data.cover}
+              alt={data.title}
+              widths={[360, data.cover.width]}
+              sizes="(max-width: 860px) 100vw, 485px"
+            />
+            <div class="card-content">
+              <h3>{data.title}</h3>
+              {data.buildYear && <p class="build-year">{data.buildYear}</p>}
+              <ul class="chips">
+                {data.techniques.slice(0, 2).map((tech) => (
+                  <li class="chip">{tech}</li>
+                ))}
+                {data.techniques.length > 2 && <li class="chip">+{data.techniques.length - 2}</li>}
+              </ul>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    {creations.map(({ id, data, Content }) => (
+      <article class="lego-detail" id={`lego-${id}`} hidden>
+        <a href="#lego" class="back-button" aria-label="Back to all creations">
+          <Icon name="solid/arrow-left" />
+        </a>
+
+        <header class="detail-header">
+          <h3>{data.title}</h3>
+          {data.buildYear && <p class="build-year">{data.buildYear}</p>}
+        </header>
+
+        <div class="detail-main">
+          <div class="video-container">
+            <iframe
+              data-src={`https://www.youtube-nocookie.com/embed/${data.youtubeId}`}
+              title={`${data.title} video`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            />
+          </div>
+
+          <div class="detail-info">
+            <Content />
+
+            <h4>Techniques & Features</h4>
+            <ul class="chips">
+              {data.techniques.map((tech) => (
+                <li class="chip">{tech}</li>
+              ))}
+            </ul>
+
+            <div class="link-row">
+              {data.forumUrl && (
+                <a href={data.forumUrl} target="_blank" rel="noopener" class="link-button">
+                  <Icon name="solid/comments" />
+                  <span>Work-in-Progress Thread</span>
+                </a>
+              )}
+              {data.demo && (
+                <a href={data.demo.url} target="_blank" rel="noopener" class="link-button">
+                  <Icon name="solid/up-right-from-square" />
+                  <span>{data.demo.name}</span>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {data.gallery.length > 0 && (
+          <div class="gallery">
+            <h4>More Photos</h4>
+            <ul class="images-grid">
+              {data.gallery.map((url, i) => (
+                <li>
+                  <button type="button" data-gallery-index={i} aria-label={`Open photo ${i + 1}`}>
+                    <img src={url} alt={`${data.title} detail`} loading="lazy" decoding="async" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </article>
+    ))}
+
+    <div class="inspiration-section" data-reveal>
+      <h3>Builders Who Inspire Me</h3>
+      <p class="inspiration-description">
+        For setting the bar high, and showing all us builders what LEGO Technic can do, here are
+        some notable inspirations. Thanks for the motivation, and sometimes even collaboration{' '}
+        <span class="large-emoji">🤟</span>
+      </p>
+      <ul class="inspiration-grid">
+        {inspirations.map((builder) => (
+          <li>
+            <a href={builder.url} target="_blank" rel="noopener" class="inspiration-card">
+              <Image
+                src={builder.image}
+                alt={builder.alt}
+                width={140}
+                height={140}
+                densities={[1, 2]}
+              />
+              <span>{builder.name}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<dialog class="lightbox" aria-label="Photo viewer">
+  <button type="button" class="close-button" aria-label="Close">
+    <Icon name="solid/xmark" />
+  </button>
+  <img alt="" />
+  <div class="navigation-buttons">
+    <button type="button" data-step="-1" aria-label="Previous photo">
+      <Icon name="solid/chevron-left" />
+    </button>
+    <button type="button" data-step="1" aria-label="Next photo">
+      <Icon name="solid/chevron-right" />
+    </button>
+  </div>
+</dialog>
+
+<script>
+  const grid = document.querySelector<HTMLElement>('.lego-grid')!;
+  const details = document.querySelectorAll<HTMLElement>('.lego-detail');
+  const lightbox = document.querySelector<HTMLDialogElement>('.lightbox')!;
+  const lightboxImg = lightbox.querySelector('img')!;
+
+  let galleryImages: HTMLImageElement[] = [];
+  let galleryIndex = 0;
+
+  // The URL hash (#lego-<id>) selects which creation is open, so the browser
+  // back button closes the detail view and creations can be linked directly.
+  const showFromHash = () => {
+    const target = location.hash.startsWith('#lego-')
+      ? document.getElementById(location.hash.slice(1))
+      : null;
+
+    details.forEach((detail) => {
+      const open = detail === target;
+      const iframe = detail.querySelector('iframe')!;
+      detail.hidden = !open;
+      // Only load the YouTube player for the open creation
+      if (open) iframe.src = iframe.dataset.src!;
+      else iframe.removeAttribute('src');
+    });
+    grid.hidden = target !== null;
+    // The browser can't scroll to the detail itself, as it was hidden on navigation
+    target?.scrollIntoView();
+  };
+
+  window.addEventListener('hashchange', showFromHash);
+  showFromHash();
+
+  const showImage = (index: number) => {
+    galleryIndex = (index + galleryImages.length) % galleryImages.length;
+    lightboxImg.src = galleryImages[galleryIndex].src;
+    lightboxImg.alt = galleryImages[galleryIndex].alt;
+  };
+
+  document.querySelectorAll<HTMLButtonElement>('[data-gallery-index]').forEach((button) => {
+    button.addEventListener('click', () => {
+      galleryImages = [...button.closest('.images-grid')!.querySelectorAll('img')];
+      lightbox.classList.toggle('single', galleryImages.length < 2);
+      showImage(Number(button.dataset.galleryIndex));
+      lightbox.showModal();
+    });
+  });
+
+  lightbox.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((button) => {
+    button.addEventListener('click', () => showImage(galleryIndex + Number(button.dataset.step)));
+  });
+  lightbox.querySelector('.close-button')!.addEventListener('click', () => lightbox.close());
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) lightbox.close();
+  });
+  lightbox.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') showImage(galleryIndex - 1);
+    if (event.key === 'ArrowRight') showImage(galleryIndex + 1);
+  });
+</script>
+
+<style lang="scss">
+  @use '../styles/variables' as *;
+
+  .lego-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .build-year {
+    font-size: 14px;
+    color: var(--subtitle);
+    margin-bottom: 15px;
+  }
+
+  // ---------- Grid ----------
+  .lego-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    list-style: none;
+
+    &[hidden] {
+      display: none;
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .lego-card {
+    display: block;
+    height: 100%;
+    background-color: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    h3 {
+      font-size: 24px;
+      color: var(--body-color);
+      margin-bottom: 8px;
+    }
+  }
+
+  // ---------- Detail view ----------
+  .lego-detail {
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+    scroll-margin-top: 110px;
+
+    &[hidden] {
+      display: none;
+    }
+
+    h4 {
+      font-size: 20px;
+      margin: 20px 0 15px;
+      color: var(--body-color);
+    }
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    font-size: 18px;
+    color: var(--body-color);
+    background-color: var(--chips-background);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--section-underline);
+      color: var(--white);
+    }
+  }
+
+  .detail-header {
+    margin-bottom: 30px;
+
+    h3 {
+      font-size: 32px;
+      color: var(--body-color);
+      margin-bottom: 8px;
+      position: relative;
+      padding-bottom: 12px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background-color: var(--section-underline);
+      }
+    }
+
+    .build-year {
+      font-size: 16px;
+    }
+  }
+
+  .detail-main {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+
+    @media (max-width: $breakpoint-mobile) {
+      flex-direction: column;
+    }
+  }
+
+  .video-container {
+    flex: 0 0 55%;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    background-color: #000;
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      width: 100%;
+    }
+  }
+
+  .detail-info {
+    flex: 1;
+  }
+
+  .gallery {
+    margin-top: 30px;
+  }
+
+  .images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    gap: 20px;
+    list-style: none;
+
+    button {
+      display: block;
+      width: 100%;
+      border: none;
+      padding: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      cursor: zoom-in;
+      background-color: var(--chips-background);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  // ---------- Lightbox ----------
+  .lightbox {
+    margin: auto;
+    max-width: 90vw;
+    max-height: 95vh;
+    padding: 50px 0 0;
+    border: none;
+    background: transparent;
+    overflow: visible;
+
+    &::backdrop {
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+
+    img {
+      display: block;
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: transparent;
+      font-size: 28px;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+
+      button {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.2);
+        font-size: 18px;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.3);
+        }
+      }
+    }
+
+    &.single .navigation-buttons {
+      display: none;
+    }
+  }
+
+  // ---------- Inspirations ----------
+  .inspiration-section {
+    margin-top: 50px;
+    border-top: 1px solid var(--footer-top);
+    padding-top: 40px;
+
+    h3 {
+      font-size: 24px;
+      color: var(--body-color);
+      margin-bottom: 25px;
+      text-align: center;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background-color: var(--section-underline);
+      }
+    }
+  }
+
+  .inspiration-description {
+    max-width: 800px;
+    margin: 0 auto 30px;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .inspiration-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    list-style: none;
+
+    @media (max-width: $breakpoint-mobile) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .inspiration-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 25px 15px 20px;
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    color: var(--body-color);
+    font-family: $header-font;
+    font-size: 18px;
+    text-decoration: none;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+
+    img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+
+      img {
+        transform: scale(1.05);
+      }
+    }
+  }
+</style>

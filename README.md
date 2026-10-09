@@ -1,90 +1,79 @@
 # Personal Website
 
+Built with [Astro](https://astro.build) and deployed on Cloudflare Pages at https://teoilie.com. The previous Angular version is tagged `angular-final`.
+
+## Developing
+
+Requires Node 22.12+ (pinned in `.nvmrc`, so `nvm use` picks it up).
+
+```
+npm install
+npm run dev       # dev server at http://localhost:4321
+npm run format    # Prettier
+npm run check     # type-check .astro and .ts files
+```
+
 ## Building and deploying
 
 **Build**
 
-1. First run this command for full code lint/formatting
-
 ```
-npm run format
+npm run build     # outputs to docs/
+npm run preview   # serve the build at http://localhost:4321 for Lighthouse testing
 ```
-
-2. Then run this command if any new images need to be compressed to `.webp` format:
-
-```
-npm run comp
-```
-
-3. Finally, this command will build the application to the `docs` folder:
-
-```
-npm run build
-```
-
-All these custom `npm` scripts can be found in `package.json` under `"scripts"`.
 
 **Deploy**
 
 By doing `git push`, Cloudflare Pages will automatically deploy the application. Deployments can be seen here:
 https://dash.cloudflare.com
 
+**Cloudflare setup**
 
-## Resources
+- Build command `npm run build`, output directory `docs`
+- The Node version is set with the `NODE_VERSION` environment variable, which must be at least `22.12.0` for Astro
 
-The website is currently available at https://teoilie.github.io
+## Project structure
 
-Resource: https://medium.com/swlh/how-to-deploy-an-angular-app-to-github-pages-without-using-any-libraries-step-by-step-guide-cfe96fb0c879
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1, and currently runs version 19.2.5. GenAI tools were used sparingly for development (because let's face it right, they're epic 🚀)
-
+```
+src/
+├── pages/index.astro        # the page (each file in pages/ becomes a route)
+├── layouts/BaseLayout.astro # <head>, SEO/Open Graph tags, JSON-LD, theme script
+├── components/              # Header, About, Projects, LegoTechnic, Socials, Icon
+├── content/
+│   ├── projects/*.md        # one file per coding project
+│   └── lego/*.md            # one file per LEGO creation (description is the markdown body)
+├── content.config.ts        # schema for the content files
+├── assets/images/           # images optimized at build time (AVIF/WebP, multiple sizes)
+└── styles/                  # global.scss (theme colours, shared styles), _variables.scss
+public/                      # served as-is: videos, resume PDF, favicons, robots.txt
+```
 
 ## Notes
 
-**Angular 19 Deployment Workaround**
+**Adding a project or LEGO creation**
 
-Angular 19 insists on building the project to a `browser` folder, for SSR. My current solution is a workaround script in `package.json`. To build the project to the `docs` folder, run the script using
+Copy an existing file in `src/content/projects/` or `src/content/lego/` and edit the frontmatter. `order` controls the position on the page. The build fails with a clear error if a required field is missing.
 
-```
-npm run build
-```
+**Images**
 
-Then `git push` and Cloudflare Pages will deploy correctly. More info here: https://stackoverflow.com/questions/78544888/angular-18-ng-build-without-browser-folder
+Put the **highest resolution original** in `src/assets/images/` - no need to resize or convert. Astro generates AVIF/WebP at the sizes each layout needs, so visitors on large screens get sharp images while phones get small files.
 
-**Gif generation**
+**Icons**
+
+Icons are Font Awesome SVGs inlined at build time, so only icons actually used are shipped: `<Icon name="solid/robot" />` or `<Icon name="brands/github" />`. Browse names at https://fontawesome.com/search?ic=free.
+
+**Videos**
 
 1. Create a short 4-5 sec video, 1800x1200 aspect ratio in Final Cut Pro
 2. Export > Apple Devices 1080p > H.264 Multi-Pass (Better) -> output is .m4v
-3. Upload to http://ezgif.com, max 800 px width, 20/24 FPS, FFmpeg method, optionally optimize for static background
+3. Convert to `.webm` using **Handbrake**, with custom preset **Web-WebM**, and to `.mp4` using the **Web-MP4** custom preset. Put them in `public/assets/videos/` and `public/assets/videos/webm/`
+4. Run `npm run strip-audio` to remove audio tracks from both `.mp4` and `.webm` files (required for reliable autoplay on iOS)
 
-**Cloudflare setup**
+Project videos only download and play while scrolled into view.
 
-The Node version on Cloudflare Pages is explicitly set with an environment variable to `NODE_VERSION: 22.0.0` - update this as necessary
+**Sitemap**
 
-**Fonts, Icons**
-
-1. To add fonts in future, preconnect, then preload, then only use the specific required weights, see `index.html`
-2. In future, if using additional Angular Material icons, add them specifically to `app.module.ts`, then refence similar to `<mat-icon svgIcon="menu"></mat-icon>`
-
-**WebM, WebP images and videos**
-
-1. Images are automatically converted to `.webp` using the script `npm run comp`. They are served in a `<picture>` tag, with `.jpg` fallback.
-2. Videos are manually converted to `.webm` using **Handbrake**, with custom preset **Web-WebM**. They are served in a `<video>` tag, with `.mp4` fallback also generated in **Handbrake** using **Web-MP4** custom preset. After adding new MP4 videos, run `npm run strip-audio` to remove audio tracks from both `.mp4` and `.webm` files (required for reliable autoplay on iOS).
-3. Ideal image resolution for the web is 72 px/inch, but can be resized slightly compared the bounding box to look better
-  * To resize images, open them with **Preview**, and go to **Tools > Adjust Size... >** and set width, height, and resolution to match the requirements
-  * For example, for Technic card photos, set dimension to 712 x 400, and resolution to 762 pixels/inch, then copy them to `src/assets/images`
-4. Excellent guide for serving responsive images - https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images
-
-**Local performance testing**
-
-To test performance locally without deployment, more accurately than using `ng serve` and testing on `localhost:4000`, first build the app with `npm run build`, and then serve it with `npx http-server docs -p 8080`, then test Lighthouse on it there at `http://127.0.0.1:8080`
-
-**Automatically create a `sitemap.xml`
-
-To create a sitemap, run
-```
-npx sitemap-generator-cli https://teoilie.com --output ./src/sitemap.xml
-```
+`sitemap-index.xml` is generated automatically on every build.
 
 **Updating dependencies automatically**
 
@@ -92,5 +81,3 @@ npx sitemap-generator-cli https://teoilie.com --output ./src/sitemap.xml
 2. `ncu` gather info about the update
 3. `ncu -u` applies the changes
 4. To reinstall from scratch, `rm -rf node_modules package-lock.json` to clear the dependencies, and then `npm install` to re-install
-
-

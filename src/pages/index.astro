@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import About from '../components/About.astro';
+import Projects from '../components/Projects.astro';
+import LegoTechnic from '../components/LegoTechnic.astro';
+import Socials from '../components/Socials.astro';
+---
+
+<BaseLayout
+  title="Teodor Ilie | AI & Robotics Master's Student | Full-Stack Developer"
+  description="Teodor Ilie is a Master's student in AI & Robotics at Queen's University and a full-stack developer, researching deep reinforcement learning for autonomous vehicles."
+>
+  <Header />
+  <div class="app-container">
+    <main>
+      <section id="about">
+        <About />
+      </section>
+      <section id="projects">
+        <Projects />
+      </section>
+      <section id="lego">
+        <LegoTechnic />
+      </section>
+      <section id="socials">
+        <Socials />
+      </section>
+    </main>
+    <footer>
+      <p>
+        &copy; {new Date().getFullYear()} Teodor Ilie. All rights reserved. View the{' '}
+        <a href="https://github.com/TeoIlie/TeoIlie.github.io" target="_blank" rel="noopener">
+          source code on GitHub
+        </a>{' '}
+        🚀
+      </p>
+      <p>
+        This site is hosted on Cloudflare Pages and uses their{' '}
+        <a
+          href="https://developers.cloudflare.com/web-analytics/about/"
+          target="_blank"
+          rel="noopener"
+        >
+          privacy-first analytics
+        </a>
+        . Data is collected anonymously to help improve performance and content.
+        <br />
+        Messages sent via the contact form are transmitted securely and never shared with third
+        parties.
+      </p>
+    </footer>
+  </div>
+</BaseLayout>
+
+<script>
+  import '../scripts/reveal';
+</script>
+
+<style lang="scss">
+  .app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  section {
+    min-height: 100vh;
+    padding: 100px 0 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    border-top: 1px solid var(--footer-top);
+
+    p {
+      color: var(--footer-colour);
+    }
+  }
+</style>

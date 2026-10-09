@@ -1,0 +1,36 @@
+---
+// Inlines a Font Awesome SVG at build time, so only the icons actually used ship.
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  /** e.g. "solid/robot" or "brands/github" */
+  name: string;
+  class?: string;
+  label?: string;
+}
+
+const { name, class: className, label } = Astro.props;
+
+const file = path.join(
+  process.cwd(),
+  'node_modules/@fortawesome/fontawesome-free/svgs',
+  `${name}.svg`
+);
+const svg = fs.readFileSync(file, 'utf-8');
+const viewBox = svg.match(/viewBox="([^"]+)"/)?.[1];
+const body = svg
+  .replace(/^.*?<svg[^>]*>/s, '')
+  .replace(/<\/svg>\s*$/, '')
+  .replace(/<!--.*?-->/gs, '');
+---
+
+<svg
+  class:list={['icon', className]}
+  viewBox={viewBox}
+  fill="currentColor"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  set:html={body}
+/>
