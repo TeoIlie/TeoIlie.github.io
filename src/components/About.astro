@@ -1,0 +1,223 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import Chips from './Chips.astro';
+import LinkButton from './LinkButton.astro';
+import photo from '../assets/images/profile-1200.jpg';
+import { profile, socials, interests, education } from '../data/profile';
+---
+
+<h1 class="visually-hidden">{profile.name}</h1>
+<h2 class="section-title heading-underline">About Me</h2>
+
+<div class="about">
+  <div class="profile">
+    <Picture
+      src={photo}
+      alt={profile.name}
+      width={600}
+      height={600}
+      widths={[250, 300, 500, 600]}
+      sizes="(max-width: 860px) 250px, 300px"
+      formats={['avif', 'webp']}
+      loading="eager"
+      fetchpriority="high"
+    />
+    <p class="tagline">{profile.tagline}</p>
+    <ul class="socials">
+      {socials.map((social) => (
+        <li>
+          <a href={social.url} target="_blank" rel="noopener noreferrer">
+            <Icon name={social.icon} label={social.name} />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <LinkButton name="Download Resume" url={profile.resume} icon="solid/file-pdf" />
+  </div>
+
+  <div class="bio" data-reveal>
+    <h3>
+      Hello, I'm <span class="highlight">{profile.name}</span>
+    </h3>
+    <p>
+      Welcome! I'm a Master's Student with the School of Computing at Queen's University in the{' '}
+      <a href="https://labs.cs.queensu.ca/quarrg/" target="_blank" rel="noopener">
+        QUARRG
+      </a>{' '}
+      lab, and a full-stack software developer at BMO. I am currently researching Deep Reinforcement
+      Learning solutions for autonomous vehicle navigation and control.
+    </p>
+    <p>
+      In my free time I enjoy kickboxing, playing guitar, and designing LEGO Technic models. Check
+      out my coding projects, LEGO Technic designs, or just enjoy the pretty pictures{' '}
+      <span class="large-emoji">🎨</span>
+    </p>
+
+    <div class="details">
+      <div>
+        <h4>Interests</h4>
+        <Chips items={interests} />
+      </div>
+      <div>
+        <h4>Education</h4>
+        {education.map((item) => (
+          <div class="degree">
+            <Icon name="solid/graduation-cap" />
+            <div>
+              <strong>{item.degree}</strong>
+              <small>{item.institution}</small>
+              {item.awards.length > 0 && (
+                <div class="awards">
+                  {item.awards.map((award) => (
+                    <a href={award.url} target="_blank" rel="noopener">
+                      {award.name}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .about {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+
+    @media (max-width: 860px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .profile {
+    flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    img {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+      @media (max-width: 860px) {
+        width: 250px;
+        height: 250px;
+      }
+    }
+  }
+
+  .tagline {
+    font-size: 16px;
+    color: var(--subtitle);
+    text-align: center;
+    margin: 0;
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+
+    a {
+      display: flex;
+      font-size: 28px;
+      color: var(--body-color);
+      transition:
+        color 0.1s ease,
+        scale 0.1s ease;
+
+      &:hover {
+        color: var(--section-underline);
+        scale: 1.15;
+      }
+    }
+  }
+
+  .bio {
+    flex: 1;
+
+    h3 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .highlight {
+    color: var(--section-underline);
+  }
+
+  .details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 30px;
+
+    > div {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    @media (max-width: 1100px) {
+      flex-direction: column;
+    }
+  }
+
+  .degree {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+
+    > :global(.icon) {
+      font-size: 22px;
+      margin-top: 3px;
+      color: var(--section-underline);
+    }
+
+    strong {
+      display: block;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    small {
+      display: block;
+      font-size: 14px;
+      color: var(--subtitle);
+    }
+  }
+
+  .awards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 14px;
+
+    a {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+      color: var(--section-underline);
+      background-color: var(--chips-background);
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: var(--white);
+        background-color: var(--section-underline);
+        text-decoration: none;
+      }
+    }
+  }
+</style>

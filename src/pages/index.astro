@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import About from '../components/About.astro';
+import Projects from '../components/Projects.astro';
+import LegoGrid from '../components/LegoGrid.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<BaseLayout
+  title="Teodor Ilie | AI & Robotics Master's Student | Full-Stack Developer"
+  description="Teodor Ilie is a Master's student in AI & Robotics at Queen's University and a full-stack developer, researching deep reinforcement learning for autonomous vehicles."
+>
+  <section id="about" class="container">
+    <About />
+  </section>
+  <section id="projects" class="container">
+    <Projects />
+  </section>
+  <section id="lego" class="container">
+    <LegoGrid />
+  </section>
+  <section id="socials" class="container">
+    <Contact />
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    min-height: 100vh;
+    padding: 100px 0 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+</style>

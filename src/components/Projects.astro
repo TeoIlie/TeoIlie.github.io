@@ -1,0 +1,157 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import SectionIntro from './SectionIntro.astro';
+import Chips from './Chips.astro';
+import LinkButton from './LinkButton.astro';
+
+// First frames extracted by `npm run prepare-videos`, shown until the video plays. Also set as
+// the video's background, since Firefox drops the poster a moment before painting the first frame.
+const posters = import.meta.glob<ImageMetadata>('../assets/images/posters/*.jpg', {
+  eager: true,
+  import: 'default',
+});
+
+const projects = await Promise.all(
+  (await getCollection('projects'))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async (entry) => {
+      const poster = posters[`../assets/images/posters/${entry.data.video}.jpg`];
+      if (!poster)
+        throw new Error(`Missing poster for "${entry.data.video}"; run npm run prepare-videos`);
+      return {
+        ...entry.data,
+        Description: (await render(entry)).Content,
+        poster: (await getImage({ src: poster, width: 720, format: 'webp' })).src,
+      };
+    })
+);
+
+const collaborators = [
+  { name: 'Ingenuity Labs', url: 'https://ingenuitylabs.queensu.ca/', icon: 'solid/gears' },
+  { name: 'QUARRG Lab', url: 'https://labs.cs.queensu.ca/quarrg/', icon: 'solid/robot' },
+  { name: 'MuLab', url: 'https://mulab.ai/', icon: 'solid/code-branch' },
+];
+---
+
+<h2 class="section-title heading-underline">Projects</h2>
+
+<SectionIntro links={collaborators}>
+  <p>
+    Explore a selection of my projects, ranging from a self-driving robot using Deep Reinforcement
+    Learning for map building, Probabilistic Inference with Pacman, and a Neural Network digit
+    classifier built from scratch. Also check out my collaborators below{' '}
+    <span class="large-emoji">🤖</span>
+  </p>
+</SectionIntro>
+
+<div class="projects">
+  {projects.map((project) => (
+    <article class="card card-hover project" data-reveal>
+      <a href={project.links[0]?.url} target="_blank" rel="noopener" tabindex="-1">
+        <video
+          data-autoplay
+          loop
+          muted
+          playsinline
+          preload="none"
+          poster={project.poster}
+          style={`background: url(${project.poster}) center / cover`}
+          aria-label={project.title}
+        >
+          <source src={`/assets/videos/${project.video}.mp4`} type="video/mp4" />
+        </video>
+      </a>
+      <div class="info">
+        <h3 class="heading-underline heading-underline--left">{project.title}</h3>
+        <project.Description />
+        <h4>Technologies Used</h4>
+        <Chips items={project.technologies} />
+        <div class="link-row">
+          {project.links.map((link) => (
+            <LinkButton {...link} />
+          ))}
+        </div>
+      </div>
+    </article>
+  ))}
+</div>
+
+<script>
+  // Only download and play project videos while they are near the screen. With
+  // reduced motion the poster stays put.
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const { target, isIntersecting } of entries) {
+        const video = target as HTMLVideoElement;
+        if (isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      }
+    },
+    { rootMargin: '400px 0px' }
+  );
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video[data-autoplay]').forEach((video) => observer.observe(video));
+  }
+</script>
+
+<style>
+  .projects {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .project {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    padding: 30px;
+
+    &:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    @media (max-width: 860px) {
+      &,
+      &:nth-child(even) {
+        flex-direction: column;
+      }
+    }
+
+    > a {
+      flex: 0 0 45%;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      background-color: var(--chips-background);
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      transition: scale 0.3s ease;
+
+      &:hover {
+        scale: 1.03;
+      }
+    }
+  }
+
+  .info {
+    flex: 1;
+
+    h3 {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    :global(p) {
+      margin-bottom: 25px;
+    }
+  }
+</style>
