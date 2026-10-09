@@ -345,12 +345,6 @@ ul {
       animation-range: entry 0% entry 50%;
     }
   }
-
-  /* Cross-document view transitions: pages cross-fade, and elements sharing a
-     view-transition-name (LEGO card title -> page title) morph between pages */
-  @view-transition {
-    navigation: auto;
-  }
 }
 
 @keyframes reveal {

@@ -18,6 +18,3 @@ export function excerpt(text: string, max = 155) {
   const plain = text.replace(/\s+/g, ' ').trim();
   return plain.length > max ? plain.slice(0, plain.lastIndexOf(' ', max - 3)) + '…' : plain;
 }
-
-/** Shared by a LEGO card's title and its page's h1, so the title morphs between them */
-export const legoTransitionName = (id: string) => `view-transition-name: lego-${id}`;

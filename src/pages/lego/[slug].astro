@@ -7,7 +7,7 @@ import LinkButton from '../../components/LinkButton.astro';
 import YouTubeFacade from '../../components/YouTubeFacade.astro';
 import Gallery from '../../components/Gallery.astro';
 import { profile } from '../../data/profile';
-import { excerpt, legoTransitionName } from '../../lib/content';
+import { excerpt } from '../../lib/content';
 
 export async function getStaticPaths() {
   const creations = await getCollection('lego');
@@ -32,7 +32,7 @@ const description = excerpt(entry.body ?? '');
     </a>
 
     <span class="eyebrow">LEGO Technic · {data.buildYear}</span>
-    <h1 style={legoTransitionName(entry.id)}>{data.title}</h1>
+    <h1>{data.title}</h1>
 
     <YouTubeFacade id={data.youtubeId} title={data.title} />
 

@@ -36,8 +36,8 @@ There are no unit tests or ESLint.
 - `src/content/projects/*.md`, `src/content/lego/*.md` - one file per item; `order` sets position; filename is the slug/URL
 - `src/data/profile.ts` - name, headline, email, phone, discord, Formspree action, socials (`hero: true` ones also show in the hero), `youtube`, interests, education, experience (single source for About, Experience, Contact, JSON-LD)
 - `src/data/jsonld.ts` - `personJsonLd()`; job and school come from `experience[0]` / `education[0]`
-- `src/lib/content.ts` - `Link` type, `getSorted(collection)` (by `order`), `excerpt()` (meta descriptions), `legoTransitionName(id)`
-- `src/styles/global.css` - theme tokens (colours via `light-dark()`), base styles, shared classes, scroll-reveal, cross-document view transitions
+- `src/lib/content.ts` - `Link` type, `getSorted(collection)` (by `order`), `excerpt()` (meta descriptions)
+- `src/styles/global.css` - theme tokens (colours via `light-dark()`), base styles, shared classes, scroll-reveal
 - `src/assets/` - `logo.svg` (uses `currentColor`, imported as a component) and `images/` (optimized at build)
 - `public/` - served unprocessed: videos, resume PDF, favicons, `robots.txt`, `_headers`
 - `scripts/prepare-videos.mjs` - `npm run prepare-videos`
@@ -62,7 +62,7 @@ There are no unit tests or ESLint.
 - Theme: `localStorage['preferred-theme']` or system preference adds `dark-theme` to `<html>` before paint, which sets `color-scheme: dark` so every `light-dark()` token switches; the Header toggle (`role="switch"`) flips it.
 - Mobile menu: `<nav popover>` + `<button popovertarget>`; desktop CSS (`min-width: 861px`) undoes popover styles so the nav sits inline. One listener hides it when a link is clicked.
 - Projects: `featured: true` in frontmatter makes a full-width card; the rest fill a 2-column grid. `<video data-autoplay preload="none" poster>` is played/paused by an IntersectionObserver (not observed at all under reduced motion). The mp4 and the poster (`src/assets/images/posters/<video>.jpg`, served as webp via `getImage`) are derived from the `video` field; the build fails if a poster is missing.
-- LEGO pages: the card `h3` and page `h1` share `view-transition-name: lego-<slug>` so the title morphs on navigation (CSS `@view-transition`, no JS). YouTube is a thumbnail button replaced by a `youtube-nocookie` iframe on click. Gallery thumbnails are links to a full-size `getImage` version; JS intercepts them to open a `<dialog>` lightbox (arrows, ←/→ keys, swipe, wraps around). The thumbnail and gallery images are scaled 1.01 inside clipped frames to hide 1px black edges baked into some YouTube thumbnails and BrickSafe photos.
+- LEGO pages: no page transitions (a title morph was tried and removed: text snapshots scale badly). YouTube is a thumbnail button replaced by a `youtube-nocookie` iframe on click. Gallery thumbnails are links to a full-size `getImage` version; JS intercepts them to open a `<dialog>` lightbox (arrows, ←/→ keys, swipe, wraps around). The thumbnail and gallery images are scaled 1.01 inside clipped frames to hide 1px black edges baked into some YouTube thumbnails and BrickSafe photos.
 - Contact form posts to Formspree (`profile.formAction`) via fetch, falling back to a normal form post without JS; validation messages use `:user-invalid`.
 
 ## Build & Deployment

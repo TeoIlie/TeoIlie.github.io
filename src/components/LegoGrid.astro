@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import SectionIntro from './SectionIntro.astro';
 import Chips from './Chips.astro';
 import { youtube } from '../data/profile';
-import { getSorted, legoTransitionName } from '../lib/content';
+import { getSorted } from '../lib/content';
 import nico71 from '../assets/images/nico71.jpg';
 import zerobricks from '../assets/images/zerobricks.jpg';
 import madoca from '../assets/images/madoca.png';
@@ -84,7 +84,7 @@ const inspirations = [
           />
         </div>
         <div class="meta">
-          <h3 style={legoTransitionName(id)}>{data.title}</h3>
+          <h3>{data.title}</h3>
           <span class="mono">{data.buildYear}</span>
         </div>
         <Chips items={data.techniques} limit={2} />
