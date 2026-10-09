@@ -74,10 +74,15 @@ import { profile, socials } from '../data/profile';
 
 <script>
   const copy = document.querySelector<HTMLButtonElement>('.contact-info .copy')!;
+  const copied = copy.nextElementSibling!;
   copy.addEventListener('click', async () => {
-    await navigator.clipboard.writeText(copy.dataset.copy!);
-    copy.nextElementSibling!.textContent = 'Copied!';
-    setTimeout(() => (copy.nextElementSibling!.textContent = ''), 2000);
+    try {
+      await navigator.clipboard.writeText(copy.dataset.copy!);
+      copied.textContent = 'Copied!';
+    } catch {
+      copied.textContent = 'Copy failed';
+    }
+    setTimeout(() => (copied.textContent = ''), 2000);
   });
 
   const form = document.querySelector<HTMLFormElement>('.contact-form form')!;

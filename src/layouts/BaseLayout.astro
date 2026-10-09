@@ -56,6 +56,7 @@ const jsonLd = personJsonLd(Astro.site!, photoUrl);
     <script is:inline>
       let theme;
       try {
+        // Saved by the theme toggle in Header.astro
         theme = localStorage.getItem('preferred-theme');
       } catch {}
       if (theme !== 'light' && theme !== 'dark') {

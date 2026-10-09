@@ -52,6 +52,7 @@ import { sections } from '../data/site';
     const theme = root.classList.contains('dark-theme') ? 'light' : 'dark';
     root.classList.toggle('dark-theme', theme === 'dark');
     try {
+      // Read before first paint by the inline script in BaseLayout.astro
       localStorage.setItem('preferred-theme', theme);
     } catch {}
     sync();
