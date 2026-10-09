@@ -14,11 +14,11 @@ Requires Node >= 22.19 (`.nvmrc`). The user's nvm default may be older, so prefi
 
 ```bash
 npm run dev        # Dev server at http://localhost:4321
-npm run build      # Production build to docs/ (gitignored)
+npm run build      # astro check, then production build to docs/ (gitignored)
 npm run preview    # Serve the build (use this for Lighthouse, not dev)
 npx astro preview stop   # Astro 7 allows one preview server per project; stop a background one
 npm run check      # astro check (type-checks .astro and .ts)
-npm run format     # Prettier (with prettier-plugin-astro)
+npm run format     # Prettier (with prettier-plugin-astro); format:check verifies only
 npm run prepare-videos  # Strip audio, faststart, extract posters for public/assets/videos (needs ffmpeg)
 ```
 
@@ -27,20 +27,24 @@ There are no unit tests or ESLint.
 ## Architecture
 
 **Structure:**
-- `src/pages/index.astro` - homepage; just `<section id="about|projects|lego|socials" class="container">` wrappers around section components
-- `src/pages/lego/[slug].astro` - `getStaticPaths()` over the `lego` collection; YouTube facade, gallery
-- `src/layouts/BaseLayout.astro` - `<head>` (SEO/OG tags, canonical, JSON-LD from `data/profile.ts`, `<Font>` tags with preloads, pre-paint theme script), Header, `<main>`, footer. Props: `title`, `description`, optional `image` (OG image, via `getImage`; defaults to the profile photo)
-- `src/components/` - sections: `About` (hero + bio), `Experience`, `Projects`, `LegoGrid`, `Contact`, `Header`; building blocks: `Icon`, `Chips`, `LinkButton` (`primary` for the filled accent style), `SectionIntro` (eyebrow, title, intro slot, muted link row)
+- `src/data/site.ts` - `sections` list (id, nav label, eyebrow): its order drives the page order, the Header nav and the numbered eyebrows; also `siteName`
+- `src/pages/index.astro` - homepage; maps `sections` to `<section id class="container">` wrappers around section components (the `content` lookup must cover every id)
+- `src/pages/lego/[slug].astro` - `getStaticPaths()` over the `lego` collection; uses `YouTubeFacade` and `Gallery`
+- `src/layouts/BaseLayout.astro` - `<head>` (SEO/OG tags, canonical, JSON-LD from `data/jsonld.ts`, `<Font>` tags with preloads, pre-paint theme script), Header, `<main>`, footer. Props: `title`, `description`, optional `image` (OG image, via `getImage`; defaults to the profile photo)
+- `src/components/` - sections: `Hero` (rendered by `About`), `About` (bio), `Experience`, `Projects`, `LegoGrid`, `Contact`, `Header`; LEGO page parts: `YouTubeFacade`, `Gallery` (grid + lightbox); building blocks: `Icon`, `Chips`, `LinkButton` (`primary` for the filled accent style), `SectionIntro` (every section heading: `id` sets the numbered eyebrow; title, intro slot, muted link row, optional `class`)
 - `src/content.config.ts` - Zod schemas; both collections share the `links` schema and use the markdown body as the description
 - `src/content/projects/*.md`, `src/content/lego/*.md` - one file per item; `order` sets position; filename is the slug/URL
-- `src/data/profile.ts` - name, headline, email, phone, discord, socials, interests, education, experience (single source for About, Experience, Contact, JSON-LD)
+- `src/data/profile.ts` - name, headline, email, phone, discord, Formspree action, socials (`hero: true` ones also show in the hero), `youtube`, interests, education, experience (single source for About, Experience, Contact, JSON-LD)
+- `src/data/jsonld.ts` - `personJsonLd()`; job and school come from `experience[0]` / `education[0]`
+- `src/lib/content.ts` - `Link` type, `getSorted(collection)` (by `order`), `excerpt()` (meta descriptions), `legoTransitionName(id)`
 - `src/styles/global.css` - theme tokens (colours via `light-dark()`), base styles, shared classes, scroll-reveal, cross-document view transitions
 - `src/assets/` - `logo.svg` (uses `currentColor`, imported as a component) and `images/` (optimized at build)
 - `public/` - served unprocessed: videos, resume PDF, favicons, `robots.txt`, `_headers`
+- `scripts/prepare-videos.mjs` - `npm run prepare-videos`
 
-**Design:** tech-minimal with an instrumented/telemetry motif. Inter for text plus JetBrains Mono (500) for small readouts (eyebrows, labels, tags, dates, the hero credentials strip), one electric-blue accent, hairline borders instead of shadows, left-aligned section headers with a numbered eyebrow (`01 · About`). Tokens: `--bg`, `--surface`, `--surface-2`, `--text`, `--text-muted`, `--border`, `--accent`, `--accent-hover`, `--accent-contrast`, `--error`, `--success`; all text/accent pairs pass 4.5:1 in both themes - recheck if you change them. No emoji in copy.
+**Design:** tech-minimal with an instrumented/telemetry motif. Inter for text plus JetBrains Mono (500) for small readouts (eyebrows, labels, tags, dates, the hero credentials strip), one electric-blue accent, hairline borders instead of shadows, left-aligned section headers with a numbered eyebrow (`01 · About`). Tokens: `--bg`, `--surface`, `--surface-2`, `--text`, `--text-muted`, `--border`, `--border-hover` (accent-tinted, for hovered surfaces), `--accent`, `--accent-hover`, `--accent-contrast`, `--error`, `--success`; all text/accent pairs pass 4.5:1 in both themes - recheck if you change them. No emoji in copy.
 
-**Shared CSS classes (global.css):** `.container` (1080px centred), `.section-header`, `.eyebrow`, `.label` (small uppercase heading), `.card` (bordered surface), `.card-hover` (border tints toward the accent), `.mono`, `.viewfinder` (corner brackets over a media frame; they close in and turn accent on `.card-hover` hover), `.visually-hidden`, `.chips`/`.chip`, `.link-button` (+ `--primary`)/`.link-row`, `.icon`. Prefer these over re-declaring the same styles in components.
+**Shared CSS classes (global.css):** `.container` (1080px centred), `.section-header`, `.eyebrow`, `.label` (small uppercase heading), `.card` (bordered surface), `.card-hover` (border tints toward the accent), `.mono`, `.viewfinder` (corner brackets over a media frame; they close in and turn accent on `.card-hover` hover), `.chips`/`.chip`, `.link-button` (+ `--primary`; also works on `<button>`)/`.link-row`, `.icon-button` (36px square icon link/button), `.icon`. Prefer these over re-declaring the same styles in components.
 
 **Conventions:**
 - Zero JS by default; interactivity is small `<script>` blocks. Don't add UI frameworks unless an island genuinely needs one. Prefer platform features (popover, `:user-invalid`, scroll-driven animations) over JS.
@@ -49,7 +53,8 @@ There are no unit tests or ESLint.
 - Links/buttons in content: `links: [{ name, url, icon? }]`, rendered by `LinkButton`, which infers the icon from the URL.
 - Images: high-resolution originals in `src/assets/images/`, rendered with `<Image>`/`<Picture>`. Remote images (BrickSafe gallery, YouTube thumbnails) also go through `<Image>`; their domains are allowed in `astro.config.mjs` `image.domains`. Give `widths`/`sizes` that match the real rendered width (account for padding) or Lighthouse flags oversized images.
 - Astro's HTML compression strips whitespace between a line break and an inline element: write `text{' '}<a>` when a link or emoji follows text on a new line.
-- Nav uses real anchors (`/#section`) so it works from sub-pages.
+- Nav uses real anchors (`/#section`, built from `sections`) so it works from sub-pages.
+- Content schema checks `youtubeId` format and that gallery URLs are on `bricksafe.com` (an `image.domains` host).
 - Scroll reveal: add `data-reveal`; animation uses the `translate` property so it doesn't clash with hover `transform`.
 
 **Behaviour notes:**
@@ -58,7 +63,7 @@ There are no unit tests or ESLint.
 - Mobile menu: `<nav popover>` + `<button popovertarget>`; desktop CSS (`min-width: 861px`) undoes popover styles so the nav sits inline. One listener hides it when a link is clicked.
 - Projects: `featured: true` in frontmatter makes a full-width card; the rest fill a 2-column grid. `<video data-autoplay preload="none" poster>` is played/paused by an IntersectionObserver (not observed at all under reduced motion). The mp4 and the poster (`src/assets/images/posters/<video>.jpg`, served as webp via `getImage`) are derived from the `video` field; the build fails if a poster is missing.
 - LEGO pages: the card `h3` and page `h1` share `view-transition-name: lego-<slug>` so the title morphs on navigation (CSS `@view-transition`, no JS). YouTube is a thumbnail button replaced by a `youtube-nocookie` iframe on click. Gallery thumbnails are links to a full-size `getImage` version; JS intercepts them to open a `<dialog>` lightbox (arrows, ←/→ keys, swipe, wraps around). The thumbnail and gallery images are scaled 1.01 inside clipped frames to hide 1px black edges baked into some YouTube thumbnails and BrickSafe photos.
-- Contact form posts to Formspree (`https://formspree.io/f/moveyaaw`) via fetch, falling back to a normal form post without JS; validation messages use `:user-invalid`.
+- Contact form posts to Formspree (`profile.formAction`) via fetch, falling back to a normal form post without JS; validation messages use `:user-invalid`.
 
 ## Build & Deployment
 

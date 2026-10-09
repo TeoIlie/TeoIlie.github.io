@@ -2,9 +2,9 @@
 //  - strips audio and timecode tracks (silent videos autoplay reliably on iOS)
 //  - moves the moov atom to the front (faststart) so playback starts sooner
 //  - extracts the first frame as a poster in src/assets/images/posters/
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+import fs from 'node:fs';
+import path from 'node:path';
+import { execSync } from 'node:child_process';
 
 const videoDir = './public/assets/videos';
 const posterDir = './src/assets/images/posters';
@@ -12,7 +12,7 @@ const posterDir = './src/assets/images/posters';
 // Check if ffmpeg is installed
 try {
   execSync('ffmpeg -version', { stdio: 'ignore' });
-} catch (error) {
+} catch {
   console.error('Error: ffmpeg is not installed. Please install it first:');
   console.error('- For macOS: brew install ffmpeg');
   process.exit(1);
