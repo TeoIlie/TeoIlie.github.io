@@ -50,7 +50,7 @@ src/
 ├── data/profile.ts          # contact details, socials, interests, education
 ├── assets/                  # logo + images optimized at build time (AVIF/WebP, multiple sizes)
 └── styles/global.css        # theme colours and shared styles
-public/                      # served as-is: videos, resume PDF, favicons, robots.txt
+public/                      # served as-is: videos, resume PDF, favicons, robots.txt, _headers (caching)
 ```
 
 ## Notes
@@ -85,9 +85,14 @@ Icons are Font Awesome SVGs inlined at build time, so only icons actually used a
 1. Create a short 4-5 sec video, 1800x1200 aspect ratio in Final Cut Pro
 2. Export > Apple Devices 1080p > H.264 Multi-Pass (Better) -> output is .m4v
 3. Convert to `.mp4` using **Handbrake** with the **Web-MP4** custom preset, and put it in `public/assets/videos/`
-4. Run `npm run prepare-videos` (needs ffmpeg). It strips audio tracks (required for reliable autoplay on iOS), moves the `moov` atom to the front so playback starts sooner, and saves the first frame as a poster in `src/assets/images/posters/`. Nothing is re-encoded, so it is safe to re-run; delete a poster to regenerate it
+4. The final video should be 720x480 (3:2), filling the frame without letterboxing. `CLAUDE.md` has the ffmpeg command for scaling and cropping other sources
+5. Run `npm run prepare-videos` (needs ffmpeg). It strips audio tracks (required for reliable autoplay on iOS), moves the `moov` atom to the front so playback starts sooner, and saves the first frame as a poster in `src/assets/images/posters/`. Nothing is re-encoded, so it is safe to re-run; delete a poster to regenerate it
 
 Project videos show their poster straight away, and only download and play while near the screen. With reduced motion turned on, only the poster is shown.
+
+**Fonts**
+
+Roboto (body) and Montserrat (headings) are self-hosted with the Astro Fonts API, configured in `astro.config.mjs`. Only the listed weights are generated, so add a weight there before using it in CSS.
 
 **Dark mode**
 
@@ -95,7 +100,7 @@ Styles are plain CSS (with native nesting), scoped per component. Theme colours 
 
 **LEGO pages**
 
-Each creation has its own page at `/lego/<filename>`, e.g. https://teoilie.com/lego/unimog-u5000, with its own title, description and social preview image. The YouTube player only loads when the thumbnail is clicked.
+Each creation has its own page at `/lego/<filename>`, e.g. https://teoilie.com/lego/unimog-u5000, with its own title, description and social preview image. The YouTube player only loads when the thumbnail is clicked. Clicking a gallery photo opens it full screen in a `<dialog>` lightbox (arrow buttons, ← → keys or swipe; Escape or click outside to close).
 
 **Scroll animations**
 

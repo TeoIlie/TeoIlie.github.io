@@ -54,7 +54,7 @@ There are no unit tests or ESLint.
 - Theme: `localStorage['preferred-theme']` or system preference sets `light-theme`/`dark-theme` on `<html>` before paint; the Header toggle (`role="switch"`) flips it.
 - Mobile menu: `<nav popover>` + `<button popovertarget>`; desktop CSS (`min-width: 861px`) undoes popover styles so the nav sits inline. One listener hides it when a link is clicked.
 - Projects: `<video data-autoplay preload="none" poster>` is played/paused by an IntersectionObserver (not observed at all under reduced motion). The mp4 and the poster (`src/assets/images/posters/<video>.jpg`, served as webp via `getImage`) are derived from the `video` field; the build fails if a poster is missing.
-- LEGO pages: YouTube is a thumbnail button replaced by a `youtube-nocookie` iframe on click.
+- LEGO pages: YouTube is a thumbnail button replaced by a `youtube-nocookie` iframe on click. Gallery thumbnails are links to a full-size `getImage` version; JS intercepts them to open a `<dialog>` lightbox (arrows, ←/→ keys, swipe, wraps around). The thumbnail and gallery images are scaled 1.01 inside clipped frames to hide 1px black edges baked into some YouTube thumbnails and BrickSafe photos.
 - Contact form posts to Formspree (`https://formspree.io/f/moveyaaw`) via fetch, falling back to a normal form post without JS; validation messages use `:user-invalid`.
 
 ## Build & Deployment
