@@ -74,7 +74,7 @@ Contact details, social links, interests and education live in `src/data/profile
 
 **Images**
 
-Put the **highest resolution original** in `src/assets/images/` - no need to resize or convert. Astro generates AVIF/WebP at the sizes each layout needs, so visitors on large screens get sharp images while phones get small files. LEGO gallery photos stay on BrickSafe, but are downloaded and optimized the same way at build time (allowed domains are listed in `astro.config.mjs`).
+Put a high-resolution original in `src/assets/images/`, scaled down to about **2400px wide** (bigger adds nothing on screen and bloats the repo), as JPEG unless it needs transparency. Astro generates AVIF/WebP at the sizes each layout needs, so visitors on large screens get sharp images while phones get small files. LEGO gallery photos stay on BrickSafe, but are downloaded and optimized the same way at build time (allowed domains are listed in `astro.config.mjs`).
 
 **Icons**
 

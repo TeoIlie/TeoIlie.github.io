@@ -71,4 +71,4 @@ There are no unit tests or ESLint.
   `ffmpeg -i in.mov -map 0:v:0 -an -vf "scale=720:480:force_original_aspect_ratio=increase,crop=720:480,setsar=1" -c:v libx264 -preset slow -crf 24 -profile:v main -pix_fmt yuv420p -movflags +faststart public/assets/videos/<name>.mp4`
   If the source has non-square pixels (`ffprobe` `sample_aspect_ratio` not `1:1`), its display aspect is the true shape: prepend `scale=<display w>:<display h>,setsar=1,` (e.g. pacman's original 720x480 at SAR 2:3 is really 480x480). Never just rewrite the SAR flag - that skews it.
   To replace a video's poster, delete `src/assets/images/posters/<name>.jpg` and rerun `prepare-videos`.
-- LEGO card covers are currently only ~711x400 (issue #91); replacing them with full-resolution originals (same filenames) sharpens them automatically.
+- LEGO card covers are 2400px-wide JPEGs (camera originals downscaled, quality 88, to keep the repo small); `dakar.jpg`, `baja.jpg` and `tatra-8x8.jpg` are still ~711x400 (issue #91). Card `widths` are capped at the source width, so a bigger file sharpens them automatically.

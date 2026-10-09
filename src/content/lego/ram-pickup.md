@@ -2,7 +2,7 @@
 title: RAM Pickup Truck
 order: 4
 buildYear: 2025
-cover: ../../assets/images/ram.png
+cover: ../../assets/images/ram.jpg
 youtubeId: larGRLjImKY
 techniques:
   - RAM

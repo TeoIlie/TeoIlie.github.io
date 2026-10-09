@@ -91,7 +91,7 @@ const inspirations = [
         <Image
           src={data.cover}
           alt=""
-          widths={[360, data.cover.width]}
+          widths={[360, 485, 720, 970, 1440].filter((w) => w <= data.cover.width)}
           sizes="(max-width: 860px) 100vw, 485px"
         />
         <div>
