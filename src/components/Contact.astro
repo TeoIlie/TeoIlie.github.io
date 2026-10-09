@@ -93,7 +93,9 @@ import { profile } from '../data/profile';
 </script>
 
 <style>
+  /* width: 100% because the section is a flex column, where auto margins would shrink-wrap these */
   .contact-info {
+    width: 100%;
     max-width: 600px;
     margin: 0 auto 30px;
 
@@ -144,6 +146,7 @@ import { profile } from '../data/profile';
   }
 
   .contact-form {
+    width: 100%;
     max-width: 600px;
     margin: 0 auto;
     padding: 30px;
