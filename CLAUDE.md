@@ -31,7 +31,7 @@ There are no unit tests or ESLint.
 - `src/pages/index.astro` - homepage; maps `sections` to `<section id class="container">` wrappers around section components (the `content` lookup must cover every id)
 - `src/pages/lego/[slug].astro` - `getStaticPaths()` over the `lego` collection; uses `YouTubeFacade` and `Gallery`
 - `src/layouts/BaseLayout.astro` - `<head>` (SEO/OG tags, canonical, JSON-LD from `data/jsonld.ts`, `<Font>` tags with preloads, pre-paint theme script), Header, `<main>`, footer. Props: `title`, `description`, optional `image` (OG image, via `getImage`; defaults to the profile photo)
-- `src/components/` - sections: `Hero` (rendered by `About`), `About` (bio), `Experience`, `Projects`, `LegoGrid`, `Contact`, `Header`; LEGO page parts: `YouTubeFacade`, `Gallery` (grid + lightbox); building blocks: `Icon`, `Chips`, `LinkButton` (`primary` for the filled accent style), `SectionIntro` (every section heading: `id` sets the numbered eyebrow; title, intro slot, muted link row, optional `class`)
+- `src/components/` - sections: `Hero` (rendered by `About`), `About` (bio), `Experience`, `Projects`, `LegoGrid`, `Contact`, `Header`; LEGO page parts: `YouTubeFacade`, `Gallery` (grid + lightbox); building blocks: `Icon`, `Chips`, `LinkButton` (`primary` for the filled accent style), `SectionIntro` (every section heading: `id` sets the numbered eyebrow; title, intro slot, muted link row)
 - `src/content.config.ts` - Zod schemas; both collections share the `links` schema and use the markdown body as the description
 - `src/content/projects/*.md`, `src/content/lego/*.md` - one file per item; `order` sets position; filename is the slug/URL
 - `src/data/profile.ts` - name, headline, email, phone, discord, Formspree action, socials (`hero: true` ones also show in the hero), `youtube`, interests, education, experience (single source for About, Experience, Contact, JSON-LD)
@@ -67,7 +67,7 @@ There are no unit tests or ESLint.
 
 ## Build & Deployment
 
-- `astro.config.mjs`: `site: 'https://teoilie.com'`, `outDir: './docs'`, `build.inlineStylesheets: 'always'`, `image.domains`, `@astrojs/sitemap`, `fonts` (Fonts API, Fontsource provider: Inter → `--font-sans`, weights 400-700; JetBrains Mono → `--font-mono`, weight 500, preloaded (the hero credentials strip uses it); add a weight there before using it), `prefetch` (hover; only links with `data-astro-prefetch`, i.e. LEGO cards).
+- `astro.config.mjs`: `site: 'https://teoilie.com'`, `outDir: './docs'`, `build.inlineStylesheets: 'always'`, `image.domains`, `@astrojs/sitemap`, `fonts` (Fonts API, Fontsource provider: Inter → `--font-sans`, weights 400-600; JetBrains Mono → `--font-mono`, weight 500, preloaded (the hero credentials strip uses it); add a weight there before using it), `prefetch` (hover; only links with `data-astro-prefetch`, i.e. LEGO cards).
 - `docs/` is gitignored; Cloudflare Pages runs `npm run build` on every push and serves `docs`. Its `NODE_VERSION` env var is `22.23.3` (Production and Preview).
 - `*.pages.dev` preview URLs get `x-robots-tag: noindex` and a failing Cloudflare analytics beacon, so preview Lighthouse SEO/Best Practices scores are lower than on teoilie.com.
 - `public/_headers` sets immutable caching for `/_astro/*`.

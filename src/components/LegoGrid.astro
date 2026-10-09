@@ -98,7 +98,7 @@ const inspirations = [
   <ul>
     {inspirations.map((builder) => (
       <li>
-        <a href={builder.url} target="_blank" rel="noopener">
+        <a href={builder.url} target="_blank" rel="noopener" class="card card-hover">
           <Image src={builder.image} alt={builder.alt} width={32} height={32} densities={[1, 2]} />
           {builder.name}
         </a>
@@ -127,11 +127,6 @@ const inspirations = [
     flex-direction: column;
     height: 100%;
     padding: 8px 8px 16px;
-    color: inherit;
-
-    &:hover {
-      color: inherit;
-    }
 
     :global(.chips) {
       padding: 0 8px;
@@ -172,7 +167,6 @@ const inspirations = [
     span {
       font-size: 13px;
       color: var(--text-muted);
-      font-variant-numeric: tabular-nums;
     }
   }
 
@@ -190,17 +184,9 @@ const inspirations = [
       align-items: center;
       gap: 12px;
       padding: 6px 16px 6px 6px;
-      border: 1px solid var(--border);
       border-radius: 999px;
       font-size: 14px;
       font-weight: 500;
-      color: var(--text);
-      background-color: var(--surface);
-      transition: border-color 0.15s ease;
-
-      &:hover {
-        border-color: var(--border-hover);
-      }
     }
 
     img {

@@ -19,8 +19,8 @@ const { title, description, image } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const toJpg = async (src: ImageMetadata) =>
   new URL((await getImage({ src, width: 1200, format: 'jpg' })).src, Astro.site).href;
-const photoUrl = await toJpg(photo);
-const ogImage = image ? await toJpg(image) : photoUrl;
+const [photoUrl, pageImage] = await Promise.all([toJpg(photo), image && toJpg(image)]);
+const ogImage = pageImage ?? photoUrl;
 
 const jsonLd = personJsonLd(Astro.site!, photoUrl);
 ---

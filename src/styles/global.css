@@ -4,6 +4,8 @@
 :root {
   /* Fixed header height, also used to offset anchors and the LEGO pages */
   --header-height: 60px;
+  /* Vertical space around each homepage section */
+  --section-space: clamp(72px, 10vw, 120px);
   /* --font-sans comes from the Fonts API (astro.config.mjs) */
 
   --bg: light-dark(#fafafa, #09090b);
@@ -93,6 +95,11 @@ h3 {
   font-family: var(--font-mono);
   font-weight: 500;
   letter-spacing: 0.02em;
+}
+
+/* Readouts line up their digits */
+.mono {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Small uppercase label above a heading, e.g. "02 · Projects" */
@@ -187,6 +194,12 @@ ul {
   border-radius: 12px;
 }
 
+/* Cards that are links keep the text colour rather than turning accent */
+a.card,
+a.card:hover {
+  color: inherit;
+}
+
 .card-hover {
   transition:
     border-color 0.2s ease,
@@ -194,7 +207,6 @@ ul {
 
   &:hover {
     border-color: var(--border-hover);
-    text-decoration: none;
   }
 }
 

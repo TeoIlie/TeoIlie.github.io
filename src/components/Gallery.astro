@@ -22,7 +22,7 @@ const photos = await Promise.all(
 <ul class="gallery">
   {urls.map((url, i) => (
     <li>
-      <a href={photos[i].src} data-srcset={photos[i].srcSet.attribute} data-index={i}>
+      <a href={photos[i].src} data-srcset={photos[i].srcSet.attribute}>
         <Image
           src={url}
           alt={`${title} detail ${i + 1}`}

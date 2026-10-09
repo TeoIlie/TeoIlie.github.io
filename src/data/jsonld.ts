@@ -1,4 +1,5 @@
-// Structured data for search engines, built from the profile so it can't drift out of date
+// Structured data for search engines. Job and school come from the profile; the description is
+// hand-written, so update it with them
 import { profile, socials, education, experience } from './profile';
 import { siteName } from './site';
 

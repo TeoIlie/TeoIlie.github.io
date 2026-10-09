@@ -50,14 +50,14 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     width={680}
     height={680}
     widths={[160, 240, 340, 480, 680]}
-    sizes="(max-width: 860px) 160px, 340px"
+    sizes="(max-width: 860px) 160px, (max-width: 1214px) 28vw, 340px"
     formats={['avif', 'webp']}
     loading="eager"
     fetchpriority="high"
   />
 </div>
 
-<ul class="credentials mono" aria-label="Highlights">
+<ul class="credentials label" aria-label="Highlights">
   {credentials.map((item) => (
     <li>{item}</li>
   ))}
@@ -188,13 +188,9 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     display: flex;
     flex-wrap: wrap;
     gap: 10px 28px;
-    margin-top: 24px;
+    margin: 24px 0 0;
     padding-top: 20px;
     border-top: 1px solid var(--border);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-muted);
 
     li {
       display: flex;

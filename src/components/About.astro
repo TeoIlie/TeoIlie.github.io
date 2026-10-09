@@ -62,8 +62,9 @@ import { interests, education } from '../data/profile';
     display: grid;
     grid-template-columns: 1fr 1.6fr;
     gap: 48px;
-    margin-top: clamp(72px, 10vw, 120px);
-    padding-top: clamp(72px, 10vw, 120px);
+    /* Same rhythm as the section boundaries in index.astro */
+    margin-top: var(--section-space);
+    padding-top: var(--section-space);
     border-top: 1px solid var(--border);
 
     @media (max-width: 860px) {

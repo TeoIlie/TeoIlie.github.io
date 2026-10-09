@@ -19,11 +19,11 @@ const projects = await Promise.all(
     const poster = posters[`../assets/images/posters/${entry.data.video}.jpg`];
     if (!poster)
       throw new Error(`Missing poster for "${entry.data.video}"; run npm run prepare-videos`);
-    return {
-      ...entry.data,
-      Description: (await render(entry)).Content,
-      poster: (await getImage({ src: poster, width: 720, format: 'webp' })).src,
-    };
+    const [{ Content }, image] = await Promise.all([
+      render(entry),
+      getImage({ src: poster, width: 720, format: 'webp' }),
+    ]);
+    return { ...entry.data, Description: Content, poster: image.src };
   })
 );
 
