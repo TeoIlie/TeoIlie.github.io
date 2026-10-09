@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://teoilie.com/sitemap-index.xml

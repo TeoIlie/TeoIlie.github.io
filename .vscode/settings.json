@@ -2,8 +2,7 @@
   // Format on Save
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": "always",
-    "source.fixAll.eslint": "always"
+    "source.fixAll": "always"
   },
 
   // Prettier Setup
@@ -16,11 +15,11 @@
   "prettier.arrowParens": "always",
   "prettier.bracketSpacing": true,
 
-  // ESLint Validation
-  "eslint.validate": ["typescript", "html", "json", "javascript"],
-
   // Per-Language Formatter
   "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[astro]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[html]": {

@@ -1,0 +1,378 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import Chips from '../../components/Chips.astro';
+import LinkButton from '../../components/LinkButton.astro';
+import { profile } from '../../data/profile';
+
+export async function getStaticPaths() {
+  const creations = await getCollection('lego');
+  return creations.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+
+// First ~155 characters of the description, cut at a word boundary
+const body = (entry.body ?? '').replace(/\s+/g, ' ').trim();
+const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)) + '…' : body;
+
+// Full-size versions for the lightbox (and the plain links it falls back to without JS)
+const photos = await Promise.all(
+  data.gallery.map((url) => getImage({ src: url, inferSize: true, widths: [960, 1280] }))
+);
+---
+
+<BaseLayout
+  title={`${data.title} – LEGO Technic | ${profile.name}`}
+  description={description}
+  image={data.cover}
+>
+  <article class="container card">
+    <a href="/#lego" class="back">
+      <Icon name="solid/arrow-left" /> All creations
+    </a>
+
+    <h1 class="heading-underline heading-underline--left">{data.title}</h1>
+    <p class="year">{data.buildYear}</p>
+
+    <!-- Lightweight YouTube facade: the player only loads when clicked -->
+    <div class="video">
+      <button
+        type="button"
+        data-youtube-id={data.youtubeId}
+        aria-label={`Play ${data.title} video`}
+      >
+        <Image
+          src={`https://i.ytimg.com/vi/${data.youtubeId}/maxresdefault.jpg`}
+          alt=""
+          width={1280}
+          height={720}
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 860px) calc(100vw - 100px), 940px"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <Icon name="brands/youtube" />
+      </button>
+    </div>
+
+    <Content />
+    <h2 class="subheading">Techniques & Features</h2>
+    <Chips items={data.techniques} />
+    <div class="link-row">
+      {data.links.map((link) => (
+        <LinkButton {...link} />
+      ))}
+    </div>
+
+    {data.gallery.length > 0 && (
+      <>
+        <h2 class="subheading">More Photos</h2>
+        <ul class="gallery">
+          {data.gallery.map((url, i) => (
+            <li>
+              <a href={photos[i].src} data-srcset={photos[i].srcSet.attribute} data-index={i}>
+                <Image
+                  src={url}
+                  alt={`${data.title} detail ${i + 1}`}
+                  inferSize
+                  width={960}
+                  widths={[320, 640, 960]}
+                  sizes="(max-width: 860px) calc(100vw - 100px), 460px"
+                />
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <dialog class="lightbox" aria-label={`${data.title} photos`}>
+          <img alt="" sizes="90vw" />
+          <form method="dialog">
+            <button class="close" aria-label="Close">
+              <Icon name="solid/xmark" />
+            </button>
+          </form>
+          {photos.length > 1 && (
+            <>
+              <button type="button" class="prev" data-step="-1" aria-label="Previous photo">
+                <Icon name="solid/chevron-left" />
+              </button>
+              <button type="button" class="next" data-step="1" aria-label="Next photo">
+                <Icon name="solid/chevron-right" />
+              </button>
+              <p class="count" aria-live="polite" />
+            </>
+          )}
+        </dialog>
+      </>
+    )}
+  </article>
+</BaseLayout>
+
+<script>
+  document.querySelector<HTMLButtonElement>('[data-youtube-id]')?.addEventListener('click', (e) => {
+    const button = e.currentTarget as HTMLButtonElement;
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${button.dataset.youtubeId}?autoplay=1`;
+    iframe.title = button.getAttribute('aria-label')!;
+    iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    button.replaceWith(iframe);
+  });
+
+  // Gallery lightbox: <dialog> handles focus, Escape and the backdrop; this adds paging
+  const lightbox = document.querySelector<HTMLDialogElement>('.lightbox');
+  if (lightbox) {
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('.gallery a')];
+    const img = lightbox.querySelector('img')!;
+    const count = lightbox.querySelector('.count');
+    let current = 0;
+
+    const show = (index: number) => {
+      current = (index + links.length) % links.length;
+      const link = links[current];
+      img.srcset = link.dataset.srcset!;
+      img.src = link.href;
+      img.alt = link.querySelector('img')!.alt;
+      if (count) count.textContent = `${current + 1} / ${links.length}`;
+    };
+
+    links.forEach((link, i) =>
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        show(i);
+        lightbox.showModal();
+      })
+    );
+
+    lightbox.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const step = target.closest<HTMLElement>('[data-step]')?.dataset.step;
+      if (step) show(current + Number(step));
+      // Clicks outside the photo and buttons land on the dialog itself
+      else if (target === lightbox) lightbox.close();
+    });
+
+    lightbox.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+
+    // Swipe to page on touch screens
+    let touchX = 0;
+    lightbox.addEventListener('touchstart', (e) => (touchX = e.touches[0].clientX), {
+      passive: true,
+    });
+    lightbox.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+    });
+  }
+</script>
+
+<style>
+  article {
+    margin-top: calc(var(--header-height) + 40px);
+    padding: 30px;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+
+  .year {
+    color: var(--subtitle);
+    font-size: 16px;
+  }
+
+  h2 {
+    margin-top: 20px;
+  }
+
+  /* The wrapper holds the size, so swapping the button for the (unscoped) iframe doesn't resize it */
+  .video {
+    margin: 20px 0;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #000;
+
+    button,
+    :global(iframe) {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: none;
+    }
+
+    button {
+      position: relative;
+      background: none;
+      cursor: pointer;
+    }
+
+    /* Slight zoom crops the 1px black edge some YouTube thumbnails have */
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      scale: 1.01;
+    }
+
+    :global(.icon) {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      translate: -50% -50%;
+      font-size: 64px;
+      color: #f00;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+      transition: scale 0.2s ease;
+    }
+
+    button:hover :global(.icon) {
+      scale: 1.1;
+    }
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
+    gap: 20px;
+
+    a {
+      display: block;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      cursor: zoom-in;
+    }
+
+    /* Slight zoom crops the 1px black edge some photos have */
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      scale: 1.01;
+      transition: scale 0.2s ease;
+    }
+
+    a:hover img {
+      scale: 1.04;
+    }
+  }
+
+  /* Fills the viewport so a click anywhere outside the photo closes it */
+  .lightbox {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    padding: 0;
+    border: none;
+    background: none;
+    place-items: center;
+    opacity: 0;
+    transition:
+      opacity 0.2s ease,
+      overlay 0.2s allow-discrete,
+      display 0.2s allow-discrete;
+
+    &[open] {
+      display: grid;
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+
+    &::backdrop {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    img {
+      max-width: calc(100vw - 32px);
+      max-height: calc(100dvh - 120px);
+      width: auto;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    button {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+      }
+    }
+
+    .close {
+      top: 16px;
+      right: 16px;
+    }
+
+    .prev,
+    .next {
+      top: 50%;
+      translate: 0 -50%;
+    }
+
+    .prev {
+      left: 16px;
+    }
+
+    .next {
+      right: 16px;
+    }
+
+    .count {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      translate: -50% 0;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+    }
+  }
+
+  /* Arrows sit below the photo on narrow screens, where swiping is the main way to page */
+  @media (max-width: 860px) {
+    .lightbox {
+      .prev,
+      .next {
+        top: auto;
+        bottom: 8px;
+        translate: none;
+      }
+    }
+  }
+
+  :global(html:has(.lightbox[open])) {
+    overflow: hidden;
+  }
+</style>

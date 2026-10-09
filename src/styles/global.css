@@ -1,0 +1,299 @@
+/* ========================= Theme ========================= */
+/* Fixed header height, also used to offset anchors and the LEGO pages */
+:root {
+  --header-height: 70px;
+  /* --font-heading and --font-body come from the Fonts API (astro.config.mjs) */
+
+  --link: #6a5acd;
+  --section-underline: #5d4db3;
+  --hover-color: #483d8b;
+  --body-color: #333;
+  --body-background: #f9f9f9;
+  --subtitle: #666;
+  --paragraph: #444;
+  --chips-background: #eeeeee;
+  --white: white;
+  --form-border: #ddd;
+  --footer-top: #eee;
+  color-scheme: light;
+}
+
+.dark-theme {
+  --link: #bf5af2;
+  --section-underline: #a855f7;
+  --hover-color: #d946ef;
+  --body-color: #f2f2f7;
+  --body-background: #0a0a0a;
+  --subtitle: #8e8e93;
+  --paragraph: #d1d1d6;
+  --chips-background: #2c2c2e;
+  --white: #1c1c1e;
+  --form-border: #48484a;
+  --footer-top: #1c1c1e;
+  color-scheme: dark;
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --link: #0066cc;
+    --section-underline: #0066cc;
+    --hover-color: #004499;
+    --body-color: #000;
+    --subtitle: #333;
+    --paragraph: #000;
+  }
+
+  .dark-theme {
+    --link: #66b3ff;
+    --section-underline: #66b3ff;
+    --hover-color: #99ccff;
+    --body-color: #fff;
+    --subtitle: #ccc;
+    --paragraph: #fff;
+  }
+}
+
+/* ========================= Base ========================= */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--body-color);
+  background-color: var(--body-background);
+}
+
+h1,
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+h3 {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+/* Small label-style heading; the class gives other heading levels the same look */
+h4,
+.subheading {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 15px;
+  color: var(--paragraph);
+  margin-bottom: 20px;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Links in running text need more than colour to stand out (WCAG 1.4.1) */
+p a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--section-underline);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-contrast: more) {
+  :focus-visible {
+    outline: 3px solid currentColor;
+  }
+}
+
+/* ========================= Layout ========================= */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 36px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* Accent bar under a heading: centred, or left-aligned with --left.
+   Set --underline-width on the heading to change its length. */
+.heading-underline {
+  position: relative;
+  padding-bottom: 12px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: var(--underline-width, 120px);
+    height: 3px;
+    translate: -50%;
+    background-color: var(--section-underline);
+  }
+}
+
+.heading-underline--left {
+  --underline-width: 60px;
+
+  &::after {
+    left: 0;
+    translate: none;
+  }
+}
+
+.card {
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+}
+
+.card-hover {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.large-emoji {
+  font-size: 1.2em;
+}
+
+/* ========================= Shared components ========================= */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  flex-shrink: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: var(--chips-background);
+  color: var(--body-color);
+}
+
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background-color: var(--chips-background);
+  color: var(--body-color);
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: var(--section-underline);
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .icon {
+    font-size: 18px;
+  }
+}
+
+/* ========================= Motion ========================= */
+/* Fade elements in as they scroll into view. CSS-only: browsers without
+   scroll-driven animations simply show the content. Animates `translate`
+   so it doesn't fight the cards' hover `transform`. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-reveal] {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

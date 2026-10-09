@@ -1,0 +1,63 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  /** Row of icon links shown under the intro text */
+  links: { name: string; url: string; icon: string }[];
+}
+
+const { links } = Astro.props;
+---
+
+<div class="section-intro" data-reveal>
+  <slot />
+  <div class="feature-links">
+    {links.map((link) => (
+      <a href={link.url} target="_blank" rel="noopener">
+        <Icon name={link.icon} />
+        <span>{link.name}</span>
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .section-intro {
+    max-width: 800px;
+    margin: 30px auto;
+    text-align: center;
+
+    :global(p) {
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+  }
+
+  .feature-links {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 30px 0;
+
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 15px 20px;
+      font-weight: 500;
+      color: var(--body-color);
+      text-decoration: none;
+    }
+
+    :global(.icon) {
+      font-size: 28px;
+      color: var(--section-underline);
+      margin-bottom: 12px;
+      transition: transform 0.2s ease;
+    }
+
+    a:hover :global(.icon) {
+      transform: scale(1.15) rotate(10deg);
+    }
+  }
+</style>
