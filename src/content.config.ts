@@ -14,7 +14,8 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     order: z.number(),
-    // Name of the video in public/assets/videos/ (.mp4) and videos/webm/ (.webm)
+    // Name of the video in public/assets/videos/ (.mp4); its poster is
+    // src/assets/images/posters/<video>.jpg (made by npm run prepare-videos)
     video: z.string(),
     technologies: z.array(z.string()),
     links,

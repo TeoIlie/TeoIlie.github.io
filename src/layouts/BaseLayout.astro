@@ -8,6 +8,7 @@ import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import { getImage } from 'astro:assets';
 import Header from '../components/Header.astro';
+import photo from '../assets/images/profile-1200.jpg';
 import { profile, socials } from '../data/profile';
 
 interface Props {
@@ -20,10 +21,10 @@ interface Props {
 const { title, description, image } = Astro.props;
 const siteName = `${profile.name} Portfolio`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL(
-  image ? (await getImage({ src: image, width: 1200, format: 'jpg' })).src : '/og-image.jpg',
-  Astro.site
-);
+const toJpg = async (src: ImageMetadata) =>
+  new URL((await getImage({ src, width: 1200, format: 'jpg' })).src, Astro.site).href;
+const photoUrl = await toJpg(photo);
+const ogImage = image ? await toJpg(image) : photoUrl;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -34,7 +35,7 @@ const jsonLd = {
       alternateName: 'Teo Ilie',
       url: Astro.site!.href,
       email: profile.email,
-      image: new URL('/og-image.jpg', Astro.site).href,
+      image: photoUrl,
       sameAs: socials.map((s) => s.url),
       jobTitle: 'Software Developer',
       worksFor: { '@type': 'Organization', name: 'BMO Financial Group' },

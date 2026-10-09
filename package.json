@@ -13,7 +13,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "format": "prettier --write \"src/**/*.{astro,ts,css,md,json}\"",
-    "strip-audio": "node strip-audio.cjs"
+    "prepare-videos": "node prepare-videos.cjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

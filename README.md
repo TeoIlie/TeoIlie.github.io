@@ -84,10 +84,10 @@ Icons are Font Awesome SVGs inlined at build time, so only icons actually used a
 
 1. Create a short 4-5 sec video, 1800x1200 aspect ratio in Final Cut Pro
 2. Export > Apple Devices 1080p > H.264 Multi-Pass (Better) -> output is .m4v
-3. Convert to `.webm` using **Handbrake**, with custom preset **Web-WebM**, and to `.mp4` using the **Web-MP4** custom preset. Put them in `public/assets/videos/` and `public/assets/videos/webm/`
-4. Run `npm run strip-audio` to remove audio tracks from both `.mp4` and `.webm` files (required for reliable autoplay on iOS)
+3. Convert to `.mp4` using **Handbrake** with the **Web-MP4** custom preset, and put it in `public/assets/videos/`
+4. Run `npm run prepare-videos` (needs ffmpeg). It strips audio tracks (required for reliable autoplay on iOS), moves the `moov` atom to the front so playback starts sooner, and saves the first frame as a poster in `src/assets/images/posters/`. Nothing is re-encoded, so it is safe to re-run; delete a poster to regenerate it
 
-Project videos only download and play while scrolled into view.
+Project videos show their poster straight away, and only download and play while near the screen. With reduced motion turned on, only the poster is shown.
 
 **Dark mode**
 

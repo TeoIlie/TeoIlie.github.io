@@ -1,13 +1,30 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import SectionIntro from './SectionIntro.astro';
 import Chips from './Chips.astro';
 import LinkButton from './LinkButton.astro';
 
+// First frames extracted by `npm run prepare-videos`, shown until the video plays
+const posters = import.meta.glob<ImageMetadata>('../assets/images/posters/*.jpg', {
+  eager: true,
+  import: 'default',
+});
+
 const projects = await Promise.all(
   (await getCollection('projects'))
     .sort((a, b) => a.data.order - b.data.order)
-    .map(async (entry) => ({ ...entry.data, Description: (await render(entry)).Content }))
+    .map(async (entry) => {
+      const poster = posters[`../assets/images/posters/${entry.data.video}.jpg`];
+      if (!poster)
+        throw new Error(`Missing poster for "${entry.data.video}"; run npm run prepare-videos`);
+      return {
+        ...entry.data,
+        Description: (await render(entry)).Content,
+        poster: (await getImage({ src: poster, width: 720, format: 'webp' })).src,
+      };
+    })
 );
 
 const collaborators = [
@@ -32,9 +49,16 @@ const collaborators = [
   {projects.map((project) => (
     <article class="card card-hover project" data-reveal>
       <a href={project.links[0]?.url} target="_blank" rel="noopener" tabindex="-1">
-        <video data-autoplay loop muted playsinline preload="none" aria-label={project.title}>
+        <video
+          data-autoplay
+          loop
+          muted
+          playsinline
+          preload="none"
+          poster={project.poster}
+          aria-label={project.title}
+        >
           <source src={`/assets/videos/${project.video}.mp4`} type="video/mp4" />
-          <source src={`/assets/videos/webm/${project.video}.webm`} type="video/webm" />
         </video>
       </a>
       <div class="info">
@@ -53,7 +77,8 @@ const collaborators = [
 </div>
 
 <script>
-  // Only download and play project videos while they are on screen
+  // Only download and play project videos while they are near the screen. With
+  // reduced motion the poster stays put.
   const observer = new IntersectionObserver(
     (entries) => {
       for (const { target, isIntersecting } of entries) {
@@ -62,9 +87,11 @@ const collaborators = [
         else video.pause();
       }
     },
-    { rootMargin: '200px 0px' }
+    { rootMargin: '400px 0px' }
   );
-  document.querySelectorAll('video[data-autoplay]').forEach((video) => observer.observe(video));
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video[data-autoplay]').forEach((video) => observer.observe(video));
+  }
 </script>
 
 <style>
