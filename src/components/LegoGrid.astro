@@ -1,9 +1,9 @@
 ---
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
 import SectionIntro from './SectionIntro.astro';
 import Chips from './Chips.astro';
 import { youtube } from '../data/profile';
+import { getSorted, legoTransitionName } from '../lib/content';
 import nico71 from '../assets/images/nico71.jpg';
 import zerobricks from '../assets/images/zerobricks.jpg';
 import madoca from '../assets/images/madoca.png';
@@ -11,7 +11,7 @@ import sheepo from '../assets/images/sheepo.jpg';
 import efferman from '../assets/images/efferman.jpg';
 import sariel from '../assets/images/sariel.png';
 
-const creations = (await getCollection('lego')).sort((a, b) => a.data.order - b.data.order);
+const creations = await getSorted('lego');
 
 const communityLinks = [
   youtube,
@@ -84,7 +84,7 @@ const inspirations = [
           />
         </div>
         <div class="meta">
-          <h3 style={`view-transition-name: lego-${id}`}>{data.title}</h3>
+          <h3 style={legoTransitionName(id)}>{data.title}</h3>
           <span class="mono">{data.buildYear}</span>
         </div>
         <Chips items={data.techniques} limit={2} />

@@ -32,10 +32,17 @@ const lego = defineCollection({
       order: z.number(),
       buildYear: z.number(),
       cover: image(),
-      youtubeId: z.string(),
+      youtubeId: z.string().regex(/^[\w-]{11}$/, 'Expected an 11-character YouTube video id'),
       techniques: z.array(z.string()),
       links,
-      gallery: z.array(z.url()).default([]),
+      // Remote photos are optimized at build time, so their host must be in image.domains
+      gallery: z
+        .array(
+          z.url().refine((url) => new URL(url).hostname === 'bricksafe.com', {
+            message: 'Gallery photos must be on bricksafe.com (or add the domain to image.domains)',
+          })
+        )
+        .default([]),
     }),
 });
 

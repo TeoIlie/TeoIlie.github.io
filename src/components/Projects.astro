@@ -1,10 +1,11 @@
 ---
 import type { ImageMetadata } from 'astro';
 import { getImage } from 'astro:assets';
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import SectionIntro from './SectionIntro.astro';
 import Chips from './Chips.astro';
 import LinkButton from './LinkButton.astro';
+import { getSorted } from '../lib/content';
 
 // First frames extracted by `npm run prepare-videos`, shown until the video plays. Also set as
 // the video's background, since Firefox drops the poster a moment before painting the first frame.
@@ -14,18 +15,16 @@ const posters = import.meta.glob<ImageMetadata>('../assets/images/posters/*.jpg'
 });
 
 const projects = await Promise.all(
-  (await getCollection('projects'))
-    .sort((a, b) => a.data.order - b.data.order)
-    .map(async (entry) => {
-      const poster = posters[`../assets/images/posters/${entry.data.video}.jpg`];
-      if (!poster)
-        throw new Error(`Missing poster for "${entry.data.video}"; run npm run prepare-videos`);
-      return {
-        ...entry.data,
-        Description: (await render(entry)).Content,
-        poster: (await getImage({ src: poster, width: 720, format: 'webp' })).src,
-      };
-    })
+  (await getSorted('projects')).map(async (entry) => {
+    const poster = posters[`../assets/images/posters/${entry.data.video}.jpg`];
+    if (!poster)
+      throw new Error(`Missing poster for "${entry.data.video}"; run npm run prepare-videos`);
+    return {
+      ...entry.data,
+      Description: (await render(entry)).Content,
+      poster: (await getImage({ src: poster, width: 720, format: 'webp' })).src,
+    };
+  })
 );
 
 const collaborators = [

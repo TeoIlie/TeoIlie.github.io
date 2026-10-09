@@ -7,6 +7,7 @@ import LinkButton from '../../components/LinkButton.astro';
 import YouTubeFacade from '../../components/YouTubeFacade.astro';
 import Gallery from '../../components/Gallery.astro';
 import { profile } from '../../data/profile';
+import { excerpt, legoTransitionName } from '../../lib/content';
 
 export async function getStaticPaths() {
   const creations = await getCollection('lego');
@@ -17,9 +18,7 @@ const { entry } = Astro.props;
 const { data } = entry;
 const { Content } = await render(entry);
 
-// First ~155 characters of the description, cut at a word boundary
-const body = (entry.body ?? '').replace(/\s+/g, ' ').trim();
-const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)) + '…' : body;
+const description = excerpt(entry.body ?? '');
 ---
 
 <BaseLayout
@@ -33,7 +32,7 @@ const description = body.length > 155 ? body.slice(0, body.lastIndexOf(' ', 152)
     </a>
 
     <span class="eyebrow">LEGO Technic · {data.buildYear}</span>
-    <h1 style={`view-transition-name: lego-${entry.id}`}>{data.title}</h1>
+    <h1 style={legoTransitionName(entry.id)}>{data.title}</h1>
 
     <YouTubeFacade id={data.youtubeId} title={data.title} />
 
