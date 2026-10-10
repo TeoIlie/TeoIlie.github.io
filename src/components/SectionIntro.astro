@@ -1,63 +1,49 @@
 ---
-import Icon from './Icon.astro';
+import { eyebrow, type SectionId } from '../data/site';
+import type { Link } from '../lib/content';
 
 interface Props {
-  /** Row of icon links shown under the intro text */
-  links: { name: string; url: string; icon: string }[];
+  /** The section this introduces; sets the numbered eyebrow, e.g. "03 · Projects" */
+  id: SectionId;
+  title: string;
+  /** Muted row of related links under the intro, e.g. collaborators */
+  links?: Link[];
+  linksLabel?: string;
 }
 
-const { links } = Astro.props;
+const { id, title, links = [], linksLabel } = Astro.props;
 ---
 
-<div class="section-intro" data-reveal>
+<header class="section-header" data-reveal>
+  <span class="eyebrow">{eyebrow(id)}</span>
+  <h2>{title}</h2>
   <slot />
-  <div class="feature-links">
-    {links.map((link) => (
-      <a href={link.url} target="_blank" rel="noopener">
-        <Icon name={link.icon} />
-        <span>{link.name}</span>
-      </a>
-    ))}
-  </div>
-</div>
+  {links.length > 0 && (
+    <div class="related">
+      {linksLabel && <span>{linksLabel}</span>}
+      {links.map((link) => (
+        <a href={link.url} target="_blank" rel="noopener">
+          {link.name}
+        </a>
+      ))}
+    </div>
+  )}
+</header>
 
 <style>
-  .section-intro {
-    max-width: 800px;
-    margin: 30px auto;
-    text-align: center;
-
-    :global(p) {
-      font-size: 16px;
-      margin-bottom: 25px;
-    }
-  }
-
-  .feature-links {
+  .related {
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
-    margin: 30px 0;
+    gap: 4px 16px;
+    margin-top: 16px;
+    font-size: 14px;
+
+    span {
+      color: var(--text-muted);
+    }
 
     a {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 0 15px 20px;
       font-weight: 500;
-      color: var(--body-color);
-      text-decoration: none;
-    }
-
-    :global(.icon) {
-      font-size: 28px;
-      color: var(--section-underline);
-      margin-bottom: 12px;
-      transition: transform 0.2s ease;
-    }
-
-    a:hover :global(.icon) {
-      transform: scale(1.15) rotate(10deg);
     }
   }
 </style>

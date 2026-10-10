@@ -4,6 +4,7 @@ order: 6
 buildYear: 2018
 cover: ../../assets/images/tatra-6x6.jpg
 youtubeId: ALFLZvTO4jI
+uploadDate: 2018-06-11T12:35:55-07:00
 techniques:
   - Half-axle
   - Torsion bar

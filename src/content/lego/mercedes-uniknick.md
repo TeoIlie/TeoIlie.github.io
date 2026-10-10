@@ -4,6 +4,7 @@ order: 11
 buildYear: 2021
 cover: ../../assets/images/uniknick.jpg
 youtubeId: tU3wENPv49o
+uploadDate: 2021-08-05T08:48:14-07:00
 techniques:
   - Mercedes
   - Trial Truck

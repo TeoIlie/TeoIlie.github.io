@@ -1,0 +1,156 @@
+---
+import { getEntry } from 'astro:content';
+import Icon from './Icon.astro';
+import SectionIntro from './SectionIntro.astro';
+import { experience } from '../data/profile';
+
+// Fail the build if an entry links to a project that doesn't exist
+for (const { project } of experience) {
+  if (project && !(await getEntry('projects', project)))
+    throw new Error(`Experience links to unknown project "${project}"`);
+}
+---
+
+<SectionIntro id="experience" title="Research and industry" />
+
+<!-- A rail runs down the left: one node per role, filled and pulsing while current -->
+<ol class="timeline">
+  {experience.map((item) => {
+    const current = !item.end;
+    return (
+      <li class:list={{ current }} data-reveal>
+        <span class="node" aria-hidden="true" />
+        <p class="dates mono">
+          {item.start} – {item.end ?? <span class="now">Now</span>}
+        </p>
+        <div>
+          <h3>{item.role}</h3>
+          <a href={item.url} target="_blank" rel="noopener" class="org">
+            {item.org}
+          </a>
+          <p>{item.summary}</p>
+          {item.project && (
+            <a href={`/#project-${item.project}`} class="project-link mono">
+              <Icon name="solid/arrow-down" />
+              See the project
+            </a>
+          )}
+        </div>
+      </li>
+    );
+  })}
+</ol>
+
+<style>
+  .timeline {
+    --node: 11px;
+    /* Node centre, level with the first line of text */
+    --node-y: 39px;
+    list-style: none;
+  }
+
+  li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 8px 32px;
+    padding: 28px 0 28px 36px;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      padding-left: 28px;
+    }
+
+    /* Rail segment from this node to the next */
+    &:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: calc(var(--node) / 2 - 0.5px);
+      top: var(--node-y);
+      bottom: calc(-1 * var(--node-y));
+      width: 1px;
+      background-color: var(--border-hover);
+    }
+  }
+
+  .node {
+    position: absolute;
+    left: 0;
+    top: calc(var(--node-y) - var(--node) / 2);
+    width: var(--node);
+    height: var(--node);
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    background-color: var(--bg);
+
+    .current & {
+      background-color: var(--accent);
+    }
+  }
+
+  .dates {
+    font-size: 13px;
+    padding-top: 2px;
+  }
+
+  .now {
+    color: var(--accent);
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  .org {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  li div p {
+    margin-top: 8px;
+    max-width: 640px;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 500;
+
+    :global(.icon) {
+      font-size: 11px;
+      transition: translate 0.2s ease;
+    }
+
+    &:hover :global(.icon) {
+      translate: 0 2px;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Current roles pulse like a live signal */
+    .current .node::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      animation: pulse 2.4s ease-out infinite;
+    }
+  }
+
+  @keyframes pulse {
+    from {
+      opacity: 0.6;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 2.6;
+    }
+  }
+</style>

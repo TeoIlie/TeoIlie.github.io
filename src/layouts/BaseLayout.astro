@@ -4,57 +4,55 @@ import type { ImageMetadata } from 'astro';
 import { Font, getImage } from 'astro:assets';
 import Header from '../components/Header.astro';
 import photo from '../assets/images/profile-1200.jpg';
-import { profile, socials } from '../data/profile';
+import ogCard from '../assets/images/og-card.png';
+import { profile } from '../data/profile';
+import { siteJsonLd } from '../data/jsonld';
+import { siteName } from '../data/site';
 
 interface Props {
   title: string;
   description: string;
-  /** Social preview image; defaults to the profile photo */
+  /** Social preview image, cropped to 1200x630; defaults to the branded card */
   image?: ImageMetadata;
+  imageAlt?: string;
+  /** Open Graph type: the homepage is a profile, LEGO pages are articles */
+  type?: 'website' | 'profile' | 'article';
+  /** Page-level structured data, added to the site-wide Person and WebSite graph */
+  jsonLd?: (page: { url: string; image: string }) => Record<string, unknown>[];
+  /** Keep the page out of search results (the 404 page) */
+  noindex?: boolean;
 }
 
-const { title, description, image } = Astro.props;
-const siteName = `${profile.name} Portfolio`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const toJpg = async (src: ImageMetadata) =>
-  new URL((await getImage({ src, width: 1200, format: 'jpg' })).src, Astro.site).href;
-const photoUrl = await toJpg(photo);
-const ogImage = image ? await toJpg(image) : photoUrl;
+const {
+  title,
+  description,
+  image = ogCard,
+  imageAlt = `${profile.name}: I build vehicles that drive themselves`,
+  type = 'website',
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const absolute = (src: string) => new URL(src, Astro.site).href;
+// 1.91:1 crop for link previews; never upscaled, so the declared size is the real one
+const ogWidth = Math.min(1200, image.width);
+const [photoImg, ogImg] = await Promise.all([
+  getImage({ src: photo, width: 1200, format: 'jpg' }),
+  getImage({
+    src: image,
+    width: ogWidth,
+    height: Math.round((ogWidth * 630) / 1200),
+    fit: 'cover',
+    format: 'jpg',
+  }),
+]);
+const ogImage = absolute(ogImg.src);
 
-const jsonLd = {
+const graph = {
   '@context': 'https://schema.org',
   '@graph': [
-    {
-      '@type': 'Person',
-      name: profile.name,
-      alternateName: 'Teo Ilie',
-      url: Astro.site!.href,
-      email: profile.email,
-      image: photoUrl,
-      sameAs: socials.map((s) => s.url),
-      jobTitle: 'Software Developer',
-      worksFor: { '@type': 'Organization', name: 'BMO Financial Group' },
-      alumniOf: {
-        '@type': 'CollegeOrUniversity',
-        name: "Queen's University",
-        sameAs: 'https://www.queensu.ca/',
-      },
-      knowsAbout: [
-        'Full-stack Development',
-        'Reinforcement Learning',
-        'Autonomous Vehicles',
-        'Robotics',
-        'ROS2',
-      ],
-      description:
-        "Teodor Ilie, also known as Teo Ilie, is a full-stack software developer and Queen's University Master's student studying AI and Robotics. He specializes in web development, reinforcement learning, and autonomous robotics.",
-    },
-    {
-      '@type': 'WebSite',
-      name: siteName,
-      url: Astro.site!.href,
-      publisher: { '@type': 'Person', name: profile.name },
-    },
+    ...siteJsonLd(Astro.site!, absolute(photoImg.src)),
+    ...(jsonLd?.({ url: canonical, image: ogImage }) ?? []),
   ],
 };
 ---
@@ -66,29 +64,49 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    <meta name="author" content={profile.name} />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
+    />
+    {!noindex && <link rel="canonical" href={canonical} />}
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Preload only the weights visible on first paint: body text and headings -->
-    <Font cssVariable="--font-body" preload={[{ weight: 300 }]} />
-    <Font cssVariable="--font-heading" preload={[{ weight: 600 }]} />
+    <Font cssVariable="--font-sans" preload={[{ weight: 400 }, { weight: 600 }]} />
+    <!-- Mono is in the hero's readout strip, so preload it to avoid a late swap -->
+    <Font cssVariable="--font-mono" preload={[{ weight: 500 }]} />
 
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
     <link rel="alternate icon" href="/assets/favicon-32x32.png" type="image/png" />
-    <link rel="apple-touch-icon" href="/assets/favicon-192x192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <!-- Browser UI colour: the --bg token of each theme -->
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:type" content="website" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content={String(ogImg.attributes.width)} />
+    <meta property="og:image:height" content={String(ogImg.attributes.height)} />
+    <meta property="og:image:alt" content={imageAlt} />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:type" content={type} />
     <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="en_CA" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
 
     <!-- Apply the saved/system theme before first paint to avoid a flash -->
     <script is:inline>
       let theme;
       try {
+        // Saved by the theme toggle in Header.astro
         theme = localStorage.getItem('preferred-theme');
       } catch {}
       if (theme !== 'light' && theme !== 'dark') {
@@ -96,23 +114,22 @@ const jsonLd = {
       }
       if (theme === 'dark') document.documentElement.classList.add('dark-theme');
     </script>
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} />
   </head>
   <body>
     <Header />
     <main>
       <slot />
     </main>
-    <footer>
+    <footer class="container">
       <p>
-        &copy; {new Date().getFullYear()} {profile.name}. All rights reserved. View the{' '}
-        <a href="https://github.com/TeoIlie/TeoIlie.github.io" target="_blank" rel="noopener">
-          source code on GitHub
-        </a>{' '}
-        🚀
+        &copy; {new Date().getFullYear()} {profile.name}
       </p>
       <p>
-        This site is hosted on Cloudflare Pages and uses their{' '}
+        <a href="https://github.com/TeoIlie/TeoIlie.github.io" target="_blank" rel="noopener">
+          Source
+        </a>{' '}
+        · Hosted on Cloudflare Pages with{' '}
         <a
           href="https://developers.cloudflare.com/web-analytics/about/"
           target="_blank"
@@ -120,31 +137,36 @@ const jsonLd = {
         >
           privacy-first analytics
         </a>
-        . Data is collected anonymously to help improve performance and content.
-        <br />
-        Messages sent via the contact form are transmitted securely and never shared with third
-        parties.
       </p>
     </footer>
   </body>
 </html>
 
 <style>
-  main,
-  footer {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  main {
+    padding: 0 24px;
   }
 
   footer {
-    text-align: center;
-    padding-block: 20px;
-    margin-top: 40px;
-    border-top: 1px solid var(--footer-top);
+    padding: 32px 24px 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    border-top: 1px solid var(--border);
 
     p {
-      color: var(--subtitle);
+      font-size: 13px;
+    }
+
+    a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+
+      &:hover {
+        color: var(--text);
+      }
     }
   }
 </style>

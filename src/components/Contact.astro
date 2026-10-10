@@ -1,65 +1,88 @@
 ---
 import Icon from './Icon.astro';
-import { profile } from '../data/profile';
+import LinkButton from './LinkButton.astro';
+import SectionIntro from './SectionIntro.astro';
+import { profile, socials } from '../data/profile';
 ---
 
-<h2 class="section-title heading-underline">Connect With Me</h2>
+<div class="contact">
+  <div>
+    <SectionIntro id="contact" title="Let's talk">
+      <p>Open to research collaborations, engineering roles, and LEGO Technic chats.</p>
+    </SectionIntro>
 
-<ul class="contact-info" data-reveal>
-  <li>
-    <Icon name="solid/envelope" />
-    <a href={`mailto:${profile.email}`}>{profile.email}</a>
-  </li>
-  <li>
-    <Icon name="solid/phone" />
-    <a href={profile.phone.href}>{profile.phone.display}</a>
-  </li>
-  <li>
-    <Icon name="brands/discord" />
-    <button type="button" class="copy" data-copy={profile.discord}>
-      {profile.discord}
-    </button>
-    <span class="copied" role="status"></span>
-  </li>
-</ul>
+    <ul class="contact-info" data-reveal>
+      <li>
+        <Icon name="solid/envelope" />
+        <a href={`mailto:${profile.email}`}>{profile.email}</a>
+      </li>
+      <li>
+        <Icon name="solid/phone" />
+        <a href={profile.phone.href}>{profile.phone.display}</a>
+      </li>
+      <li>
+        <Icon name="brands/discord" />
+        <button type="button" class="copy" data-copy={profile.discord}>
+          {profile.discord}
+        </button>
+        <span class="copied" role="status"></span>
+      </li>
+    </ul>
 
-<div class="card contact-form" data-reveal>
-  <h3>Send me a message</h3>
+    <h3 class="label">Elsewhere</h3>
+    <ul class="socials" data-reveal>
+      {socials.map((social) => (
+        <li>
+          <LinkButton {...social} rel="me" />
+        </li>
+      ))}
+    </ul>
+  </div>
 
-  <!-- Posts straight to Formspree without JS; the script below keeps visitors on the page -->
-  <form action="https://formspree.io/f/moveyaaw" method="POST">
-    <label>
-      <span class="visually-hidden">Your Name</span>
-      <input type="text" name="name" autocomplete="name" placeholder="Your Name" required />
-      <small>Name is required.</small>
-    </label>
-    <label>
-      <span class="visually-hidden">Your Email</span>
-      <input type="email" name="email" autocomplete="email" placeholder="Your Email" required />
-      <small>Please enter a valid email address.</small>
-    </label>
-    <label>
-      <span class="visually-hidden">Your Message</span>
-      <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-      <small>Message is required.</small>
-    </label>
-    <button type="submit">Send Message</button>
-  </form>
+  <div class="card contact-form" data-reveal>
+    <!-- Posts straight to Formspree without JS; the script below keeps visitors on the page -->
+    <form action={profile.formAction} method="POST">
+      <label>
+        <span>Name</span>
+        <input type="text" name="name" autocomplete="name" required />
+        <small>Name is required.</small>
+      </label>
+      <label>
+        <span>Email</span>
+        <input type="email" name="email" autocomplete="email" required />
+        <small>Please enter a valid email address.</small>
+      </label>
+      <label>
+        <span>Message</span>
+        <textarea name="message" rows="5" required></textarea>
+        <small>Message is required.</small>
+      </label>
+      <button type="submit" class="link-button link-button--primary">
+        Send message
+      </button>
+    </form>
 
-  <p class="status success" role="status" hidden>
-    🎉 Message sent successfully! I'll get back to you soon.
-  </p>
-  <p class="status error" role="alert" hidden>
-    ❌ Oops! Something went wrong. Please try again later.
-  </p>
+    <p class="status success" role="status" hidden>
+      Message sent. I'll get back to you soon.
+    </p>
+    <p class="status error" role="alert" hidden>
+      Something went wrong. Please try again later.
+    </p>
+    <p class="note">Sent securely and never shared with third parties.</p>
+  </div>
 </div>
 
 <script>
   const copy = document.querySelector<HTMLButtonElement>('.contact-info .copy')!;
+  const copied = copy.nextElementSibling!;
   copy.addEventListener('click', async () => {
-    await navigator.clipboard.writeText(copy.dataset.copy!);
-    copy.nextElementSibling!.textContent = 'Copied!';
-    setTimeout(() => (copy.nextElementSibling!.textContent = ''), 2000);
+    try {
+      await navigator.clipboard.writeText(copy.dataset.copy!);
+      copied.textContent = 'Copied!';
+    } catch {
+      copied.textContent = 'Copy failed';
+    }
+    setTimeout(() => (copied.textContent = ''), 2000);
   });
 
   const form = document.querySelector<HTMLFormElement>('.contact-form form')!;
@@ -87,111 +110,132 @@ import { profile } from '../data/profile';
       failure.hidden = false;
     } finally {
       submit.disabled = false;
-      submit.textContent = 'Send Message';
+      submit.textContent = 'Send message';
     }
   });
 </script>
 
 <style>
-  /* width: 100% because the section is a flex column, where auto margins would shrink-wrap these */
-  .contact-info {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto 30px;
+  .contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
 
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  .contact-info {
     li {
       display: flex;
       align-items: center;
-      gap: 15px;
-      padding: 4px;
+      gap: 12px;
+      padding: 6px 0;
     }
 
     :global(.icon) {
-      width: 30px;
-      font-size: 22px;
-      color: var(--section-underline);
+      width: 18px;
+      font-size: 16px;
+      color: var(--text-muted);
     }
 
     a,
     .copy {
       font-size: 16px;
-      color: var(--body-color);
+      color: var(--text);
+      transition: color 0.15s ease;
+
+      &:hover {
+        color: var(--accent);
+      }
     }
 
     .copy {
       border: none;
       background: none;
-      font-weight: 300;
       cursor: pointer;
     }
-
-    :global(.icon),
-    a,
-    .copy {
-      transition:
-        translate 0.2s ease,
-        color 0.2s ease;
-    }
-  }
-
-  .contact-info li:hover > :not(.copied) {
-    translate: 5px;
-    color: var(--section-underline);
-    text-decoration: none;
   }
 
   .copied {
-    font-size: 14px;
-    color: var(--section-underline);
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  .label {
+    margin-top: 32px;
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    /* Compact link buttons with muted icons that pick up the accent on hover */
+    :global(.link-button) {
+      height: 36px;
+      padding: 0 12px;
+    }
+
+    :global(.icon) {
+      color: var(--text-muted);
+    }
+
+    :global(.link-button:hover .icon) {
+      color: inherit;
+    }
   }
 
   .contact-form {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 30px;
-
-    h3 {
-      margin-bottom: 20px;
-      text-align: center;
-    }
+    padding: clamp(20px, 4vw, 32px);
   }
 
   label {
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+
+    > span {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 500;
+    }
   }
 
   input,
   textarea {
     width: 100%;
-    padding: 12px;
-    border: 1px solid var(--form-border);
-    border-radius: 4px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
     font-size: 16px;
-    color: var(--body-color);
-    background-color: var(--white);
+    color: var(--text);
+    background-color: var(--bg);
+    resize: vertical;
     transition:
-      border-color 0.3s ease,
-      box-shadow 0.3s ease;
-
-    &::placeholder {
-      color: var(--subtitle);
-    }
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
 
     &:focus {
       outline: none;
-      border-color: var(--section-underline);
-      box-shadow: 0 0 3px var(--section-underline);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 20%, transparent);
     }
   }
 
   /* Validation message, shown only after the visitor has interacted with an invalid field */
   small {
     display: none;
-    margin-top: 5px;
-    font-size: 14px;
-    color: light-dark(#dc3545, #ff6b6b);
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--error);
+  }
+
+  :user-invalid {
+    border-color: var(--error);
   }
 
   :user-invalid + small {
@@ -200,18 +244,9 @@ import { profile } from '../data/profile';
 
   button[type='submit'] {
     width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    color: white;
-    background-color: var(--section-underline);
+    justify-content: center;
+    margin-top: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: var(--hover-color);
-    }
 
     &:disabled {
       opacity: 0.6;
@@ -220,20 +255,25 @@ import { profile } from '../data/profile';
   }
 
   .status {
-    margin: 20px 0 0;
-    padding: 15px;
+    margin-top: 16px;
+    padding: 10px 14px;
+    border: 1px solid currentColor;
     border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 500;
   }
 
   .success {
-    color: light-dark(#155724, #90ee90);
-    background-color: light-dark(#d4edda, #1a4a1a);
+    color: var(--success);
   }
 
   .error {
-    color: light-dark(#721c24, #ff9999);
-    background-color: light-dark(#f8d7da, #4a1a1a);
+    color: var(--error);
+  }
+
+  .note {
+    margin-top: 16px;
+    font-size: 13px;
+    text-align: center;
   }
 </style>

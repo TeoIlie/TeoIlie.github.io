@@ -4,6 +4,7 @@ order: 2
 buildYear: 2023
 cover: ../../assets/images/unimog.jpg
 youtubeId: ErPDtLbhNts
+uploadDate: 2023-04-04T10:32:31-07:00
 techniques:
   - Pneumatics
   - 4x4

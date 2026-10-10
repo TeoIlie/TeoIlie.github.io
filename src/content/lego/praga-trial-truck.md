@@ -4,6 +4,7 @@ order: 1
 buildYear: 2024
 cover: ../../assets/images/praga.jpg
 youtubeId: Gx4-P59XuH4
+uploadDate: 2023-10-03T10:40:46-07:00
 techniques:
   - Heavy-duty gearbox
   - 6x6

@@ -1,72 +1,54 @@
 ---
-import { Picture } from 'astro:assets';
-import Icon from './Icon.astro';
 import Chips from './Chips.astro';
-import LinkButton from './LinkButton.astro';
-import photo from '../assets/images/profile-1200.jpg';
-import { profile, socials, interests, education } from '../data/profile';
+import Hero from './Hero.astro';
+import SectionIntro from './SectionIntro.astro';
+import { interests, education } from '../data/profile';
 ---
 
-<h1 class="visually-hidden">{profile.name}</h1>
-<h2 class="section-title heading-underline">About Me</h2>
+<Hero />
 
 <div class="about">
-  <div class="profile">
-    <Picture
-      src={photo}
-      alt={profile.name}
-      width={600}
-      height={600}
-      widths={[250, 300, 500, 600]}
-      sizes="(max-width: 860px) 250px, 300px"
-      formats={['avif', 'webp']}
-      loading="eager"
-      fetchpriority="high"
-    />
-    <p class="tagline">{profile.tagline}</p>
-    <ul class="socials">
-      {socials.map((social) => (
-        <li>
-          <a href={social.url} target="_blank" rel="noopener noreferrer">
-            <Icon name={social.icon} label={social.name} />
-          </a>
-        </li>
-      ))}
-    </ul>
-    <LinkButton name="Download Resume" url={profile.resume} icon="solid/file-pdf" />
-  </div>
+  <SectionIntro id="about" title="From simulation to the real world" />
 
   <div class="bio" data-reveal>
-    <h3>
-      Hello, I'm <span class="highlight">{profile.name}</span>
-    </h3>
     <p>
-      Welcome! I'm a Master's Student with the School of Computing at Queen's University in the{' '}
+      My Master's research at Queen's, with{' '}
+      <a href="https://ingenuitylabs.queensu.ca/" target="_blank" rel="noopener">
+        Ingenuity Labs
+      </a>{' '}
+      and the{' '}
       <a href="https://labs.cs.queensu.ca/quarrg/" target="_blank" rel="noopener">
         QUARRG
       </a>{' '}
-      lab, and a full-stack software developer at BMO. I am currently researching Deep Reinforcement
-      Learning solutions for autonomous vehicle navigation and control.
+      lab, asked whether deep reinforcement learning can control a car at the limit of grip. To find
+      out I built Gym-Khana, a parallelized simulator for training policies to race and drift, then
+      took those policies off the screen and onto a physical 1/10-scale car.
     </p>
     <p>
-      In my free time I enjoy kickboxing, playing guitar, and designing LEGO Technic models. Check
-      out my coding projects, LEGO Technic designs, or just enjoy the pretty pictures{' '}
-      <span class="large-emoji">🎨</span>
+      Alongside the research I founded Ingenuity Labs Racing, leading PhD, post-doc and MSc students
+      through building a complete autonomous racing stack, from SLAM and planning to control. Four
+      years as a full-stack developer at BMO taught me to write software other people depend on. Now
+      I bring all of it to real machines on the Autonomy Team at MacLean Engineering.
+    </p>
+    <p>
+      Outside of work I train in kickboxing, play guitar, and design LEGO Technic vehicles from the
+      ground up.
     </p>
 
     <div class="details">
       <div>
-        <h4>Interests</h4>
+        <h3 class="label">Interests</h3>
         <Chips items={interests} />
       </div>
       <div>
-        <h4>Education</h4>
-        {education.map((item) => (
-          <div class="degree">
-            <Icon name="solid/graduation-cap" />
-            <div>
+        <h3 class="label">Education</h3>
+        <ul>
+          {education.map((item) => (
+            <li class="degree">
               <strong>{item.degree}</strong>
-              <small>{item.institution}</small>
+              <span>
+                {item.institution} · {item.years}
+              </span>
               {item.awards.length > 0 && (
                 <div class="awards">
                   {item.awards.map((award) => (
@@ -76,9 +58,9 @@ import { profile, socials, interests, education } from '../data/profile';
                   ))}
                 </div>
               )}
-            </div>
-          </div>
-        ))}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </div>
@@ -86,115 +68,54 @@ import { profile, socials, interests, education } from '../data/profile';
 
 <style>
   .about {
-    display: flex;
-    gap: 50px;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 48px;
+    /* Same rhythm as the section boundaries in index.astro */
+    margin-top: var(--section-space);
+    padding-top: var(--section-space);
+    border-top: 1px solid var(--border);
 
     @media (max-width: 860px) {
-      flex-direction: column;
-      align-items: center;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    /* The heading sits in the left column here, not above the content */
+    :global(.section-header) {
+      margin-bottom: 0;
     }
   }
 
-  .profile {
-    flex: 0 0 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-
-    img {
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-
-      @media (max-width: 860px) {
-        width: 250px;
-        height: 250px;
-      }
-    }
-  }
-
-  .tagline {
-    font-size: 16px;
-    color: var(--subtitle);
-    text-align: center;
-    margin: 0;
-  }
-
-  .socials {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-
-    a {
-      display: flex;
-      font-size: 28px;
-      color: var(--body-color);
-      transition:
-        color 0.1s ease,
-        scale 0.1s ease;
-
-      &:hover {
-        color: var(--section-underline);
-        scale: 1.15;
-      }
-    }
-  }
-
-  .bio {
-    flex: 1;
-
-    h3 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-  }
-
-  .highlight {
-    color: var(--section-underline);
+  .bio > p {
+    font-size: 17px;
+    margin-bottom: 16px;
   }
 
   .details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 40px;
 
-    > div {
-      flex: 1;
-      min-width: 250px;
-    }
-
-    @media (max-width: 1100px) {
-      flex-direction: column;
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
     }
   }
 
   .degree {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-
-    > :global(.icon) {
-      font-size: 22px;
-      margin-top: 3px;
-      color: var(--section-underline);
-    }
+    margin-bottom: 16px;
 
     strong {
       display: block;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 500;
     }
 
-    small {
+    span {
       display: block;
       font-size: 14px;
-      color: var(--subtitle);
+      color: var(--text-muted);
     }
   }
 
@@ -203,20 +124,17 @@ import { profile, socials, interests, education } from '../data/profile';
     flex-wrap: wrap;
     gap: 6px;
     margin-top: 8px;
-    font-size: 14px;
 
     a {
-      padding: 3px 8px;
-      border-radius: 4px;
+      padding: 1px 8px;
+      border: 1px solid color-mix(in oklch, var(--accent) 35%, var(--border));
+      border-radius: 6px;
+      font-size: 12px;
       font-weight: 500;
-      color: var(--section-underline);
-      background-color: var(--chips-background);
-      transition: all 0.2s ease;
+      transition: background-color 0.15s ease;
 
       &:hover {
-        color: var(--white);
-        background-color: var(--section-underline);
-        text-decoration: none;
+        background-color: color-mix(in oklch, var(--accent) 10%, transparent);
       }
     }
   }

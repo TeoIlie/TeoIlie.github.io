@@ -9,11 +9,12 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "format": "prettier --write \"src/**/*.{astro,ts,css,md,json}\"",
-    "prepare-videos": "node prepare-videos.cjs"
+    "format:check": "prettier --check \"src/**/*.{astro,ts,css,md,json}\"",
+    "prepare-videos": "node scripts/prepare-videos.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

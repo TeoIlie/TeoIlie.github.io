@@ -6,25 +6,36 @@ export default defineConfig({
   site: 'https://teoilie.com',
   // Cloudflare Pages serves the docs/ folder
   outDir: './docs',
-  integrations: [sitemap()],
+  // Pages build to <path>/index.html, so every URL ends in a slash; enforcing it keeps links,
+  // canonicals and the sitemap identical and catches a missing slash in dev
+  trailingSlash: 'always',
+  integrations: [
+    sitemap({
+      filter: (page) => !page.endsWith('/404/'),
+      // Build date: the whole site is rebuilt on every push
+      serialize: (item) => ({ ...item, lastmod: new Date().toISOString() }),
+    }),
+  ],
   // Remote images Astro may download and optimize at build time
   image: { domains: ['bricksafe.com', 'i.ytimg.com'] },
   // Inline CSS into the page so it doesn't block first render
   build: { inlineStylesheets: 'always' },
+  // Links marked data-astro-prefetch (the LEGO cards) are fetched on hover, so they open instantly
+  prefetch: { defaultStrategy: 'hover' },
   // Self-hosted at build time, with metric-matched fallbacks so the swap barely shifts text
   fonts: [
     {
       provider: fontProviders.fontsource(),
-      name: 'Roboto',
-      cssVariable: '--font-body',
-      weights: [300, 400, 500],
+      name: 'Inter',
+      cssVariable: '--font-sans',
+      weights: [400, 500, 600],
       styles: ['normal'],
     },
     {
       provider: fontProviders.fontsource(),
-      name: 'Montserrat',
-      cssVariable: '--font-heading',
-      weights: [500, 600],
+      name: 'JetBrains Mono',
+      cssVariable: '--font-mono',
+      weights: [500],
       styles: ['normal'],
     },
   ],

@@ -4,6 +4,7 @@ order: 5
 buildYear: 2021
 cover: ../../assets/images/baja.jpg
 youtubeId: ECJ1eubnlMo
+uploadDate: 2021-11-30T18:09:43-08:00
 techniques:
   - BuWizz
   - Baja truck
@@ -14,6 +15,7 @@ links:
     url: https://www.eurobricks.com/forum/forums/topic/188560-moc-buwizz-baja-truck/
   - name: Sponsor
     url: https://buwizz.com/
+    rel: sponsored
 gallery:
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06336.jpg/1280x720.jpg'
   - 'https://bricksafe.com/files/Teo_LEGO_Technic/baja-truck/DSC06329.jpg/1280x720.jpg'

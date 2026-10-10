@@ -4,6 +4,7 @@ order: 9
 buildYear: 2015
 cover: ../../assets/images/tatra-8x8.jpg
 youtubeId: 24NRLyLW_7M
+uploadDate: 2015-02-28T05:16:44-08:00
 techniques:
   - Tatra
   - Skid-steering

@@ -9,8 +9,8 @@ Requires Node 22.19+ (pinned in `.nvmrc`). Run `nvm use` in the project folder f
 ```
 npm install
 npm run dev       # dev server at http://localhost:4321
-npm run format    # Prettier
-npm run check     # type-check .astro and .ts files
+npm run format    # Prettier (format:check to verify without writing)
+npm run check     # type-check .astro and .ts files (also runs as part of build)
 ```
 
 ## Building and deploying
@@ -41,16 +41,22 @@ src/
 │   ├── index.astro          # homepage (each file in pages/ becomes a route)
 │   └── lego/[slug].astro    # one page per LEGO creation, e.g. /lego/unimog-u5000
 ├── layouts/BaseLayout.astro # <head> + SEO tags, header, footer, theme script
-├── components/              # page sections (About, Projects, LegoGrid, Contact, Header)
-│                            # and small building blocks (Icon, Chips, LinkButton, SectionIntro)
+├── components/              # page sections (Hero, About, Experience, Projects, LegoGrid, Contact, Header),
+│                            # LEGO page parts (YouTubeFacade, Gallery) and small building blocks
+│                            # (Icon, Chips, LinkButton, SectionIntro)
 ├── content/
 │   ├── projects/*.md        # one file per coding project
 │   └── lego/*.md            # one file per LEGO creation
 ├── content.config.ts        # schema for the content files
-├── data/profile.ts          # contact details, socials, interests, education
+├── data/
+│   ├── profile.ts           # contact details, socials, interests, education, experience
+│   ├── site.ts              # homepage section order (nav, ids, numbered eyebrows)
+│   └── jsonld.ts            # structured data for search engines, built from profile.ts
+├── lib/content.ts           # Link type and collection helpers (getSorted, excerpt)
 ├── assets/                  # logo + images optimized at build time (AVIF/WebP, multiple sizes)
 └── styles/global.css        # theme colours and shared styles
 public/                      # served as-is: videos, resume PDF, favicons, robots.txt, _headers (caching)
+scripts/prepare-videos.mjs   # npm run prepare-videos
 ```
 
 ## Notes
@@ -70,7 +76,11 @@ links:
     icon: solid/flag-checkered   # optional
 ```
 
-Contact details, social links, interests and education live in `src/data/profile.ts`.
+Contact details, social links, interests, education and experience live in `src/data/profile.ts`. The first `experience` and `education` entries also feed the search-engine structured data, so a new job only needs editing there.
+
+**Reordering or renaming sections**
+
+The homepage sections are listed in `src/data/site.ts`. Their order there sets the page order, the nav and the numbered eyebrows (`01 · About`).
 
 **Images**
 
@@ -92,11 +102,11 @@ Project videos show their poster straight away, and only download and play while
 
 **Fonts**
 
-Roboto (body) and Montserrat (headings) are self-hosted with the Astro Fonts API, configured in `astro.config.mjs`. Only the listed weights are generated, so add a weight there before using it in CSS.
+Inter (text) and JetBrains Mono (small labels and readouts) are self-hosted with the Astro Fonts API, configured in `astro.config.mjs`. Only the listed weights are generated, so add a weight there before using it in CSS.
 
 **Dark mode**
 
-Styles are plain CSS (with native nesting), scoped per component. Theme colours are CSS custom properties in `src/styles/global.css` (`:root` for light, `.dark-theme` for dark). A small inline script in `BaseLayout.astro` sets the theme class on `<html>` before first paint, from `localStorage` or the system preference, so there is no flash of the wrong theme.
+Styles are plain CSS (with native nesting), scoped per component. Theme colours are CSS custom properties in `src/styles/global.css`, each written as `light-dark(<light>, <dark>)`; adding `.dark-theme` to `<html>` sets `color-scheme: dark`, which switches them all. A small inline script in `BaseLayout.astro` sets the theme class on `<html>` before first paint, from `localStorage` or the system preference, so there is no flash of the wrong theme.
 
 **LEGO pages**
 

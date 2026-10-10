@@ -1,55 +1,43 @@
 /* ========================= Theme ========================= */
-/* Fixed header height, also used to offset anchors and the LEGO pages */
+/* Colours use light-dark(), which follows `color-scheme`: the pre-paint script and the
+   Header toggle switch it by adding .dark-theme to <html>. */
 :root {
-  --header-height: 70px;
-  /* --font-heading and --font-body come from the Fonts API (astro.config.mjs) */
+  /* Fixed header height, also used to offset anchors and the LEGO pages */
+  --header-height: 60px;
+  /* Vertical space around each homepage section */
+  --section-space: clamp(72px, 10vw, 120px);
+  /* --font-sans comes from the Fonts API (astro.config.mjs) */
 
-  --link: #6a5acd;
-  --section-underline: #5d4db3;
-  --hover-color: #483d8b;
-  --body-color: #333;
-  --body-background: #f9f9f9;
-  --subtitle: #666;
-  --paragraph: #444;
-  --chips-background: #eeeeee;
-  --white: white;
-  --form-border: #ddd;
-  --footer-top: #eee;
+  --bg: light-dark(#fafafa, #09090b);
+  --surface: light-dark(#ffffff, #111113);
+  --surface-2: light-dark(#f4f4f5, #18181b);
+  --text: light-dark(#0a0a0a, #f4f4f5);
+  --text-muted: light-dark(#5f5f66, #a1a1aa);
+  --border: light-dark(oklch(0.92 0 0), oklch(0.26 0 0));
+  /* Electric blue; both shades pass 4.5:1 on the backgrounds and against --accent-contrast */
+  --accent: light-dark(#2b59f5, #5b9bff);
+  --accent-hover: light-dark(#1f45d6, #8ab8ff);
+  /* Border of an interactive surface on hover, tinted toward the accent */
+  --border-hover: color-mix(in oklch, var(--accent) 45%, var(--border));
+  /* Text on a filled accent background */
+  --accent-contrast: light-dark(#ffffff, #09090b);
+  --error: light-dark(#c62828, #ff8a80);
+  --success: light-dark(#1b7f3b, #7ee2a0);
+
   color-scheme: light;
 }
 
 .dark-theme {
-  --link: #bf5af2;
-  --section-underline: #a855f7;
-  --hover-color: #d946ef;
-  --body-color: #f2f2f7;
-  --body-background: #0a0a0a;
-  --subtitle: #8e8e93;
-  --paragraph: #d1d1d6;
-  --chips-background: #2c2c2e;
-  --white: #1c1c1e;
-  --form-border: #48484a;
-  --footer-top: #1c1c1e;
   color-scheme: dark;
 }
 
 @media (prefers-contrast: more) {
   :root {
-    --link: #0066cc;
-    --section-underline: #0066cc;
-    --hover-color: #004499;
-    --body-color: #000;
-    --subtitle: #333;
-    --paragraph: #000;
-  }
-
-  .dark-theme {
-    --link: #66b3ff;
-    --section-underline: #66b3ff;
-    --hover-color: #99ccff;
-    --body-color: #fff;
-    --subtitle: #ccc;
-    --paragraph: #fff;
+    --text: light-dark(#000, #fff);
+    --text-muted: light-dark(#333, #ddd);
+    --border: light-dark(#767676, #9a9a9a);
+    --accent: light-dark(#0040c0, #8ab8ff);
+    --accent-hover: light-dark(#002d8a, #b3d1ff);
   }
 }
 
@@ -68,53 +56,94 @@ html {
 }
 
 body {
-  font-family: var(--font-body);
-  font-weight: 300;
-  line-height: 1.6;
-  color: var(--body-color);
-  background-color: var(--body-background);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
-h2 {
-  font-family: var(--font-heading);
+h2,
+h3 {
   font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(40px, 6vw, 60px);
+  letter-spacing: -0.035em;
+}
+
+h2 {
+  font-size: clamp(28px, 4vw, 40px);
 }
 
 h3 {
-  font-family: var(--font-heading);
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 20px;
 }
 
-/* Small label-style heading; the class gives other heading levels the same look */
-h4,
-.subheading {
-  font-family: var(--font-body);
-  font-size: 20px;
-  font-weight: 300;
-  margin-bottom: 15px;
+/* Monospace "instrument readout" text: eyebrows, labels, tags, dates */
+.mono,
+.eyebrow,
+.label,
+.chip {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Readouts line up their digits */
+.mono {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Small uppercase label above a heading, e.g. "02 · Projects" */
+.eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Small label-style heading inside content */
+.label {
+  margin-bottom: 12px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
 p {
-  font-size: 15px;
-  color: var(--paragraph);
-  margin-bottom: 20px;
+  color: var(--text-muted);
+  text-wrap: pretty;
 }
 
 a {
-  color: var(--link);
+  color: var(--accent);
   text-decoration: none;
 
   &:hover {
-    text-decoration: underline;
+    color: var(--accent-hover);
   }
 }
 
 /* Links in running text need more than colour to stand out (WCAG 1.4.1) */
 p a {
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in oklch, currentColor 40%, transparent);
+  text-underline-offset: 3px;
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 img,
@@ -133,85 +162,52 @@ ul {
 }
 
 :focus-visible {
-  outline: 2px solid var(--section-underline);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
-@media (prefers-contrast: more) {
-  :focus-visible {
-    outline: 3px solid currentColor;
-  }
+::selection {
+  background-color: color-mix(in oklch, var(--accent) 25%, transparent);
 }
 
 /* ========================= Layout ========================= */
 .container {
-  max-width: 1000px;
+  max-width: 1080px;
   margin: 0 auto;
 }
 
-.section-title {
-  font-size: 36px;
-  margin-bottom: 40px;
-  text-align: center;
-}
+/* Left-aligned section heading with an eyebrow and an optional intro paragraph */
+.section-header {
+  max-width: 680px;
+  margin-bottom: 48px;
 
-/* Accent bar under a heading: centred, or left-aligned with --left.
-   Set --underline-width on the heading to change its length. */
-.heading-underline {
-  position: relative;
-  padding-bottom: 12px;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: var(--underline-width, 120px);
-    height: 3px;
-    translate: -50%;
-    background-color: var(--section-underline);
-  }
-}
-
-.heading-underline--left {
-  --underline-width: 60px;
-
-  &::after {
-    left: 0;
-    translate: none;
+  p {
+    margin-top: 16px;
+    font-size: 17px;
   }
 }
 
 .card {
-  background-color: var(--white);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Cards that are links keep the text colour rather than turning accent */
+a.card,
+a.card:hover {
+  color: inherit;
 }
 
 .card-hover {
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    text-decoration: none;
+    border-color: var(--border-hover);
   }
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.large-emoji {
-  font-size: 1.2em;
 }
 
 /* ========================= Shared components ========================= */
@@ -226,57 +222,143 @@ ul {
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .chip {
-  padding: 6px 16px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 400;
-  background-color: var(--chips-background);
-  color: var(--body-color);
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  background-color: var(--surface-2);
 }
 
 .link-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 20px;
+  gap: 10px;
+  margin-top: 24px;
 }
 
 .link-button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
-  background-color: var(--chips-background);
-  color: var(--body-color);
-  border-radius: 6px;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  color: var(--text);
+  background-color: var(--surface);
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background-color 0.2s ease;
 
   &:hover {
-    background-color: var(--section-underline);
-    color: var(--white);
-    text-decoration: none;
+    border-color: var(--border-hover);
+    color: var(--accent);
   }
 
   .icon {
-    font-size: 18px;
+    font-size: 15px;
   }
+}
+
+.link-button--primary {
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+  background-color: var(--accent);
+
+  &:hover {
+    border-color: var(--accent-hover);
+    color: var(--accent-contrast);
+    background-color: var(--accent-hover);
+  }
+}
+
+/* Square icon-only button or link, e.g. the hero socials and the header toggles */
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  color: var(--text-muted);
+  background: none;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    color: var(--text);
+    background-color: var(--surface-2);
+  }
+}
+
+/* Camera-viewfinder corner brackets over media, like a perception bounding box.
+   Put on the clipped media frame; they close in and turn accent on card hover. */
+.viewfinder {
+  position: relative;
+
+  &::after {
+    --corner: rgb(255 255 255 / 0.85);
+    --len: 14px;
+    --weight: 1.5px;
+    content: '';
+    position: absolute;
+    inset: 10px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--corner), var(--corner)) top left / var(--len) var(--weight),
+      linear-gradient(var(--corner), var(--corner)) top left / var(--weight) var(--len),
+      linear-gradient(var(--corner), var(--corner)) top right / var(--len) var(--weight),
+      linear-gradient(var(--corner), var(--corner)) top right / var(--weight) var(--len),
+      linear-gradient(var(--corner), var(--corner)) bottom left / var(--len) var(--weight),
+      linear-gradient(var(--corner), var(--corner)) bottom left / var(--weight) var(--len),
+      linear-gradient(var(--corner), var(--corner)) bottom right / var(--len) var(--weight),
+      linear-gradient(var(--corner), var(--corner)) bottom right / var(--weight) var(--len);
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 0 2px rgb(0 0 0 / 0.35));
+    transition:
+      inset 0.3s ease,
+      --corner 0.3s ease;
+  }
+}
+
+.card-hover:hover .viewfinder::after {
+  --corner: var(--accent);
+  inset: 18px;
+}
+
+/* Registered so the corner colour can transition */
+@property --corner {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: white;
 }
 
 /* ========================= Motion ========================= */
 /* Fade elements in as they scroll into view. CSS-only: browsers without
    scroll-driven animations simply show the content. Animates `translate`
-   so it doesn't fight the cards' hover `transform`. */
+   so it doesn't fight hover transforms. */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
+    /* Longhands on purpose: lightningcss (the build's minifier) folds a shorthand plus
+       animation-timeline into one `animation` declaration, which Chrome rejects */
     [data-reveal] {
-      animation: reveal linear both;
+      animation-name: reveal;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
-      animation-range: entry 0% entry 60%;
+      animation-range: entry 0% entry 50%;
     }
   }
 }
@@ -284,7 +366,7 @@ ul {
 @keyframes reveal {
   from {
     opacity: 0;
-    translate: 0 20px;
+    translate: 0 16px;
   }
 }
 

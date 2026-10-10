@@ -4,6 +4,7 @@ order: 4
 buildYear: 2025
 cover: ../../assets/images/ram.jpg
 youtubeId: larGRLjImKY
+uploadDate: 2025-06-18T15:00:15-07:00
 techniques:
   - RAM
   - Pickup truck

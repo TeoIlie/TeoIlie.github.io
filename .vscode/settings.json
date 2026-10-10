@@ -1,38 +1,24 @@
 {
-  // Format on Save
+  // Prettier options live in .prettierrc.json
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "always"
   },
-
-  // Prettier Setup
   "prettier.requireConfig": true,
-  "prettier.printWidth": 100,
-  "prettier.tabWidth": 2,
-  "prettier.singleQuote": true,
-  "prettier.semi": true,
-  "prettier.trailingComma": "es5",
-  "prettier.arrowParens": "always",
-  "prettier.bracketSpacing": true,
 
-  // Per-Language Formatter
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[astro]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[scss]": {
+  "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  // Editor Settings for Clean Formatting
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.trimAutoWhitespace": true,

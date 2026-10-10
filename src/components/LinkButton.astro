@@ -1,24 +1,32 @@
 ---
 import Icon from './Icon.astro';
+import type { Link } from '../lib/content';
 
-interface Props {
-  name: string;
-  url: string;
-  icon?: string;
+interface Props extends Link {
+  /** Filled accent button for the main call to action */
+  primary?: boolean;
 }
 
-const { name, url, icon = inferIcon(url) } = Astro.props;
+const { name, url, icon = inferIcon(url), rel, primary = false } = Astro.props;
+// Other sites and files (the resume) open in a new tab; pages on this site open in place
+const external = /^https?:/.test(url) || url.endsWith('.pdf');
 
 function inferIcon(url: string) {
   if (url.includes('github.com')) return 'brands/github';
   if (/youtube\.com|youtu\.be/.test(url)) return 'brands/youtube';
-  if (url.endsWith('.pdf')) return 'solid/paperclip';
+  if (url.endsWith('.pdf')) return 'solid/file-lines';
   if (url.includes('eurobricks.com')) return 'solid/comments';
-  return 'solid/up-right-from-square';
+  if (url.startsWith('/#')) return 'solid/arrow-down';
+  return 'solid/arrow-up-right-from-square';
 }
 ---
 
-<a href={url} target="_blank" rel="noopener" class="link-button">
+<a
+  href={url}
+  target={external ? '_blank' : undefined}
+  rel={external ? ['noopener', rel].filter(Boolean).join(' ') : rel}
+  class:list={['link-button', { 'link-button--primary': primary }]}
+>
   <Icon name={icon} />
   <span>{name}</span>
 </a>
