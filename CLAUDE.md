@@ -75,7 +75,7 @@ There are no unit tests or ESLint.
 - `*.pages.dev` preview URLs get `x-robots-tag: noindex` and a failing Cloudflare analytics beacon, so preview Lighthouse SEO/Best Practices scores are lower than on teoilie.com.
 - `public/_headers` sets immutable caching for `/_astro/*` and `nosniff`, `Referrer-Policy` and `X-Frame-Options` on every page.
 - Cloudflare Pages serves `docs/404.html` for unknown paths.
-- Search: verify `teoilie.com` as a Domain property in Google Search Console with a DNS TXT record on Cloudflare (no meta tag needed), then submit `https://teoilie.com/sitemap-index.xml` there and in Bing Webmaster Tools.
+- Search: `teoilie.com` is verified in Google Search Console by DNS (domain name provider), so no meta tag or verification file is needed; submit `https://teoilie.com/sitemap-index.xml` there and in Bing Webmaster Tools.
 - The default OG card (`src/assets/images/og-card.png`, 1200x630) was rendered once from HTML with headless Chrome: name, the hero statement, readouts, photo, racing line. It has no job title, so it doesn't go stale with a role change.
 
 ## Media
