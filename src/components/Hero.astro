@@ -14,12 +14,16 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
 ---
 
 <div class="hero">
-  <!-- Decorative: an optimal racing line that draws itself once, with a car-dot following it -->
+  <!-- Decorative: an optimal racing line that draws itself once, with an RViz-style TF frame driving it -->
   <svg class="racing-line" viewBox="0 0 1000 370" aria-hidden="true">
     <path class="track" d={racingLine} />
     <path class="line" d={racingLine} pathLength="1" />
-    <!-- A zero-length dash with round caps draws a dot that can ride the line -->
-    <path class="car" d={racingLine} pathLength="1" />
+    <!-- x along the heading, y to its left, z out of the screen; offset-path turns it with the line -->
+    <g class="car" style={`offset-path: path('${racingLine}')`}>
+      <line class="x" x2="16" />
+      <line class="y" y2="-16" />
+      <circle class="z" r="2.6" />
+    </g>
   </svg>
 
   <div class="intro">
@@ -123,6 +127,8 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     height: auto;
     overflow: visible;
     pointer-events: none;
+    /* Own layer: each frame repaints only the SVG, not the text and grid around it */
+    will-change: transform;
 
     @media (max-width: 860px) {
       display: none;
@@ -139,22 +145,44 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
       stroke-dasharray: 4 6;
     }
 
+    /* One timing for both, so the frame rides the line's drawing tip. The delay lets first paint,
+       the photo decode and font swap settle so the slow opening frames don't stutter. Longhands:
+       lightningcss turns a shorthand without a name into "animation: none" */
+    .line,
+    .car {
+      animation-duration: 2.6s;
+      animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
+      animation-delay: 0.25s;
+      animation-fill-mode: both;
+    }
+
     /* Dash length = path length, so shifting the offset from 1 to 0 draws the line */
     .line {
       stroke: color-mix(in oklch, var(--accent) 60%, transparent);
       stroke-width: 1;
       stroke-dasharray: 1 2;
-      animation: draw 2.6s cubic-bezier(0.3, 0, 0.2, 1) both;
+      animation-name: draw;
     }
 
-    /* The dot sits at -offset along the path, so 0 -> -1 drives it start to finish */
     .car {
-      stroke: var(--accent);
-      stroke-width: 6;
+      animation-name: drive;
+    }
+
+    .car line {
+      stroke-width: 2;
       stroke-linecap: round;
-      stroke-dasharray: 0.0001 2;
-      stroke-dashoffset: -1;
-      animation: drive 2.6s cubic-bezier(0.3, 0, 0.2, 1) both;
+    }
+
+    .x {
+      stroke: light-dark(#e5484d, #ff6b6b);
+    }
+
+    .y {
+      stroke: light-dark(#2f9e5b, #4cc38a);
+    }
+
+    .z {
+      fill: var(--accent);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -173,17 +201,11 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     from {
       stroke-dashoffset: 1;
     }
-    to {
-      stroke-dashoffset: 0;
-    }
   }
 
   @keyframes drive {
-    from {
-      stroke-dashoffset: 0;
-    }
     to {
-      stroke-dashoffset: -1;
+      offset-distance: 100%;
     }
   }
 
