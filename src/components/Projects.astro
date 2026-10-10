@@ -21,8 +21,8 @@ const projects = await Promise.all(
       throw new Error(`Missing poster for "${entry.data.video}"; run npm run prepare-videos`);
     const [{ Content }, image] = await Promise.all([
       render(entry),
-      // Up to 1080px for the sharper featured videos; smaller posters are never upscaled
-      getImage({ src: poster, width: Math.min(1080, poster.width), format: 'webp' }),
+      // Up to 1080px for the sharper featured videos (sharp never upscales smaller posters)
+      getImage({ src: poster, width: 1080, format: 'webp' }),
     ]);
     return { ...entry.data, id: entry.id, Description: Content, poster: image.src };
   })
@@ -113,9 +113,10 @@ const collaborators = [
       const warm = new IntersectionObserver(
         (entries) => {
           for (const { target, isIntersecting } of entries) {
-            if (!isIntersecting) continue;
-            (target as HTMLVideoElement).preload = 'auto';
-            warm.unobserve(target);
+            if (isIntersecting) {
+              (target as HTMLVideoElement).preload = 'auto';
+              warm.unobserve(target);
+            }
           }
         },
         { rootMargin: `${margin}px 0px` }
