@@ -33,7 +33,7 @@ import { profile, socials } from '../data/profile';
     <ul class="socials" data-reveal>
       {socials.map((social) => (
         <li>
-          <LinkButton {...social} />
+          <LinkButton {...social} rel="me" />
         </li>
       ))}
     </ul>

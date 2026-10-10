@@ -4,6 +4,7 @@ order: 3
 buildYear: 2021
 cover: ../../assets/images/dakar.jpg
 youtubeId: tCBB-U5y0eE
+uploadDate: 2016-07-07T11:41:16-07:00
 techniques:
   - Dakar
   - MAN

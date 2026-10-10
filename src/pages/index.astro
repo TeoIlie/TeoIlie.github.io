@@ -6,6 +6,8 @@ import Projects from '../components/Projects.astro';
 import LegoGrid from '../components/LegoGrid.astro';
 import Contact from '../components/Contact.astro';
 import { sections, type SectionId } from '../data/site';
+import { homeJsonLd } from '../data/jsonld';
+import { getSorted } from '../lib/content';
 
 // Section order (and the nav and eyebrow numbers) comes from data/site.ts
 const content = {
@@ -15,11 +17,15 @@ const content = {
   lego: LegoGrid,
   contact: Contact,
 } satisfies Record<SectionId, unknown>;
+
+const projects = await getSorted('projects');
 ---
 
 <BaseLayout
   title="Teodor Ilie | Autonomy Designer at MacLean Engineering | AI & Robotics"
-  description="Teodor Ilie is a designer on the Autonomy Team at MacLean Engineering, with an MSc in Computer Science (AI) from Queen's University and research in deep reinforcement learning for autonomous vehicles."
+  description="Teodor Ilie builds self-driving mining vehicles at MacLean Engineering. MSc in AI from Queen's University, with deep RL research for autonomous racing."
+  type="profile"
+  jsonLd={() => homeJsonLd(Astro.site!, projects)}
 >
   {sections.map(({ id }) => {
     const Content = content[id];

@@ -4,6 +4,7 @@ order: 7
 buildYear: 2019
 cover: ../../assets/images/audi.jpg
 youtubeId: AfcC9TIX9NU
+uploadDate: 2019-08-28T11:32:28-07:00
 techniques:
   - Rally
   - Audi

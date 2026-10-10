@@ -74,11 +74,11 @@ const inspirations = [
 <ul class="grid">
   {creations.map(({ id, data }) => (
     <li>
-      <a class="card card-hover creation" href={`/lego/${id}`} data-astro-prefetch data-reveal>
+      <a class="card card-hover creation" href={`/lego/${id}/`} data-astro-prefetch data-reveal>
         <div class="cover viewfinder">
           <Image
             src={data.cover}
-            alt=""
+            alt={`LEGO Technic ${data.title}`}
             widths={[360, 520, 720, 1040]}
             sizes="(max-width: 600px) calc(100vw - 66px), (max-width: 860px) calc(50vw - 50px), 330px"
           />

@@ -8,6 +8,7 @@ import YouTubeFacade from '../../components/YouTubeFacade.astro';
 import Gallery from '../../components/Gallery.astro';
 import { profile } from '../../data/profile';
 import { excerpt } from '../../lib/content';
+import { legoJsonLd } from '../../data/jsonld';
 
 export async function getStaticPaths() {
   const creations = await getCollection('lego');
@@ -25,6 +26,9 @@ const description = excerpt(entry.body ?? '');
   title={`${data.title} – LEGO Technic | ${profile.name}`}
   description={description}
   image={data.cover}
+  imageAlt={`LEGO Technic ${data.title} built by ${profile.name}`}
+  type="article"
+  jsonLd={({ url, image }) => legoJsonLd(Astro.site!, url, entry, image)}
 >
   <article class="container card">
     <a href="/#lego" class="back">

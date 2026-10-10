@@ -2,9 +2,17 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-// Rendered by LinkButton; the icon is inferred from the URL unless given
+// Rendered by LinkButton; the icon is inferred from the URL unless given. `rel` marks paid or
+// sponsored links for search engines
 const links = z
-  .array(z.object({ name: z.string(), url: z.url(), icon: z.string().optional() }))
+  .array(
+    z.object({
+      name: z.string(),
+      url: z.url(),
+      icon: z.string().optional(),
+      rel: z.enum(['sponsored', 'nofollow']).optional(),
+    })
+  )
   .default([]);
 
 // In both collections the markdown body is the description, and `order` sets
@@ -33,6 +41,8 @@ const lego = defineCollection({
       buildYear: z.number(),
       cover: image(),
       youtubeId: z.string().regex(/^[\w-]{11}$/, 'Expected an 11-character YouTube video id'),
+      // The video's YouTube publish time (VideoObject structured data requires it)
+      uploadDate: z.coerce.date(),
       techniques: z.array(z.string()),
       links,
       // Remote photos are optimized at build time, so their host must be in image.domains

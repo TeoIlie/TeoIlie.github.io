@@ -4,6 +4,7 @@ order: 8
 buildYear: 2015
 cover: ../../assets/images/g-class.jpg
 youtubeId: l0Y01Bq4Wus
+uploadDate: 2015-04-04T13:16:54-07:00
 techniques:
   - Mercedes
   - Pendular Suspension

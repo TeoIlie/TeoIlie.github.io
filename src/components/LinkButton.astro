@@ -7,9 +7,9 @@ interface Props extends Link {
   primary?: boolean;
 }
 
-const { name, url, icon = inferIcon(url), primary = false } = Astro.props;
-// Same-page anchors open in place; everything else in a new tab
-const external = !url.startsWith('/#');
+const { name, url, icon = inferIcon(url), rel, primary = false } = Astro.props;
+// Other sites and files (the resume) open in a new tab; pages on this site open in place
+const external = /^https?:/.test(url) || url.endsWith('.pdf');
 
 function inferIcon(url: string) {
   if (url.includes('github.com')) return 'brands/github';
@@ -24,7 +24,7 @@ function inferIcon(url: string) {
 <a
   href={url}
   target={external ? '_blank' : undefined}
-  rel={external ? 'noopener' : undefined}
+  rel={external ? ['noopener', rel].filter(Boolean).join(' ') : rel}
   class:list={['link-button', { 'link-button--primary': primary }]}
 >
   <Icon name={icon} />

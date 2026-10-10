@@ -21,7 +21,7 @@ export const youtube = {
 };
 
 /** All are listed in Contact; `hero` ones also appear as icons in the hero */
-export const socials: (Required<Link> & { hero?: boolean })[] = [
+export const socials: (Required<Omit<Link, 'rel'>> & { hero?: boolean })[] = [
   {
     name: 'LinkedIn',
     url: 'https://www.linkedin.com/in/teodorilie/',
