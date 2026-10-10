@@ -25,6 +25,10 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
       <circle class="z" r="2.6" />
     </g>
   </svg>
+  <!-- Follows the cursor over the hero until the easter egg is used -->
+  <span class="pose-hint chip" aria-hidden="true">
+    click · set initial pose
+  </span>
 
   <div class="intro">
     <h1>{profile.name}</h1>
@@ -80,6 +84,8 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     const track = svg.querySelector<SVGPathElement>('.track')!;
     const line = svg.querySelector<SVGPathElement>('.line')!;
     const car = svg.querySelector<SVGGElement>('.car')!;
+    const hint = hero.querySelector<HTMLElement>('.pose-hint')!;
+    const hover = new AbortController(); // Retires the hint once the egg has been found
     const step = 4; // Track sampling distance in viewBox units: nearest-point search and redrawn path
     const samples: DOMPoint[] = []; // Taken on the first click, so page load does no layout reads
     let length = 0;
@@ -88,15 +94,32 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     const at = (s: number) => track.getPointAtLength(Math.min(Math.max(s, 0), length));
     const dist = (u: DOMPoint, v: DOMPoint) => Math.hypot(v.x - u.x, v.y - u.y);
     const fmt = (...values: number[]) => values.map((n) => n.toFixed(1)).join(' ');
+    // Links and buttons keep their job: no hint over them, and clicks pass through
+    const onControl = (e: Event) => (e.target as Element).closest('a, button');
+
+    // Hover hint over the hero's empty space (CSS only displays it where the egg is enabled)
+    const { signal } = hover;
+    hero.addEventListener(
+      'pointermove',
+      (e) => {
+        const show = e.pointerType === 'mouse' && !onControl(e);
+        hint.classList.toggle('visible', show);
+        if (show) hint.style.translate = `${e.clientX + 10}px ${e.clientY + 10}px`;
+      },
+      { signal }
+    );
+    hero.addEventListener('pointerleave', () => hint.classList.remove('visible'), { signal });
 
     hero.addEventListener('click', (e) => {
       const ctm = svg.getScreenCTM();
       const animations = [...line.getAnimations(), ...car.getAnimations()];
-      // Hidden on mobile, and static under reduced motion (no animations to replay); links and
-      // buttons keep their job; a drag that selected text isn't a click
+      // Hidden on mobile, and static under reduced motion (no animations to replay); a drag that
+      // selected text isn't a click
       if (!ctm || !svg.getBoundingClientRect().width || !animations.length) return;
-      if ((e.target as Element).closest('a, button') || !getSelection()?.isCollapsed) return;
+      if (onControl(e) || !getSelection()?.isCollapsed) return;
       const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
+      hover.abort();
+      hint.remove();
 
       if (!samples.length) {
         length = track.getTotalLength();
@@ -153,9 +176,14 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     gap: 48px;
     min-height: min(60vh, 540px);
 
-    /* Hints at the easter egg: clicking sets the robot's pose (desktop only, like the line) */
-    @media (min-width: 861px) {
+    /* Where the easter egg is enabled (desktop, like the line; not under reduced motion, where the
+       line doesn't replay): a crosshair cursor and the hover hint */
+    @media (min-width: 861px) and (prefers-reduced-motion: no-preference) {
       cursor: crosshair;
+
+      .pose-hint {
+        display: block;
+      }
     }
 
     @media (max-width: 860px) {
@@ -192,6 +220,23 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
 
   .intro {
     max-width: 640px;
+  }
+
+  /* A chip the script moves to just below-right of the cursor; displayed only by the .hero rule */
+  .pose-hint {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+
+    &.visible {
+      opacity: 1;
+    }
   }
 
   /* Bleeds past the container so the line enters and leaves the screen */
