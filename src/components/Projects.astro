@@ -21,7 +21,8 @@ const projects = await Promise.all(
       throw new Error(`Missing poster for "${entry.data.video}"; run npm run prepare-videos`);
     const [{ Content }, image] = await Promise.all([
       render(entry),
-      getImage({ src: poster, width: 720, format: 'webp' }),
+      // Up to 1080px for the sharper featured videos; smaller posters are never upscaled
+      getImage({ src: poster, width: Math.min(1080, poster.width), format: 'webp' }),
     ]);
     return { ...entry.data, id: entry.id, Description: Content, poster: image.src };
   })
@@ -101,7 +102,28 @@ const collaborators = [
     { rootMargin: '400px 0px' }
   );
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('video[data-autoplay]').forEach((video) => observer.observe(video));
+    const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]');
+    videos.forEach((video) => observer.observe(video));
+
+    // Firefox is slow from play() to the first frame, so fetch and decode further ahead.
+    // Starts after page load so it never competes with it; skipped under Data Saver.
+    const { connection } = navigator as Navigator & { connection?: { saveData?: boolean } };
+    if (!connection?.saveData) {
+      const margin = matchMedia('(max-width: 860px)').matches ? 800 : 1200;
+      const warm = new IntersectionObserver(
+        (entries) => {
+          for (const { target, isIntersecting } of entries) {
+            if (!isIntersecting) continue;
+            (target as HTMLVideoElement).preload = 'auto';
+            warm.unobserve(target);
+          }
+        },
+        { rootMargin: `${margin}px 0px` }
+      );
+      const start = () => videos.forEach((video) => warm.observe(video));
+      if (document.readyState === 'complete') start();
+      else addEventListener('load', start, { once: true });
+    }
   }
 </script>
 
