@@ -14,12 +14,16 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
 ---
 
 <div class="hero">
-  <!-- Decorative: an optimal racing line that draws itself once, with a car-dot following it -->
+  <!-- Decorative: an optimal racing line that draws itself once, with an RViz-style TF frame driving it -->
   <svg class="racing-line" viewBox="0 0 1000 370" aria-hidden="true">
     <path class="track" d={racingLine} />
     <path class="line" d={racingLine} pathLength="1" />
-    <!-- A zero-length dash with round caps draws a dot that can ride the line -->
-    <path class="car" d={racingLine} pathLength="1" />
+    <!-- x along the heading, y to its left, z out of the screen; offset-path turns it with the line -->
+    <g class="car" style={`offset-path: path('${racingLine}')`}>
+      <line class="x" x2="16" />
+      <line class="y" y2="-16" />
+      <circle class="z" r="2.6" />
+    </g>
   </svg>
 
   <div class="intro">
@@ -66,6 +70,78 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
   ))}
 </dl>
 
+<script>
+  // Easter egg, like RViz's "2D Pose Estimate": clicking the hero places the TF frame there, and
+  // the line redraws from it, merging onto the racing line ahead (like pure pursuit's lookahead)
+  // and following it to the end at the original speed
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const svg = hero?.querySelector<SVGSVGElement>('.racing-line');
+  if (hero && svg) {
+    const track = svg.querySelector<SVGPathElement>('.track')!;
+    const line = svg.querySelector<SVGPathElement>('.line')!;
+    const car = svg.querySelector<SVGGElement>('.car')!;
+    const step = 4; // Track sampling distance in viewBox units: nearest-point search and redrawn path
+    const samples: DOMPoint[] = []; // Taken on the first click, so page load does no layout reads
+    let length = 0;
+    let duration = 0; // The CSS duration (ms), before any replay overrides it
+
+    const at = (s: number) => track.getPointAtLength(Math.min(Math.max(s, 0), length));
+    const dist = (u: DOMPoint, v: DOMPoint) => Math.hypot(v.x - u.x, v.y - u.y);
+    const fmt = (...values: number[]) => values.map((n) => n.toFixed(1)).join(' ');
+
+    hero.addEventListener('click', (e) => {
+      const ctm = svg.getScreenCTM();
+      const animations = [...line.getAnimations(), ...car.getAnimations()];
+      // Hidden on mobile, and static under reduced motion (no animations to replay); links and
+      // buttons keep their job; a drag that selected text isn't a click
+      if (!ctm || !svg.getBoundingClientRect().width || !animations.length) return;
+      if ((e.target as Element).closest('a, button') || !getSelection()?.isCollapsed) return;
+      const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
+
+      if (!samples.length) {
+        length = track.getTotalLength();
+        duration = animations[0].effect!.getTiming().duration as number;
+        for (let s = 0; s < length; s += step) samples.push(at(s));
+        samples.push(at(length));
+      }
+
+      // Nearest sample on the track, and how far the click is from it
+      let nearest = 0;
+      let gap = Infinity;
+      samples.forEach((q, i) => {
+        const r = dist(p, q);
+        if (r < gap) {
+          gap = r;
+          nearest = i * step;
+        }
+      });
+
+      // The further the click, the further ahead it merges, so the approach stays gentle
+      const join = Math.min(nearest + Math.max(length * 0.1, gap * 2), length);
+      const j = at(join);
+      const a = at(join - 1);
+      const b = at(join + 1);
+      // Cubic connector: leaves the click facing the merge point, with a long arm along the
+      // track's heading into the merge so it arrives tangent instead of hooking on
+      const k = (dist(p, j) * 0.5) / dist(a, b);
+      let d = `M ${fmt(p.x, p.y)} C ${fmt(p.x + (j.x - p.x) * 0.3, p.y + (j.y - p.y) * 0.3)}, `;
+      d += `${fmt(j.x - (b.x - a.x) * k, j.y - (b.y - a.y) * k)}, ${fmt(j.x, j.y)}`;
+      // Then the rest of the track, so the frame turns smoothly through the samples
+      for (const q of samples.slice(Math.floor(join / step) + 1)) d += ` L ${fmt(q.x, q.y)}`;
+
+      line.setAttribute('d', d);
+      car.style.offsetPath = `path('${d}')`;
+      // Replay at the original speed: the duration scales with the new path's length
+      const runtime = Math.max((duration * line.getTotalLength()) / length, 600);
+      for (const animation of animations) {
+        animation.effect!.updateTiming({ duration: runtime, delay: 0 });
+        animation.currentTime = 0;
+        animation.play();
+      }
+    });
+  }
+</script>
+
 <style>
   .hero {
     position: relative;
@@ -76,6 +152,11 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     justify-content: space-between;
     gap: 48px;
     min-height: min(60vh, 540px);
+
+    /* Hints at the easter egg: clicking sets the robot's pose (desktop only, like the line) */
+    @media (min-width: 861px) {
+      cursor: crosshair;
+    }
 
     @media (max-width: 860px) {
       flex-direction: column-reverse;
@@ -123,6 +204,8 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     height: auto;
     overflow: visible;
     pointer-events: none;
+    /* Own layer: each frame repaints only the SVG, not the text and grid around it */
+    will-change: transform;
 
     @media (max-width: 860px) {
       display: none;
@@ -139,22 +222,44 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
       stroke-dasharray: 4 6;
     }
 
+    /* One timing for both, so the frame rides the line's drawing tip. The delay lets first paint,
+       the photo decode and font swap settle so the slow opening frames don't stutter. Longhands:
+       lightningcss turns a shorthand without a name into "animation: none" */
+    .line,
+    .car {
+      animation-duration: 2.6s;
+      animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
+      animation-delay: 0.25s;
+      animation-fill-mode: both;
+    }
+
     /* Dash length = path length, so shifting the offset from 1 to 0 draws the line */
     .line {
       stroke: color-mix(in oklch, var(--accent) 60%, transparent);
       stroke-width: 1;
       stroke-dasharray: 1 2;
-      animation: draw 2.6s cubic-bezier(0.3, 0, 0.2, 1) both;
+      animation-name: draw;
     }
 
-    /* The dot sits at -offset along the path, so 0 -> -1 drives it start to finish */
     .car {
-      stroke: var(--accent);
-      stroke-width: 6;
+      animation-name: drive;
+    }
+
+    .car line {
+      stroke-width: 2;
       stroke-linecap: round;
-      stroke-dasharray: 0.0001 2;
-      stroke-dashoffset: -1;
-      animation: drive 2.6s cubic-bezier(0.3, 0, 0.2, 1) both;
+    }
+
+    .x {
+      stroke: light-dark(#e5484d, #ff6b6b);
+    }
+
+    .y {
+      stroke: light-dark(#2f9e5b, #4cc38a);
+    }
+
+    .z {
+      fill: var(--accent);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -173,17 +278,11 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     from {
       stroke-dashoffset: 1;
     }
-    to {
-      stroke-dashoffset: 0;
-    }
   }
 
   @keyframes drive {
-    from {
-      stroke-dashoffset: 0;
-    }
     to {
-      stroke-dashoffset: -1;
+      offset-distance: 100%;
     }
   }
 
