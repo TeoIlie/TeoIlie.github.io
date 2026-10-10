@@ -3,7 +3,7 @@ import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import LinkButton from './LinkButton.astro';
 import photo from '../assets/images/profile-1200.jpg';
-import { profile, socials, credentials } from '../data/profile';
+import { profile, socials, readouts } from '../data/profile';
 
 // The full list lives in the Contact section
 const heroSocials = socials.filter((s) => s.hero);
@@ -57,11 +57,14 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
   />
 </div>
 
-<ul class="credentials label" aria-label="Highlights">
-  {credentials.map((item) => (
-    <li>{item}</li>
+<dl class="readouts label">
+  {readouts.map((item) => (
+    <div>
+      <dt>{item.key}</dt>
+      <dd>{item.value}</dd>
+    </div>
   ))}
-</ul>
+</dl>
 
 <style>
   .hero {
@@ -184,15 +187,15 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
     }
   }
 
-  .credentials {
+  .readouts {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px 28px;
+    gap: 10px 32px;
     margin: 24px 0 0;
     padding-top: 20px;
     border-top: 1px solid var(--border);
 
-    li {
+    div {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -203,6 +206,10 @@ const racingLine = 'M 0 359 C 250 366, 470 366, 590 311 S 760 44, 1000 7';
         height: 5px;
         background-color: var(--accent);
       }
+    }
+
+    dd {
+      color: var(--text);
     }
   }
 

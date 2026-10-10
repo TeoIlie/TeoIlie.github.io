@@ -6,9 +6,9 @@ export const profile = {
   email: 'teo.altum.quinque@gmail.com',
   phone: { display: '+1 (416) 668-6650', href: 'tel:+14166686650' },
   discord: 'teoilie',
-  /** Supporting line under the hero statement */
+  /** Supporting line under the hero statement: what I do now (the story is in About) */
   headline:
-    "Autonomy at MacLean Engineering. Before that, deep RL research for autonomous racing at Queen's.",
+    'On the Autonomy Team at MacLean Engineering, building self-driving underground mining vehicles.',
   resume: '/assets/Teodor_Ilie_Resume_CV.pdf',
   /** The contact form posts here */
   formAction: 'https://formspree.io/f/moveyaaw',
@@ -44,11 +44,11 @@ export const socials: (Required<Link> & { hero?: boolean })[] = [
   { name: 'Strava', url: 'https://www.strava.com/athletes/9039374', icon: 'brands/strava' },
 ];
 
-// Short proof points shown in the hero's credentials strip
-export const credentials = [
-  'MSc CS (AI)',
-  'Vector · NSERC CGS · OGS',
-  "Hosted Canada's first RoboRacer event",
+// Key/value readouts in the hero strip: top work and where I'm based. Awards live in Education
+export const readouts = [
+  { key: 'Built', value: 'Gym-Khana deep RL simulator' },
+  { key: 'Founder', value: 'Ingenuity Labs Racing' },
+  { key: 'Based', value: 'Ontario, Canada' },
 ];
 
 export const interests = [
@@ -93,14 +93,14 @@ export const education = [
 ];
 
 // Newest first; mirrors the Work Experience section of the resume. The first entry is the current
-// job, used in the JSON-LD (jobTitle, worksFor)
+// job, used in the JSON-LD (jobTitle, worksFor). Leave out `end` for a current role; `project` is
+// a projects collection id, linked from the entry
 export const experience = [
   {
     role: 'Designer Level II, Autonomy Team',
     org: 'MacLean Engineering',
     url: 'https://macleanengineering.com/',
     start: 'Oct 2026',
-    end: 'Present',
     summary: 'Building autonomous systems for underground mining vehicles.',
   },
   {
@@ -108,9 +108,10 @@ export const experience = [
     org: 'Ingenuity Labs Racing',
     url: 'https://github.com/Ingenuity-Labs-Racing',
     start: 'Jul 2025',
-    end: 'Present',
+    end: '2026',
     summary:
-      "Founded and lead Queen's F1TENTH / RoboRacer autonomous racing team of PhD, post-doc and MSc students, building ROS2 SLAM, planning and control stacks. Hosted Canada's first RoboRacer event.",
+      "Founded and led Queen's F1TENTH / RoboRacer autonomous racing team of PhD, post-doc and MSc students, building ROS2 SLAM, planning and control stacks. Hosted Canada's first RoboRacer event.",
+    project: 'f1tenth-racing',
   },
   {
     role: 'Graduate Research Engineer',
@@ -120,6 +121,7 @@ export const experience = [
     end: '2026',
     summary:
       'Developed deep RL controllers for autonomous vehicle drifting and loss-of-traction recovery, trained in a custom parallelized Gym simulator and deployed on a physical 1/10-scale car.',
+    project: 'gym-khana',
   },
   {
     role: 'Full-Stack Software Developer',

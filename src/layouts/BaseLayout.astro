@@ -37,7 +37,7 @@ const jsonLd = personJsonLd(Astro.site!, photoUrl);
 
     <!-- Preload only the weights visible on first paint: body text and headings -->
     <Font cssVariable="--font-sans" preload={[{ weight: 400 }, { weight: 600 }]} />
-    <!-- Mono is in the hero's credentials strip, so preload it to avoid a late swap -->
+    <!-- Mono is in the hero's readout strip, so preload it to avoid a late swap -->
     <Font cssVariable="--font-mono" preload={[{ weight: 500 }]} />
 
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />

@@ -351,8 +351,12 @@ a.card:hover {
    so it doesn't fight hover transforms. */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
+    /* Longhands on purpose: lightningcss (the build's minifier) folds a shorthand plus
+       animation-timeline into one `animation` declaration, which Chrome rejects */
     [data-reveal] {
-      animation: reveal linear both;
+      animation-name: reveal;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: entry 0% entry 50%;
     }

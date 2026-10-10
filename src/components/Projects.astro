@@ -23,7 +23,7 @@ const projects = await Promise.all(
       render(entry),
       getImage({ src: poster, width: 720, format: 'webp' }),
     ]);
-    return { ...entry.data, Description: Content, poster: image.src };
+    return { ...entry.data, id: entry.id, Description: Content, poster: image.src };
   })
 );
 
@@ -48,7 +48,11 @@ const collaborators = [
 
 <div class="projects">
   {projects.map((project) => (
-    <article class:list={['card card-hover project', { featured: project.featured }]} data-reveal>
+    <article
+      id={`project-${project.id}`}
+      class:list={['card card-hover project', { featured: project.featured }]}
+      data-reveal
+    >
       <a
         href={project.links[0]?.url}
         target="_blank"

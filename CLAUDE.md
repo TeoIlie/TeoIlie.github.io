@@ -34,7 +34,7 @@ There are no unit tests or ESLint.
 - `src/components/` - sections: `Hero` (rendered by `About`), `About` (bio), `Experience`, `Projects`, `LegoGrid`, `Contact`, `Header`; LEGO page parts: `YouTubeFacade`, `Gallery` (grid + lightbox); building blocks: `Icon`, `Chips`, `LinkButton` (`primary` for the filled accent style), `SectionIntro` (every section heading: `id` sets the numbered eyebrow; title, intro slot, muted link row)
 - `src/content.config.ts` - Zod schemas; both collections share the `links` schema and use the markdown body as the description
 - `src/content/projects/*.md`, `src/content/lego/*.md` - one file per item; `order` sets position; filename is the slug/URL
-- `src/data/profile.ts` - name, headline, email, phone, discord, Formspree action, socials (`hero: true` ones also show in the hero), `youtube`, interests, education, experience (single source for About, Experience, Contact, JSON-LD)
+- `src/data/profile.ts` - name, headline (current role only), email, phone, discord, Formspree action, socials (`hero: true` ones also show in the hero), `youtube`, hero `readouts` (key/value strip), interests, education, experience (single source for About, Experience, Contact, JSON-LD)
 - `src/data/jsonld.ts` - `personJsonLd()`; job and school come from `experience[0]` / `education[0]`
 - `src/lib/content.ts` - `Link` type, `getSorted(collection)` (by `order`), `excerpt()` (meta descriptions)
 - `src/styles/global.css` - theme tokens (colours via `light-dark()`), base styles, shared classes, scroll-reveal
@@ -42,7 +42,7 @@ There are no unit tests or ESLint.
 - `public/` - served unprocessed: videos, resume PDF, favicons, `robots.txt`, `_headers`
 - `scripts/prepare-videos.mjs` - `npm run prepare-videos`
 
-**Design:** tech-minimal with an instrumented/telemetry motif. Inter for text plus JetBrains Mono (500) for small readouts (eyebrows, labels, tags, dates, the hero credentials strip), one electric-blue accent, hairline borders instead of shadows, left-aligned section headers with a numbered eyebrow (`01 · About`). Tokens: `--bg`, `--surface`, `--surface-2`, `--text`, `--text-muted`, `--border`, `--border-hover` (accent-tinted, for hovered surfaces), `--accent`, `--accent-hover`, `--accent-contrast`, `--error`, `--success`; all text/accent pairs pass 4.5:1 in both themes - recheck if you change them. No emoji in copy.
+**Design:** tech-minimal with an instrumented/telemetry motif. Inter for text plus JetBrains Mono (500) for small readouts (eyebrows, labels, tags, dates, the hero readout strip), one electric-blue accent, hairline borders instead of shadows, left-aligned section headers with a numbered eyebrow (`01 · About`). Tokens: `--bg`, `--surface`, `--surface-2`, `--text`, `--text-muted`, `--border`, `--border-hover` (accent-tinted, for hovered surfaces), `--accent`, `--accent-hover`, `--accent-contrast`, `--error`, `--success`; all text/accent pairs pass 4.5:1 in both themes - recheck if you change them. No emoji in copy.
 
 **Shared CSS classes (global.css):** `.container` (1080px centred), `.section-header`, `.eyebrow`, `.label` (small uppercase heading), `.card` (bordered surface), `.card-hover` (border tints toward the accent), `.mono`, `.viewfinder` (corner brackets over a media frame; they close in and turn accent on `.card-hover` hover), `.chips`/`.chip`, `.link-button` (+ `--primary`; also works on `<button>`)/`.link-row`, `.icon-button` (36px square icon link/button), `.icon`. Prefer these over re-declaring the same styles in components.
 
@@ -55,19 +55,20 @@ There are no unit tests or ESLint.
 - Astro's HTML compression strips whitespace between a line break and an inline element: write `text{' '}<a>` when a link or emoji follows text on a new line.
 - Nav uses real anchors (`/#section`, built from `sections`) so it works from sub-pages.
 - Content schema checks `youtubeId` format and that gallery URLs are on `bricksafe.com` (an `image.domains` host).
-- Scroll reveal: add `data-reveal`; animation uses the `translate` property so it doesn't clash with hover `transform`.
+- Scroll reveal: add `data-reveal`; animation uses the `translate` property so it doesn't clash with hover `transform`. Write scroll-driven animations as `animation-*` longhands: lightningcss folds the `animation` shorthand plus `animation-timeline` into one declaration that Chrome rejects.
 
 **Behaviour notes:**
 - Hero: a decorative SVG racing line (pinned to the hero's bottom, uniformly scaled so `pathLength` animations stay exact) draws once with a dot riding it; hidden at <=860px and static under reduced motion. The homepage `main::before` draws a faint blueprint grid that fades out below the hero; `main` has `overflow-x: clip` so the line's overhang never scrolls.
 - Theme: `localStorage['preferred-theme']` or system preference adds `dark-theme` to `<html>` before paint, which sets `color-scheme: dark` so every `light-dark()` token switches; the Header toggle (`role="switch"`) flips it.
 - Mobile menu: `<nav popover>` + `<button popovertarget>`; desktop CSS (`min-width: 861px`) undoes popover styles so the nav sits inline. One listener hides it when a link is clicked.
+- Experience: a timeline rail with one node per role; omit `end` for a current role (filled, pulsing node and "Now"). `project` links to that project card's `#project-<id>` anchor; the build fails if the project doesn't exist.
 - Projects: `featured: true` in frontmatter makes a full-width card; the rest fill a 2-column grid. `<video data-autoplay preload="none" poster>` is played/paused by an IntersectionObserver (not observed at all under reduced motion). The mp4 and the poster (`src/assets/images/posters/<video>.jpg`, served as webp via `getImage`) are derived from the `video` field; the build fails if a poster is missing.
 - LEGO pages: no page transitions (a title morph was tried and removed: text snapshots scale badly). YouTube is a thumbnail button replaced by a `youtube-nocookie` iframe on click. Gallery thumbnails are links to a full-size `getImage` version; JS intercepts them to open a `<dialog>` lightbox (arrows, ←/→ keys, swipe, wraps around). The thumbnail and gallery images are scaled 1.01 inside clipped frames to hide 1px black edges baked into some YouTube thumbnails and BrickSafe photos.
 - Contact form posts to Formspree (`profile.formAction`) via fetch, falling back to a normal form post without JS; validation messages use `:user-invalid`.
 
 ## Build & Deployment
 
-- `astro.config.mjs`: `site: 'https://teoilie.com'`, `outDir: './docs'`, `build.inlineStylesheets: 'always'`, `image.domains`, `@astrojs/sitemap`, `fonts` (Fonts API, Fontsource provider: Inter → `--font-sans`, weights 400-600; JetBrains Mono → `--font-mono`, weight 500, preloaded (the hero credentials strip uses it); add a weight there before using it), `prefetch` (hover; only links with `data-astro-prefetch`, i.e. LEGO cards).
+- `astro.config.mjs`: `site: 'https://teoilie.com'`, `outDir: './docs'`, `build.inlineStylesheets: 'always'`, `image.domains`, `@astrojs/sitemap`, `fonts` (Fonts API, Fontsource provider: Inter → `--font-sans`, weights 400-600; JetBrains Mono → `--font-mono`, weight 500, preloaded (the hero readout strip uses it); add a weight there before using it), `prefetch` (hover; only links with `data-astro-prefetch`, i.e. LEGO cards).
 - `docs/` is gitignored; Cloudflare Pages runs `npm run build` on every push and serves `docs`. Its `NODE_VERSION` env var is `22.23.3` (Production and Preview).
 - `*.pages.dev` preview URLs get `x-robots-tag: noindex` and a failing Cloudflare analytics beacon, so preview Lighthouse SEO/Best Practices scores are lower than on teoilie.com.
 - `public/_headers` sets immutable caching for `/_astro/*`.
